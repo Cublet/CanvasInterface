@@ -111,16 +111,32 @@ p.nominalBounds = new cjs.Rectangle(0,0,32,32);
 		pencil_btn.addEventListener("rollout", make_cursor);
 		var tool = null;
 		var focusPoly = null;
+		var focusData = null;
+		
+		var textarea = document.createElement("TEXTAREA");
+		textarea.value = "Wolfram Code Generated Here";
+		textarea.rows= "5";
+		textarea.cols = "60";
+		document.body.appendChild(textarea);
+		
+		
+		var Point = function(_x,_y){
+			this.x = _x;
+			this.y = _y; 
+		}
+		
+		var Poly = function(){
+			this.type = "pencil";
+			this.linePts = new Array();
+		}
+		
+		var blocks = new Array();
+		
+		
 		function pencil_draw(evt){
 			console.log("pencils move");
-			//var polygon = new createjs.Shape();
-			//polygon.graphics.beginStroke("black");
-			//console.log(focusPoly);
 			focusPoly.graphics.lineTo(evt.stageX, evt.stageY);
-			//stage.setChildIndex( everything, stage.getNumChildren()-1);
-			//stage.setChildIndex( focusPoly, stage.getNumChildren()-2);
-		
-			
+			focusData.linePts.push(new Point(evt.stageX, evt.stageY));
 		}
 		
 		
@@ -132,6 +148,11 @@ p.nominalBounds = new cjs.Rectangle(0,0,32,32);
 			drawPane.addEventListener("pressmove",pencil_draw);
 			focusPoly = polygon;
 			drawPane.addChild(focusPoly);
+			
+			var poly = new Poly();
+			poly.linePts.push(new Point(evt.stageX, evt.stageY));
+			blocks.push(poly);
+			focusData = poly;
 		}
 		
 		function grab_pencil(event){
@@ -144,14 +165,36 @@ p.nominalBounds = new cjs.Rectangle(0,0,32,32);
 		}
 		
 		function make_point(event) {
-			console.log("fuck");
 		    document.body.style.cursor='pointer';
 		} 
 		
 		function make_cursor(event) {
-			console.log("fuck");
 		    document.body.style.cursor='default';
+		} 
+		
+		
+		
+		window.addEventListener("keydown", function(k){
+		if(k.keyCode == 192){
+			console.log("generating..");
+			var logger;
+			for(var i=0; i<blocks.length; i++){
+				console.log("new element:");
+				switch(blocks[i].type){
+					case "pencil":
+						var output = "ListLinePlot[{";
+						for(var j=0; j<blocks[i].linePts.length; j++){
+							output+="{"+blocks[i].linePts[j].x+","+blocks[i].linePts[j].y+"},";
+						}
+						output = output.substring(0, output.length-1);
+						output+="}]";
+						textarea.value=output;
+						break;
+				}
+			}
 		}
+	});
+
 	}
 
 	// actions tween:
