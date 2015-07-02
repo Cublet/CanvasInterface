@@ -648,7 +648,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 		
 		
 		function pressed(evt){
-			console.log(evt);
+			//console.log(evt);
 			var myMC = new lib.libFunc();
 			myMC.x=746;
 			myMC.y=234;
@@ -665,16 +665,17 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 		}
 		
 		function dragged(evt){
-			console.log("dragging");
+			//console.log("dragging");
 			//console.log("offX: "+offX+" offY:"+offY);
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
 		}
 		
 		function released (evt){
-			console.log("up");
+			//console.log("up");
 			stage.removeEventListener("stagemousemove", dragged);
-			btn.removeEventListener("stagemouseup", released);
+			stage.removeEventListener("stagemouseup", released);
+			exportRoot.addFunc("wolframAlpha");
 		}
 		
 		/*
@@ -888,8 +889,6 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,85);
 		exportRoot.removeChild(exportRoot.alertLib);
 	}
 	this.frame_33 = function() {
-		console.log("Im here");
-		exportRoot.generateInput();
 		this.parent.removeChild(this);
 	}
 
@@ -964,130 +963,227 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 	// timeline functions:
 	this.frame_0 = function() {
 		stage.enableMouseOver(20);
+		var btn = document.createElement("textarea");
+		btn.style.position = "absolute";
+		btn.style.top = "" + 880 + "px";
+		btn.style.left = "" + 5 + "px";
+		btn.style.fontSize = "" + 25 + "px";
+		btn.style.width = "" + 1600 + "px";
+		btn.style.height = "" + 400 + "px";
+		document.body.appendChild(btn);
+		
+		
 		var alertLib = this.alertLib;
-		var Button = function(name, mc){
+		var Button = function (name, mc) {
 			this.name = name;
 			this.mc = mc;
 		}
 		var btns = new Array(
-				new Button("draw", this.library.pencil_btn), 
-				new Button("func", this.library.func_btn),
-				new Button("search", this.library.search_btn),
+			new Button("draw", this.library.pencil_btn),
+			new Button("func", this.library.func_btn),
+			new Button("search", this.library.search_btn),
 		
-				new Button("new", this.new_btn), 
-				new Button("load", this.load_btn),
-				new Button("save", this.save_btn), 
-				new Button("export", this.export_btn)
-				
+			new Button("new", this.new_btn),
+			new Button("load", this.load_btn),
+			new Button("save", this.save_btn),
+			new Button("export", this.export_btn)
+		
 		);
 		
 		var focusLib = null;
 		var focusBtn = null;
-		for(var i=0; i<btns.length; i++){
+		for (var i = 0; i < btns.length; i++) {
 			btns[i].mc.addEventListener("mouseover", btnOver);
 			btns[i].mc.addEventListener("rollout", btnOut);
 			btns[i].mc.addEventListener("click", openLib);
 		}
 		
-		function btnOver(event){
+		function btnOver(event) {
 			event.currentTarget.gotoAndStop(1);
 		}
-		function btnOut(event){
+		function btnOut(event) {
 			event.currentTarget.gotoAndStop(0);
 		}
 		
-		function openLib(event){
+		function openLib(event) {
 			var name = getButtonName(event.currentTarget);
 			event.currentTarget.removeEventListener("mouseover", btnOver);
 			event.currentTarget.removeEventListener("rollout", btnOut);
-			if(focusBtn!==null){
-					focusBtn.addEventListener("mouseover", btnOver);
-					focusBtn.addEventListener("rollout", btnOut);
+			if (focusBtn !== null) {
+				focusBtn.addEventListener("mouseover", btnOver);
+				focusBtn.addEventListener("rollout", btnOut);
 			}
 			focusBtn = event.currentTarget;
-			if(focusLib!==null){
+			if (focusLib !== null) {
 				console.log("removing focus");
 				focusLib.play();
 			}
 			var libX = 1057;
 			var libY = 0;
-			switch(name){
+			switch (name) {
 				case "draw":
 					var myMC = new lib.drawLib();
-					myMC.x=libX;
-					myMC.y=59+libY;
-					console.log('myMC: '+ myMC); // myMC Should not be null
+					myMC.x = libX;
+					myMC.y = 59 + libY;
+					console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
 					focusLib = myMC;
 					break;
 				case "func":
 					var myMC = new lib.funcLib();
-					myMC.x=libX-1;
-					myMC.y=149+libY;
-					console.log('myMC: '+ myMC); // myMC Should not be null
+					myMC.x = libX - 1;
+					myMC.y = 149 + libY;
+					console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
 					focusLib = myMC;
 					break;
 				case "search":
 					var myMC = new lib.searchLib();
-					myMC.x=libX-1;
-					myMC.y=234+libY;
-					console.log('myMC: '+ myMC); // myMC Should not be null
+					myMC.x = libX - 1;
+					myMC.y = 234 + libY;
+					console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
 					focusLib = myMC;
 					break;
 			}
 		}
 		
-		function getButtonName(mc){
-			for(var i=0; i<btns.length;i++){
-				if(btns[i].mc == mc){
+		function getButtonName(mc) {
+			for (var i = 0; i < btns.length; i++) {
+				if (btns[i].mc == mc) {
 					return btns[i].name;
 				}
 			}
 		}
 		
 		
-		var txtHndl = new Array();
 		
-		var TextBox = function(defaultValue, optional, x, y, size, width){
+		var TextBox = function (defaultValue, optional, x, y, size, width) {
 			this.defaultValue = defaultValue;
 			this.optional = optional;
-			
+		
 			var btn = document.createElement("input");
-		    btn.style.position = "absolute";
-		    btn.style.top = ""+y+"px";
-			btn.style.left = ""+x+"px";
-			btn.style.fontSize=""+size+"px";
-			btn.placeholder=defaultValue;
-			btn.style.width=""+width+"px";
-		    document.body.appendChild(btn);
-				if(!optional){
-					btn.style.background="rgb(232, 110, 110)";
-				}
+			btn.style.position = "absolute";
+			btn.style.top = "" + y + "px";
+			btn.style.left = "" + x + "px";
+			btn.style.fontSize = "" + size + "px";
+			btn.placeholder = defaultValue;
+			btn.style.width = "" + width + "px";
+			document.body.appendChild(btn);
+			if (!optional) {
+				btn.style.background = "rgb(232, 110, 110)";
+			}
 			this.btn = btn;
 		}
 		
-		//txtHndl.push(new TextBox("Query",false,1274,301,38,300));
-		function generateInput(){
-			txtHndl.push(new TextBox("Query",false,1274,301,38,300));	
-			txtHndl.push(new TextBox("Query",true,1274,361,38,300));
-			window.addEventListener("keydown", handleNonOptionalChecks);
-		}
+			function generateInput(block) {
+				var yShift = 0;
+				for (var j = 0; j < block.params.length; j++) {
+					var param = block.params[j];
+					console.log("PARAM CHECK");
+					if (param[2] === "string") {
+						console.log("make TXTBOX");
+						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390);
+						block.inputs[j] = txtBox;
+						yShift += 58;
+		
+					}
+				}
+				tempBlocks = new Array();
+				window.addEventListener("keydown", handleNonOptionalChecks);
+		
+			}
 		this.generateInput = generateInput;
 		
 		
-		function handleNonOptionalChecks(k){
-			for(var i=0; i<txtHndl.length;i++){
-				if(!txtHndl[i].optional){
-					if(txtHndl[i].btn.value == ""){
-						txtHndl[i].btn.style.background = "rgb(232, 110, 110)";
-					}else{
-						txtHndl[i].btn.style.background = "white";
+		function handleNonOptionalChecks(k) {
+			for (var i = 0; i < funcBlocks.length; i++) {
+				if(funcBlocks[i].focus){
+					for(var j=0; j<funcBlocks[i].inputs.length; j++){
+						var txtBox = funcBlocks[i].inputs[j];
+						if(txtBox.btn.value !==""){
+							funcBlocks[i].vars[j] = txtBox.btn.value;
+						}
+						if (!txtBox.optional) {
+							if (txtBox.btn.value == "") {
+								txtBox.btn.style.background = "rgb(232, 110, 110)";
+							} else {
+								txtBox.btn.style.background = "white";
+							}
+						}
 					}
 				}
 			}
+			
+			updateCode();
 		}
+		
+		var funcBlocks = new Array();
+		//var codeBinder = new Array();
+		function addFunc(codeName) {
+			var func = funcMap.get(codeName);
+			var block = new func();
+			funcBlocks.push(block);
+			generateInput(block);
+			updateCode();
+		}
+		this.addFunc = addFunc;
+		
+		
+		function updateCode() {
+			var output = "";
+			for (var i = 0; i < funcBlocks.length; i++) {
+				if (funcBlocks[i].root) {
+					output += compile(funcBlocks[i]);
+				}
+			}
+			btn.value = output;
+		}
+		
+		function compile(func) {
+			var output = func.codeBegin;
+			var vars = func.vars;
+			var trim = false;
+			console.log(vars);
+			for (var i = 0; i < vars.length; i++) {
+				if (typeof vars[i] == "object") {
+					//TODO: recursively unfold nested blocks
+				} else if (vars[i] !== null) {
+					trim = true;
+					if(func.params[i][2] === "string"){
+						output += "\"" + vars[i] + "\",";
+					}else{
+						output += "" + vars[i] + ",";
+					}
+				}
+			}
+			if (trim) {
+				output = output.substring(0, output.length - 1);
+			}
+			output += func.codeEnd;
+			return output;
+		}
+		
+		//CODE BLOCKS
+		var searchLibs = new Array(WolframAlpha);
+		var funcMap = new Map();
+		
+		var WolframAlpha = function () {
+			this.name = "WolframAlpha";
+			this.desc = "Sends query to Wolfram|Alpha and imports the output.";
+			this.type = "search";
+			this.params = [
+				["query", false, "string"],
+				["format", true, "string"]
+			];
+			this.codeBegin = "WolframAlpha[";
+			this.codeEnd = "]";
+			this.vars = [null, null];
+			this.root = true;
+			this.inputs = [null,null];
+			this.focus = true;
+		}
+		funcMap.set("wolframAlpha", WolframAlpha);
 	}
 
 	// actions tween:
@@ -1100,47 +1196,37 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 	this.timeline.addTween(cjs.Tween.get(this.alertLib).wait(1));
 
 	// Layer 3
-	this.text = new cjs.Text("Param2:", "bold 30px 'Verdana'", "#333333");
-	this.text.textAlign = "right";
-	this.text.lineHeight = 32;
-	this.text.lineWidth = 176;
-	this.text.setTransform(1254.3,355.7);
+	this.func_desc = new cjs.Text("A brief description on the function just in case you forget", "bold 20px 'Verdana'", "#333333");
+	this.func_desc.name = "func_desc";
+	this.func_desc.textAlign = "center";
+	this.func_desc.lineHeight = 22;
+	this.func_desc.lineWidth = 478;
+	this.func_desc.setTransform(1329.3,139.9);
 
-	this.text_1 = new cjs.Text("Param1:", "bold 30px 'Verdana'", "#333333");
-	this.text_1.textAlign = "right";
-	this.text_1.lineHeight = 32;
-	this.text_1.lineWidth = 178;
-	this.text_1.setTransform(1256.3,297.7);
-
-	this.text_2 = new cjs.Text("A brief description on the function just in case you forget", "bold 20px 'Verdana'", "#333333");
-	this.text_2.textAlign = "center";
-	this.text_2.lineHeight = 22;
-	this.text_2.lineWidth = 478;
-	this.text_2.setTransform(1329.3,139.9);
-
-	this.text_3 = new cjs.Text("Function Title", "bold 35px 'Verdana'", "#333333");
-	this.text_3.textAlign = "center";
-	this.text_3.lineHeight = 37;
-	this.text_3.lineWidth = 516;
-	this.text_3.setTransform(1326.3,92);
+	this.func_title = new cjs.Text("Function Title", "bold 35px 'Verdana'", "#333333");
+	this.func_title.name = "func_title";
+	this.func_title.textAlign = "center";
+	this.func_title.lineHeight = 37;
+	this.func_title.lineWidth = 516;
+	this.func_title.setTransform(1326.3,92);
 
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#A73A3A").ss(1,1,1).p("A20jlMAtpAAAIAAHLMgtpAAAg");
-	this.shape.setTransform(1416.3,319.1);
+	this.shape.graphics.f().s("#A73A3A").ss(1,1,1).p("A+PjlMA8fAAAIAAHLMg8fAAAg");
+	this.shape.setTransform(1328.7,325.2);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#A7A7A7").ss(1,1,1).p("A20jlMAtpAAAIAAHLMgtpAAAg");
-	this.shape_1.setTransform(1414.4,377.1);
+	this.shape_1.graphics.f().s("#A7A7A7").ss(1,1,1).p("A+jjlMA9HAAAIAAHLMg9HAAAg");
+	this.shape_1.setTransform(1328.1,383.2);
 
 	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#EFA2A2").s().p("A20DlIAAnJMAtpAAAIAAHJg");
-	this.shape_2.setTransform(1416.3,319.1);
+	this.shape_2.graphics.f("#EFA2A2").s().p("A+PDlIAAnKMA8fAAAIAAHKg");
+	this.shape_2.setTransform(1328.7,325.2);
 
 	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f("#EFEFEF").s().p("A20DmIAAnLMAtpAAAIAAHLg");
-	this.shape_3.setTransform(1414.4,377.1);
+	this.shape_3.graphics.f("#EFEFEF").s().p("A+jDmIAAnKMA9HAAAIAAHKg");
+	this.shape_3.setTransform(1328.1,383.2);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.text_3},{t:this.text_2},{t:this.text_1},{t:this.text}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.func_title},{t:this.func_desc}]}).wait(1));
 
 	// Layer 6
 	this.slider = new lib.gray_slider();
