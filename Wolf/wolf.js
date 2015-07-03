@@ -397,6 +397,19 @@ p.nominalBounds = new cjs.Rectangle(-1,-1,440.2,64);
 p.nominalBounds = new cjs.Rectangle(-1,-1,20,535.2);
 
 
+(lib.glower = function() {
+	this.initialize();
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#003973").s().p("EgiCAE7IAAp1MBEFAAAIAAJ1g");
+	this.shape.setTransform(218,31.5);
+
+	this.addChild(this.shape);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = new cjs.Rectangle(0,0,436,63);
+
+
 (lib.function_btn = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -623,19 +636,34 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 
 	// timeline functions:
 	this.frame_0 = function() {
-		var btn = this.btn_1;
+		var funcLib = exportRoot.getSearchLib();
+		
+		for(var i=0; i<funcLib.length; i++){
+			var btn = new lib.libFunc();
+			btn.addEventListener("mouseover", highlight_on);
+			btn.addEventListener("rollout", highlight_off);
+			btn.addEventListener("mousedown", pressed);
+			btn.x = 28;
+			btn.y = 320+i*50;
+			console.log(funcLib[i]);
+			btn.desc = funcLib[i].desc;
+			this.addChild(btn);
+		}
+		
+		
 		var focusMC = null;
 		var offX = 0;
 		var offY = 0;
 		var me = this;
-		btn.addEventListener("mouseover", highlight_on);
-		btn.addEventListener("rollout", highlight_off);
 		
-		btn.addEventListener("mousedown", pressed);
+		
+		var desc = this.description;
 		
 		function highlight_on(event){
 			//console.log("fuck");
 			event.currentTarget.gotoAndStop(1);
+			desc.text = event.currentTarget.desc;
+			
 		}
 		
 		function highlight_off(event){
@@ -644,12 +672,11 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 		}
 		
 		
-		
-		
-		
 		function pressed(evt){
+			//var funcLib = exportRoot.searchLibs;
+			//console.log(funcLib);
 			//console.log(evt);
-			var myMC = new lib.libFunc();
+			var myMC = new lib.libBlock();
 			myMC.x=746;
 			myMC.y=234;
 			stage.addChild(myMC);
@@ -661,7 +688,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 		    console.log("pressed");
 			stage.addEventListener("stagemousemove", dragged);
 			stage.addEventListener("stagemouseup", released);
-			me.parent.play();
+			
 		}
 		
 		function dragged(evt){
@@ -673,29 +700,15 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 		
 		function released (evt){
 			//console.log("up");
+			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			exportRoot.addFunc("wolframAlpha");
+			exportRoot.addFunc("wolframAlpha", focusMC);
 		}
-		
-		/*
-		function drag_me(event){
-			var myMC = new lib.libFunc();
-			myMC.x=746;
-			myMC.y=234;
-			stage.addChild(myMC);
-		}
-		*/
 	}
 
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
-
-	// Layer 3
-	this.btn_1 = new lib.libFunc();
-	this.btn_1.setTransform(239.1,348.1,1,1,0,0,0,219.1,31);
-
-	this.timeline.addTween(cjs.Tween.get(this.btn_1).wait(1));
 
 	// Layer 1
 	this.text = new cjs.Text("Advanced", "bold 25px 'Verdana'", "#B6AD9F");
@@ -710,7 +723,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 	this.text_1.lineWidth = 100;
 	this.text_1.setTransform(129.2,255);
 
-	this.description = new cjs.Text("This is where the description of the function should go", "bold 20px 'Verdana'", "#333333");
+	this.description = new cjs.Text("Hover on a function for it's description.", "bold 20px 'Verdana'", "#333333");
 	this.description.name = "description";
 	this.description.lineHeight = 22;
 	this.description.lineWidth = 492;
@@ -778,6 +791,41 @@ p.nominalBounds = new cjs.Rectangle(-1.9,0,512,768.7);
 	this.addChild(this.shape_1,this.shape,this.pencil_btn,this.func_btn,this.search_btn);
 }).prototype = p = new cjs.Container();
 p.nominalBounds = new cjs.Rectangle(0,0,624.8,800.2);
+
+
+(lib.libBlock = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
+
+	// Layer 1
+	this.text = new cjs.Text("WolframAlpha", "bold 25px 'Verdana'", "#FFFFFF");
+	this.text.textAlign = "center";
+	this.text.lineHeight = 27;
+	this.text.lineWidth = 428;
+	this.text.setTransform(216.1,14.9);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#003973").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape.setTransform(219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text}]}).wait(1));
+
+	// Layer 3
+	this.highlight = new lib.glower();
+	this.highlight.setTransform(-3,-0.4,1.021,1.02,0,0,0,0,1.5);
+	this.highlight.shadow = new cjs.Shadow("rgba(0,204,255,1)",0,0,20);
+
+	this.timeline.addTween(cjs.Tween.get(this.highlight).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(-13,-12,469,88);
 
 
 (lib.funcLib = function(mode,startPosition,loop) {
@@ -890,6 +938,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,85);
 	}
 	this.frame_33 = function() {
 		this.parent.removeChild(this);
+		exportRoot.callInputs();
 	}
 
 	// actions tween:
@@ -1006,6 +1055,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 		}
 		
 		function openLib(event) {
+			clearInputs();
 			var name = getButtonName(event.currentTarget);
 			event.currentTarget.removeEventListener("mouseover", btnOver);
 			event.currentTarget.removeEventListener("rollout", btnOut);
@@ -1080,9 +1130,9 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 				var yShift = 0;
 				for (var j = 0; j < block.params.length; j++) {
 					var param = block.params[j];
-					console.log("PARAM CHECK");
+					//console.log("PARAM CHECK");
 					if (param[2] === "string") {
-						console.log("make TXTBOX");
+						//console.log("make TXTBOX");
 						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390);
 						block.inputs[j] = txtBox;
 						yShift += 58;
@@ -1120,15 +1170,25 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 		
 		var funcBlocks = new Array();
 		//var codeBinder = new Array();
-		function addFunc(codeName) {
+		var func_desc = this.func_desc;
+		var func_title = this.func_title;
+		var focusBlock = null;
+		function addFunc(codeName, mc) {
 			var func = funcMap.get(codeName);
-			var block = new func();
+			var block = new func(mc);
 			funcBlocks.push(block);
-			generateInput(block);
+			focusBlock = block;
+			func_desc.text = block.desc;
+			func_title.text = block.name;
 			updateCode();
 		}
 		this.addFunc = addFunc;
 		
+		
+		function callInputs(){
+			generateInput(focusBlock);
+		}
+		this.callInputs = callInputs;
 		
 		function updateCode() {
 			var output = "";
@@ -1136,6 +1196,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 				if (funcBlocks[i].root) {
 					output += compile(funcBlocks[i]);
 				}
+				output+=";\n";
 			}
 			btn.value = output;
 		}
@@ -1144,7 +1205,7 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 			var output = func.codeBegin;
 			var vars = func.vars;
 			var trim = false;
-			console.log(vars);
+			//console.log(vars);
 			for (var i = 0; i < vars.length; i++) {
 				if (typeof vars[i] == "object") {
 					//TODO: recursively unfold nested blocks
@@ -1164,11 +1225,22 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 			return output;
 		}
 		
+		function clearInputs(){
+			if(focusBlock!==null){
+				for(var i=0; i<focusBlock.inputs.length; i++){
+					 document.body.removeChild(focusBlock.inputs[i].btn);
+				}
+				focusBlock.mc.highlight.visible = false;
+				focusBlock.inputs = [null,null];
+				focusBlock = null;
+				
+		    }
+		}
+		this.clearInputs = clearInputs;
 		//CODE BLOCKS
-		var searchLibs = new Array(WolframAlpha);
-		var funcMap = new Map();
 		
-		var WolframAlpha = function () {
+		var funcMap = new Map();
+		var WolframAlpha = function (mc) {
 			this.name = "WolframAlpha";
 			this.desc = "Sends query to Wolfram|Alpha and imports the output.";
 			this.type = "search";
@@ -1182,8 +1254,15 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 			this.root = true;
 			this.inputs = [null,null];
 			this.focus = true;
+			this.mc = mc;
 		}
 		funcMap.set("wolframAlpha", WolframAlpha);
+		
+		var searchLibs = new Array(new WolframAlpha());
+		function getSearchLib(){
+			return searchLibs;
+		}
+		this.getSearchLib = getSearchLib;
 	}
 
 	// actions tween:
@@ -1210,43 +1289,27 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 	this.func_title.lineWidth = 516;
 	this.func_title.setTransform(1326.3,92);
 
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#A73A3A").ss(1,1,1).p("A+PjlMA8fAAAIAAHLMg8fAAAg");
-	this.shape.setTransform(1328.7,325.2);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#A7A7A7").ss(1,1,1).p("A+jjlMA9HAAAIAAHLMg9HAAAg");
-	this.shape_1.setTransform(1328.1,383.2);
-
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#EFA2A2").s().p("A+PDlIAAnKMA8fAAAIAAHKg");
-	this.shape_2.setTransform(1328.7,325.2);
-
-	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f("#EFEFEF").s().p("A+jDmIAAnKMA9HAAAIAAHKg");
-	this.shape_3.setTransform(1328.1,383.2);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_3},{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.func_title},{t:this.func_desc}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.func_title},{t:this.func_desc}]}).wait(1));
 
 	// Layer 6
 	this.slider = new lib.gray_slider();
 	this.slider.setTransform(1586.3,279.1,1,1.096,0,0,0,5.3,4.4);
 
-	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f("#949494").s().p("EgqLARBMAAAgiCMBUXAAAMAAAAiCg");
-	this.shape_4.setTransform(1330.3,169.1);
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#949494").s().p("EgqLARBMAAAgiCMBUXAAAMAAAAiCg");
+	this.shape.setTransform(1330.3,169.1);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_4},{t:this.slider}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.slider}]}).wait(1));
 
 	// Layer 2
 	this.library = new lib.library();
 	this.library.setTransform(1287.6,460.1,1,1,0,0,0,312.4,400.1);
 
-	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f("#EFEFEF").s().p("EhV9A+gMAAAh8+MCYsAAAMAAAB89ITPAAIAAABg");
-	this.shape_5.setTransform(548.2,460);
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#EFEFEF").s().p("EhV9A+gMAAAh8+MCYsAAAMAAAB89ITPAAIAAABg");
+	this.shape_1.setTransform(548.2,460);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_5},{t:this.library}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.library}]}).wait(1));
 
 	// Layer 1
 	this.export_btn = new lib.export_btn();
@@ -1261,11 +1324,11 @@ p.nominalBounds = new cjs.Rectangle(0,0,1,89);
 	this.new_btn = new lib.newBtn();
 	this.new_btn.setTransform(68.5,29.5,1,1,0,0,0,69.5,29.5);
 
-	this.shape_6 = new cjs.Shape();
-	this.shape_6.graphics.f("#2D2D2D").s().p("AkSJEIAAyHMBpKAAAIAASHgEhk3AJEIAAo7MAooAAAIAAAUISxAAIAAIng");
-	this.shape_6.setTransform(644.7,58);
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#2D2D2D").s().p("AkSJEIAAyHMBpKAAAIAASHgEhk3AJEIAAo7MAooAAAIAAAUISxAAIAAIng");
+	this.shape_2.setTransform(644.7,58);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_6},{t:this.new_btn},{t:this.load_btn},{t:this.save_btn},{t:this.export_btn}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.new_btn},{t:this.load_btn},{t:this.save_btn},{t:this.export_btn}]}).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = new cjs.Rectangle(798,430,1602.4,862.3);
