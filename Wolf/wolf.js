@@ -213,6 +213,40 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,95.7,89);
 p.frameBounds = [rect];
 
 
+(lib.purple_btn = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+	this.frame_1 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f().s("#340234").ss(1,1,1).p("EgiNgE1MBEbAAAIAAJrMhEbAAAg");
+	this.shape.setTransform(219.1,31);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#730472").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_1.setTransform(219.1,31);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#89359E").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_2.setTransform(219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
+p.frameBounds = [rect, rect];
+
+
 (lib.purple_bg = function() {
 	this.initialize();
 
@@ -382,45 +416,18 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,151.1,59);
 p.frameBounds = [rect, rect];
 
 
-(lib.libFunc = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// timeline functions:
-	this.frame_0 = function() {
-		this.stop();
-	}
-
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
-
-	// Layer 3
-	this.title = new cjs.Text("Title", "bold 25px 'Verdana'", "#FFFFFF");
-	this.title.name = "title";
-	this.title.textAlign = "center";
-	this.title.lineHeight = 27;
-	this.title.lineWidth = 428;
-	this.title.setTransform(216.1,14.9);
-
-	this.timeline.addTween(cjs.Tween.get(this.title).wait(2));
+(lib.isVarBorder = function() {
+	this.initialize();
 
 	// Layer 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#002647").ss(1,1,1).p("EgiNgE1MBEbAAAIAAJrMhEbAAAg");
-	this.shape.setTransform(219.1,31);
+	this.shape.graphics.f().s("#66FF00").ss(2,1,1).p("EgivgFEMBFfAAAIAAKJMhFfAAAg");
+	this.shape.setTransform(222.5,32.5);
 
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#003973").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
-	this.shape_1.setTransform(219.1,31);
-
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#2A4E73").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
-	this.shape_2.setTransform(219.1,31);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape}]},1).wait(1));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
-p.frameBounds = [rect, rect];
+	this.addChild(this.shape);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(-1,-1,447,67);
+p.frameBounds = [rect];
 
 
 (lib.green_slider = function(mode,startPosition,loop) {
@@ -661,6 +668,167 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,540.2,802.2);
 p.frameBounds = [rect];
 
 
+(lib.blue_btn = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+	this.frame_1 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f().s("#002647").ss(1,1,1).p("EgiNgE1MBEbAAAIAAJrMhEbAAAg");
+	this.shape.setTransform(219.1,31);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#003973").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_1.setTransform(219.1,31);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#1C68A9").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_2.setTransform(219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
+p.frameBounds = [rect, rect];
+
+
+(lib.ContentVar = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		var funcLib = exportRoot.getVariables();
+		
+		for(var i=0; i<funcLib.length; i++){
+			var btn = new lib.libFunc();
+			btn.gotoAndStop(funcLib[i].frame_color);
+			btn.addEventListener("mouseover", highlight_on);
+			btn.addEventListener("rollout", highlight_off);
+			btn.addEventListener("mousedown", pressed);
+			btn.x = 28;
+			btn.y = 290+i*70;
+			//console.log(funcLib[i]);
+			btn.desc = funcLib[i].vars[1];
+			btn.func = funcLib[i];
+			btn.title.text = funcLib[i].vars[0];
+			this.addChild(btn);
+		}
+		
+		
+		var focusMC = null;
+		var offX = 0;
+		var offY = 0;
+		var me = this;
+		
+		
+		var desc = this.desc;
+		//console.log(desc);
+		function highlight_on(event){
+			//console.log("fuck");
+			event.currentTarget.block2.gotoAndStop(1);
+			//console.log(desc);
+			//console.log(event.currentTarget.desc);
+			desc.text = event.currentTarget.desc;
+			
+		}
+		
+		function highlight_off(event){
+			//console.log("off");
+			event.currentTarget.block2.gotoAndStop(0);
+		}
+		
+		
+		function pressed(evt){
+			//var funcLib = exportRoot.searchLibs;
+			//console.log(funcLib);
+			//console.log(evt);
+			var button = evt.currentTarget;
+		
+			var myMC = new lib.libBlock();
+			myMC.block.gotoAndStop(0);
+			myMC.x=746;
+			myMC.y=234;
+			myMC.title.text = button.func.vars[0];
+			myMC.func = button.func;
+			myMC.type.visible = false;
+		
+			
+			stage.addChild(myMC);
+			focusMC = myMC;
+			focusMC.x = evt.stageX-evt.localX;
+		    focusMC.y = evt.stageY-evt.localY;
+			offX = Number(evt.localX);
+			offY = Number(evt.localY);
+			myMC.block.isVar.visible = true;
+			stage.addEventListener("stagemousemove", dragged);
+			stage.addEventListener("stagemouseup", released);
+			
+		}
+		
+		function dragged(evt){
+			//console.log("dragging");
+			//console.log("offX: "+offX+" offY:"+offY);
+		    focusMC.x = evt.stageX-offX;
+		    focusMC.y = evt.stageY-offY;
+		}
+		
+		function released (evt){
+			//console.log("up");
+			me.parent.play();
+			stage.removeEventListener("stagemousemove", dragged);
+			stage.removeEventListener("stagemouseup", released);
+			//console.log(focusMC.func.name);
+			//exportRoot.addFunc(focusMC.func.name, focusMC);
+		}
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
+
+	// Layer 1
+	this.desc = new cjs.Text("Hover on a function for it's description.", "bold 20px 'Verdana'", "#333333");
+	this.desc.name = "desc";
+	this.desc.lineHeight = 22;
+	this.desc.lineWidth = 492;
+	this.desc.setTransform(5.1,73.1);
+
+	this.text = new cjs.Text("Variables", "bold 40px 'Verdana'", "#FFFFFF");
+	this.text.textAlign = "center";
+	this.text.lineHeight = 42;
+	this.text.lineWidth = 236;
+	this.text.setTransform(251.2,0);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#B6AD9F").s().p("EgnhAMvIAA5dMBPDAAAIAAZdg");
+	this.shape.setTransform(253.1,151.6);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text},{t:this.desc}]}).wait(1));
+
+	// Layer 2
+	this.instance = new lib.green_slider();
+	this.instance.setTransform(499.3,508.4,1,0.974,0,0,0,9,266.6);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#569B35").s().p("EAgGAopIAAgBMhH7AAAMAAAhRQMBPrAAAMAAABRQIgcAAMAAAhPrIhbAAMAAAA44IAnAAIAAW0g");
+	this.shape_1.setTransform(253.4,508.2);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.instance}]}).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-1.6,0,510.9,768.7);
+p.frameBounds = [rect];
+
+
 (lib.squar = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -674,6 +842,12 @@ p.frameBounds = [rect];
 
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+
+	// Layer 4
+	this.isVar = new lib.isVarBorder();
+	this.isVar.setTransform(222.5,32.5,1,1,0,0,0,222.5,32.5);
+
+	this.timeline.addTween(cjs.Tween.get(this.isVar).wait(2));
 
 	// Layer 3
 	this.shape = new cjs.Shape();
@@ -833,14 +1007,14 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 		
 		function highlight_on(event){
 			//console.log("fuck");
-			event.currentTarget.gotoAndStop(1);
+			event.currentTarget.block.gotoAndStop(1);
 			desc.text = event.currentTarget.desc;
 			
 		}
 		
 		function highlight_off(event){
 			//console.log("off");
-			event.currentTarget.gotoAndStop(0);
+			event.currentTarget.block.gotoAndStop(0);
 		}
 		
 		
@@ -977,12 +1151,48 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,624.8,800.2);
 p.frameBounds = [rect];
 
 
+(lib.libFunc = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
+
+	// Layer 3
+	this.title = new cjs.Text("Title", "bold 25px 'Verdana'", "#FFFFFF");
+	this.title.name = "title";
+	this.title.textAlign = "center";
+	this.title.lineHeight = 27;
+	this.title.lineWidth = 428;
+	this.title.setTransform(216.1,14.9);
+
+	this.timeline.addTween(cjs.Tween.get(this.title).wait(2));
+
+	// Layer 1
+	this.block = new lib.blue_btn();
+	this.block.setTransform(219.1,31,1,1,0,0,0,219.1,31);
+
+	this.block2 = new lib.purple_btn();
+	this.block2.setTransform(219.1,31,1,1,0,0,0,219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.block}]}).to({state:[{t:this.block2}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-0.5,-0.5,439.2,63);
+p.frameBounds = [rect, rect];
+
+
 (lib.libBlock = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
 	this.frame_0 = function() {
 		this.stop();
+		this.block.isVar.visible = false;
 		var yScale = 1;
 		function shrink(){
 		    createjs.Tween.get(this.block)
@@ -1168,10 +1378,8 @@ p.frameBounds = [rect];
 	// timeline functions:
 	this.frame_29 = function() {
 		this.stop();
-		this.stop();
 	}
 	this.frame_59 = function() {
-		this.parent.removeChild(this);
 		this.parent.removeChild(this);
 	}
 
@@ -1263,133 +1471,15 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,1,85);
 p.frameBounds = [rect, new cjs.Rectangle(0,0,2.1,85), new cjs.Rectangle(0,0,5.7,85), new cjs.Rectangle(0,0,12.6,85), new cjs.Rectangle(0,0,24.2,85), new cjs.Rectangle(0,0,43.2,85), new cjs.Rectangle(0,0,75.2,85), new cjs.Rectangle(0,0,140.9,85), new cjs.Rectangle(0,0,368.7,85), new cjs.Rectangle(0,0,464.4,85), new cjs.Rectangle(0,0,502.9,85), new cjs.Rectangle(0,0,524.4,85), new cjs.Rectangle(0,0,537.3,85), new cjs.Rectangle(0,0,544.9,85), new cjs.Rectangle(0,0,548.8,85), new cjs.Rectangle(0,0,549.9,85), new cjs.Rectangle(0,-0.2,550,86.8), new cjs.Rectangle(0,-0.9,550,92.7), new cjs.Rectangle(0,-2.2,550,104.4), new cjs.Rectangle(0,-4.5,550,124.4), new cjs.Rectangle(0,-8.3,550,157.9), new cjs.Rectangle(0,-15.3,550,218.5), new cjs.Rectangle(0,-33.2,550,373.9), new cjs.Rectangle(0,-68.6,550,682.1), new cjs.Rectangle(0,-78.8,550,771.1), new cjs.Rectangle(0,-83.7,550,813.7), new cjs.Rectangle(0,-86.4,550,837.7), new cjs.Rectangle(0,-87.9,550,851.3), new cjs.Rectangle(0,-88.7,550,858), rect=new cjs.Rectangle(0,-89,549.9,860), rect, new cjs.Rectangle(0,-82.5,550,804.6), new cjs.Rectangle(0,-76.2,550,749.3), new cjs.Rectangle(0,-69.8,550,693.9), new cjs.Rectangle(0,-63.5,550,638.6), new cjs.Rectangle(0,-57.2,550,583.2), new cjs.Rectangle(0,-50.8,550,527.9), new cjs.Rectangle(0,-44.5,550,472.5), new cjs.Rectangle(0,-38.1,550,417.1), new cjs.Rectangle(0,-31.8,550,361.8), new cjs.Rectangle(0,-25.4,550,306.4), new cjs.Rectangle(0,-19.1,550,251.1), new cjs.Rectangle(0,-12.7,550,195.7), new cjs.Rectangle(0,-6.3,550,140.4), new cjs.Rectangle(0,0,549.9,85), new cjs.Rectangle(0,0,513.4,85), new cjs.Rectangle(0,0,476.8,85), new cjs.Rectangle(0,0,440.2,85), new cjs.Rectangle(0,0,403.6,85), new cjs.Rectangle(0,0,367,85), new cjs.Rectangle(0,0,330.4,85), new cjs.Rectangle(0,0,293.8,85), new cjs.Rectangle(0,0,257.2,85), new cjs.Rectangle(0,0,220.6,85), new cjs.Rectangle(0,0,184,85), new cjs.Rectangle(0,0,147.4,85), new cjs.Rectangle(0,0,110.8,85), new cjs.Rectangle(0,0,74.2,85), new cjs.Rectangle(0,0,37.6,85), new cjs.Rectangle(0,0,1,85)];
 
 
-(lib.ContentSearch_1 = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// timeline functions:
-	this.frame_0 = function() {
-		var funcLib = exportRoot.getSearchLib();
-		
-		for(var i=0; i<funcLib.length; i++){
-			var btn = new lib.libFunc();
-			btn.addEventListener("mouseover", highlight_on);
-			btn.addEventListener("rollout", highlight_off);
-			btn.addEventListener("mousedown", pressed);
-			btn.x = 28;
-			btn.y = 320+i*70;
-			//console.log(funcLib[i]);
-			btn.desc = funcLib[i].desc;
-			btn.func = funcLib[i];
-			btn.title.text = funcLib[i].name;
-			this.addChild(btn);
-		}
-		
-		
-		var focusMC = null;
-		var offX = 0;
-		var offY = 0;
-		var me = this;
-		
-		
-		var desc = this.description;
-		
-		function highlight_on(event){
-			//console.log("fuck");
-			event.currentTarget.gotoAndStop(1);
-			desc.text = event.currentTarget.desc;
-			
-		}
-		
-		function highlight_off(event){
-			//console.log("off");
-			event.currentTarget.gotoAndStop(0);
-		}
-		
-		
-		function pressed(evt){
-			//var funcLib = exportRoot.searchLibs;
-			//console.log(funcLib);
-			//console.log(evt);
-			var button = evt.currentTarget;
-			console.log(button.func);
-			var myMC = new lib.libBlock();
-			myMC.x=746;
-			myMC.y=234;
-			myMC.title.text = button.func.name;
-			myMC.func = button.func;
-			stage.addChild(myMC);
-			focusMC = myMC;
-			focusMC.x = evt.stageX-evt.localX;
-		    focusMC.y = evt.stageY-evt.localY;
-			offX = Number(evt.localX);
-			offY = Number(evt.localY);
-		    console.log("pressed");
-			stage.addEventListener("stagemousemove", dragged);
-			stage.addEventListener("stagemouseup", released);
-			
-		}
-		
-		function dragged(evt){
-			//console.log("dragging");
-			//console.log("offX: "+offX+" offY:"+offY);
-		    focusMC.x = evt.stageX-offX;
-		    focusMC.y = evt.stageY-offY;
-		}
-		
-		function released (evt){
-			//console.log("up");
-			me.parent.play();
-			stage.removeEventListener("stagemousemove", dragged);
-			stage.removeEventListener("stagemouseup", released);
-			console.log(focusMC.func.name);
-			exportRoot.addFunc(focusMC.func.name, focusMC);
-		}
-	}
-
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
-
-	// Layer 1
-	this.description_1 = new cjs.Text("Hover on a function for it's description.", "bold 20px 'Verdana'", "#333333");
-	this.description_1.name = "description_1";
-	this.description_1.lineHeight = 22;
-	this.description_1.lineWidth = 492;
-	this.description_1.setTransform(5.1,73.1);
-
-	this.text_3 = new cjs.Text("Variables", "bold 40px 'Verdana'", "#FFFFFF");
-	this.text_3.textAlign = "center";
-	this.text_3.lineHeight = 42;
-	this.text_3.lineWidth = 236;
-	this.text_3.setTransform(251.2,0);
-
-	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f("#B6AD9F").s().p("EgnhAMvIAA5dMBPDAAAIAAZdg");
-	this.shape_5.setTransform(253.1,151.6);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_5},{t:this.text_3},{t:this.description_1}]}).wait(1));
-
-	// Layer 2
-	this.instance_1 = new lib.green_slider();
-	this.instance_1.setTransform(499.3,508.4,1,0.974,0,0,0,9,266.6);
-
-	this.shape_6 = new cjs.Shape();
-	this.shape_6.graphics.f("#569B35").s().p("EAgGAopIAAgBMhH7AAAMAAAhRQMBPrAAAMAAABRQIgcAAMAAAhPrIhbAAMAAAA44IAnAAIAAW0g");
-	this.shape_6.setTransform(253.4,508.2);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_6},{t:this.instance_1}]}).wait(1));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(-1.6,0,510.9,768.7);
-p.frameBounds = [rect];
-
-
 (lib.drawLib = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
 	this.frame_20 = function() {
 		this.stop();
-		exportRoot.removeChild(exportRoot.alertLib);
+		if(exportRoot.alertLib){
+			exportRoot.removeChild(exportRoot.alertLib);
+		}
 	}
 	this.frame_33 = function() {
 		this.parent.removeChild(this);
@@ -1467,8 +1557,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		exportRoot.removeChild(exportRoot.alertLib);
 	}
 	this.frame_33 = function() {
-		this.parent.removeChild(this);
 		exportRoot.callInputs();
+		this.parent.removeChild(this);
 	}
 
 	// actions tween:
@@ -1515,7 +1605,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	this.timeline.addTween(cjs.Tween.get(mask).to({graphics:mask_graphics_0,x:0.5,y:44.5}).wait(1).to({graphics:mask_graphics_1,x:2.5,y:44.5}).wait(1).to({graphics:mask_graphics_2,x:10.4,y:44.5}).wait(1).to({graphics:mask_graphics_3,x:30.7,y:44.5}).wait(1).to({graphics:mask_graphics_4,x:113.2,y:44.5}).wait(1).to({graphics:mask_graphics_5,x:240.9,y:44.5}).wait(1).to({graphics:mask_graphics_6,x:264.1,y:44.5}).wait(1).to({graphics:mask_graphics_7,x:272.8,y:44.5}).wait(1).to({graphics:mask_graphics_8,x:274.9,y:44.5}).wait(1).to({graphics:mask_graphics_9,x:274.9,y:44.8}).wait(1).to({graphics:mask_graphics_10,x:274.9,y:46.1}).wait(1).to({graphics:mask_graphics_11,x:274.9,y:48.5}).wait(1).to({graphics:mask_graphics_12,x:274.9,y:52.8}).wait(1).to({graphics:mask_graphics_13,x:274.9,y:60.6}).wait(1).to({graphics:mask_graphics_14,x:274.9,y:78.3}).wait(1).to({graphics:mask_graphics_15,x:274.9,y:139.7}).wait(1).to({graphics:mask_graphics_16,x:274.9,y:157.2}).wait(1).to({graphics:mask_graphics_17,x:274.9,y:164.3}).wait(1).to({graphics:mask_graphics_18,x:274.9,y:167.8}).wait(1).to({graphics:mask_graphics_19,x:274.9,y:169.4}).wait(1).to({graphics:mask_graphics_20,x:274.9,y:169.9}).wait(1).to({graphics:mask_graphics_21,x:274.9,y:169.9}).wait(1).to({graphics:mask_graphics_22,x:274.9,y:168.7}).wait(1).to({graphics:mask_graphics_23,x:274.9,y:163.7}).wait(1).to({graphics:mask_graphics_24,x:274.9,y:149.1}).wait(1).to({graphics:mask_graphics_25,x:274.9,y:73.9}).wait(1).to({graphics:mask_graphics_26,x:274.9,y:52}).wait(1).to({graphics:mask_graphics_27,x:274.9,y:45.9}).wait(1).to({graphics:mask_graphics_28,x:274.9,y:44.5}).wait(1).to({graphics:mask_graphics_29,x:220,y:44.5}).wait(1).to({graphics:mask_graphics_30,x:165.2,y:44.5}).wait(1).to({graphics:mask_graphics_31,x:110.3,y:44.5}).wait(1).to({graphics:mask_graphics_32,x:55.4,y:44.5}).wait(1).to({graphics:mask_graphics_33,x:0.5,y:44.5}).wait(1));
 
 	// Layer 2
-	this.content = new lib.ContentSearch_1();
+	this.content = new lib.ContentVar();
 	this.content.setTransform(275.2,169.8,1,1,0,0,0,253.1,159.8);
 
 	this.content.mask = mask;
@@ -1554,6 +1644,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		
 		var alertLib = this.alertLib;
+		var openPane = null;
 		var Button = function (name, mc) {
 			this.name = name;
 			this.mc = mc;
@@ -1609,6 +1700,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					myMC.y = 59 + libY;
 					//console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
+					openPane = myMC;
 					focusLib = myMC;
 					break;
 				case "func":
@@ -1618,6 +1710,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					//console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
 					focusLib = myMC;
+					openPane = myMC;
 					break;
 				case "search":
 					var myMC = new lib.searchLib();
@@ -1626,6 +1719,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					//console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
 					focusLib = myMC;
+					openPane = myMC;
 					break;
 				case "variables":
 					var myMC = new lib.varLib();
@@ -1634,6 +1728,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					//console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
 					focusLib = myMC;
+					openPane = myMC;
 					break;
 			}
 		}
@@ -1762,6 +1857,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var variables = new Array();
 		function primitivePrompt(type,defaultVal,mc){
 			clearInputs();
+			if(openPane){
+				openPane.play();
+				openPane = null;
+			}
 			if(type === "sentence"){
 				func_title.text = "Sentence";
 				func_desc.text = "A list of letters.";
@@ -1785,17 +1884,19 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		
 		function savePrimitive(){
-			
-			if(inputClean[0] && inputClean[0].btn.value!==""){
-				var block = new Sentence(focusMC);
-				block.inputs[0] = inputClean[0];
-				block.inputs[1] = inputClean[1];
-				funcBlocks.push(block);
-				block.vars[1] = inputClean[0].btn.value;
-				variables.push(block);
-				console.log("added");
-				focusBlock = block;
-			}else{
+			if(inputClean[0]){
+				if(inputClean[0].btn.value!==""){
+					var block = new Sentence(focusMC);
+					block.inputs[0] = inputClean[0];
+					block.inputs[1] = inputClean[1];
+					funcBlocks.push(block);
+					block.vars[0] = inputClean[0].btn.value;
+					block.vars[1] = inputClean[1].btn.value;
+					variables.push(block);
+					console.log("added");
+					focusBlock = block;
+					focusMC.block.isVar.visible = true;
+				}
 				for(var i=0; i<inputClean.length; i++){
 					 inputClean[i].removeListener(); 
 					 document.body.removeChild(inputClean[i].btn);
@@ -1803,10 +1904,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				inputClean = new Array();
 			}
 			
+			
 		}
 		
 		function callInputs(){
-			generateInput(focusBlock);
+			if(focusBlock){
+				generateInput(focusBlock);
+			}
 		}
 		this.callInputs = callInputs;
 		
@@ -1874,7 +1978,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				
 				for(var i=0; i<focusBlock.inputs.length; i++){
 					 focusBlock.inputs[i].removeListener(); 
+					try{
 					 document.body.removeChild(focusBlock.inputs[i].btn);
+					}catch(er){
+						console.log("ERROR REMOVING INPUT");
+					};
 				}
 				focusBlock.mc.block.highlight.visible = false;
 				focusBlock.inputs = [null,null];
@@ -1893,6 +2001,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.vars = [null,null];
 			this.focus = true;
 			this.mc = mc;
+			this.frame_color = 0;
 			this.numChildBlocks = 0;
 			this.varName = null;
 			function compile(){
@@ -1919,6 +2028,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.name = "Sentence";
 			this.desc = "A list of characters";
 			this.type = "primative";
+			this.frame_color = 1;
 			this.params = [
 				["name", false, "string"],
 				["value", true, "string"]
@@ -2034,6 +2144,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return searchLibs;
 		}
 		this.getSearchLib = getSearchLib;
+		
+		function getVariables(){
+			return variables;
+		}
+		this.getVariables = getVariables;
 	}
 
 	// actions tween:
