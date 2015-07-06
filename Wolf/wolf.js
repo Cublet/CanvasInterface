@@ -1210,7 +1210,6 @@ p.frameBounds = [rect, rect];
 		this.chill = false;
 		function addBlock(type,val, bindedBlock, bindedIndex){
 			tempVal = val;
-			//console.log("..");
 			yScale+=1.4;
 			createjs.Tween.get(this.block)
 		         .to({scaleY:yScale}, 150)
@@ -1220,13 +1219,11 @@ p.frameBounds = [rect, rect];
 				 
 			var myMC = new lib.libBlock();
 			var bounds = myMC.frameBounds[0];
-			//console.log("h:"+bounds.height);
 			myMC.x = 180;
 			var h = bounds.height;
 			myMC.y = 50 - bounds.height/2 + stacker*bounds.height/2;
 			myMC.block.scaleX = .75;
 			myMC.block.gotoAndStop(0);
-			//console.log(tempVal);
 			myMC.type.text = tempVal;
 			myMC.block.highlight.visible = false;
 			myMC.bindedBlock = bindedBlock;
@@ -1234,11 +1231,8 @@ p.frameBounds = [rect, rect];
 			
 			this.blockStack.push(myMC);
 			stacker = this.blockStack.length;
-			//console.log('myMC: ' + myMC); // myMC Should not be null		
-				 
-				 
+			
 			var midPoint = Math.round(this.blockStack.length/2);
-			//console.log("length:"+this.blockStack.length+ "mid: "+midPoint);
 			updateSubPos();
 		    function handleComplete() {
 				this.parent.addChild(myMC);
@@ -1252,7 +1246,6 @@ p.frameBounds = [rect, rect];
 		this.addBlock = addBlock;
 		
 		function targetMC(block, index){
-			console.log(me.blockStack);
 			for(var i=0; i<me.blockStack.length; i++){
 				if(me.blockStack[i].bindedBlock == block && me.blockStack[i].bindedIndex === index){
 					return [me.blockStack[i],i];
@@ -1267,21 +1260,16 @@ p.frameBounds = [rect, rect];
 			for(var i=0; i<me.blockStack.length; i++){	
 				createjs.Tween.get(me.blockStack[i])
 				.to({y:-stacker*h/2+50 + i*h}, 150);
-				console.log("updating["+i+"]: "+(-stacker*h/2+50 + i*h));
 			}
 		}
 		
 		function removeBlock(block, index){
-			console.log("REMOVING BLOCK");
 			if(!targetMC(block, index)){
-				console.log("nope");
 				return "nope";
 			}
 			var MC = targetMC(block, index)[0];
 			var index = targetMC(block, index)[1];
 			
-			//console.log(MC);
-			//console.log(index);
 			createjs.Tween.get(me.blockStack[index])
 		         .to({alpha:0}, 150)
 		         .call(handleComplete);
@@ -1308,9 +1296,8 @@ p.frameBounds = [rect, rect];
 		
 		function updateVal(key){
 			for(var i=0; i<this.blockStack.length; i++){
-				//console.log(this.blockStack[i]);
 				if(this.blockStack[i].bindedBlock == key){
-					var tits = this.blockStack[i].bindedBlock.vars[this.blockStack[i].bindedIndex];
+					var tits = String(this.blockStack[i].bindedBlock.vars[this.blockStack[i].bindedIndex]);
 					if(tits.length>10){
 						tits = tits.substring(0,10);
 						tits = tits+"..";
@@ -1328,7 +1315,12 @@ p.frameBounds = [rect, rect];
 			}
 			event.currentTarget.block.highlight.visible = true;
 			me.parent.chill = true;
-			if(me.type){
+			var func = exportRoot.getFuncFromMC(event.currentTarget);
+			if(func){
+				console.log("loading func");
+				exportRoot.loadBlockInfo(func);
+			}else if(me.type){
+				console.log("loading prim");
 				exportRoot.primitivePrompt(me.type,me.title.text,event.currentTarget);
 			}
 		}
@@ -1642,7 +1634,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		btn.style.height = "" + 400 + "px";
 		document.body.appendChild(btn);
 		
-		
+		var me = this;
 		var alertLib = this.alertLib;
 		var openPane = null;
 		var Button = function (name, mc) {
@@ -1687,10 +1679,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				focusBtn.addEventListener("rollout", btnOut);
 			}
 			focusBtn = event.currentTarget;
-			if (focusLib) {
-				//console.log("removing focus");
-				focusLib.play();
-			}
 			var libX = 1057;
 			var libY = 0;
 			switch (name) {
@@ -1698,7 +1686,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var myMC = new lib.drawLib();
 					myMC.x = libX;
 					myMC.y = 59 + libY;
-					//console.log('myMC: ' + myMC); // myMC Should not be null
 					stage.addChild(myMC);
 					openPane = myMC;
 					focusLib = myMC;
@@ -1707,7 +1694,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var myMC = new lib.funcLib();
 					myMC.x = libX - 1;
 					myMC.y = 149 + libY;
-					//console.log('myMC: ' + myMC); // myMC Should not be null
+				
 					stage.addChild(myMC);
 					focusLib = myMC;
 					openPane = myMC;
@@ -1716,7 +1703,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var myMC = new lib.searchLib();
 					myMC.x = libX - 1;
 					myMC.y = 234 + libY;
-					//console.log('myMC: ' + myMC); // myMC Should not be null
+			
 					stage.addChild(myMC);
 					focusLib = myMC;
 					openPane = myMC;
@@ -1725,7 +1712,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var myMC = new lib.varLib();
 					myMC.x = libX - 1;
 					myMC.y = 319 + libY;
-					//console.log('myMC: ' + myMC); // myMC Should not be null
+			
 					stage.addChild(myMC);
 					focusLib = myMC;
 					openPane = myMC;
@@ -1770,6 +1757,15 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 			this.removeListener = removeListener;
 			
+			function setInput(val){
+				  if(typeof val !== 'object'){
+					  btn.value = val;
+				  }else{
+					  console.log("IS OBJECT");
+				  }
+			}
+			this.setInput = setInput;
+			
 			createListener();
 			
 		}
@@ -1778,11 +1774,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				var yShift = 0;
 				for (var j = 0; j < block.params.length; j++) {
 					var param = block.params[j];
-					//console.log("PARAM CHECK");
 					if (param[2] === "string" || param[2] === "integer") {
-						//console.log("make TXTBOX");
-						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j);
-						block.inputs[j] = txtBox;
+						console.log("MAKING TEXT");
+						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j);	
+						if(block.vars[j]){
+							txtBox.setInput(block.vars[j]);
+						}
+						block.inputs[j] = txtBox;			
 						yShift += 58;
 					}
 				}
@@ -1794,14 +1792,12 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		function getTextBoxBlock(textBox){
 			for(var i=0; i<funcBlocks.length; i++){
-				//console.log(funcBlocks[i].inputs);
 				for(var j=0; j<funcBlocks[i].inputs.length; j++){
 					if(textBox === funcBlocks[i].inputs[j]){
 						return funcBlocks[i];
 					}
 				}
 			}
-			//console.log("FAILURE");
 		}
 		
 		function inputHandler(k,input){
@@ -1840,7 +1836,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var func_title = this.func_title;
 		var focusBlock = null;
 		function addFunc(codeName, mc) {
-			//console.log(codeName);
 			var func = funcMap.get(codeName);
 			var block = new func(mc);
 			funcBlocks.push(block);
@@ -1862,6 +1857,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				openPane = null;
 			}
 			if(type === "sentence"){
+				console.log("MAKING TEXT");
+				console.log("MAKING TEXT");
 				func_title.text = "Sentence";
 				func_desc.text = "A list of letters.";
 				//defaultValue, optional, x, y, size, width, index
@@ -1893,23 +1890,23 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					block.vars[0] = inputClean[0].btn.value;
 					block.vars[1] = inputClean[1].btn.value;
 					variables.push(block);
-					console.log("added");
 					focusBlock = block;
 					focusMC.block.isVar.visible = true;
+				}else{
+					for(var i=0; i<inputClean.length; i++){
+						 inputClean[i].removeListener(); 
+						 document.body.removeChild(inputClean[i].btn);
+					}
 				}
-				for(var i=0; i<inputClean.length; i++){
-					 inputClean[i].removeListener(); 
-					 document.body.removeChild(inputClean[i].btn);
-				}
-				inputClean = new Array();
 			}
 			
 			
 		}
 		
 		function callInputs(){
+			
 			if(focusBlock){
-				generateInput(focusBlock);
+				me.generateInput(focusBlock);
 			}
 		}
 		this.callInputs = callInputs;
@@ -1945,7 +1942,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					//TODO: recursively unfold nested blocks
 				} else if (vars[i]) {
 					trim = true;
-					//console.log(params);
 					if(params[i][2] === "string"){
 						output += "\"" + vars[i] + "\",";
 					}else{
@@ -1960,10 +1956,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		function compile(func) {
 			var output = func.codeBegin;
-			
-			//console.log(vars);
 			output+=func.compile();
-			
 			output += func.codeEnd;
 			return output;
 		}
@@ -1974,25 +1967,44 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				stage.removeChild(canvasClean[i]);
 			}
 			canvasClean = new Array();
+			if(focusLib){
+				focusLib.play();
+				focusLib = null;
+			}
 			if(focusBlock){
-				
+				console.log("FOCUS BLOCK ACTIVE");
 				for(var i=0; i<focusBlock.inputs.length; i++){
-					 focusBlock.inputs[i].removeListener(); 
-					try{
-					 document.body.removeChild(focusBlock.inputs[i].btn);
-					}catch(er){
-						console.log("ERROR REMOVING INPUT");
-					};
+					focusBlock.inputs[i].removeListener(); 
+					document.body.removeChild(focusBlock.inputs[i].btn);
 				}
+				
 				focusBlock.mc.block.highlight.visible = false;
 				focusBlock.inputs = [null,null];
 				focusBlock.focus = false;
 				focusBlock = null;
 		    }
+			inputClean = new Array();
 		}
 		this.clearInputs = clearInputs;
 		
 		
+		function getFuncFromMC(mc){
+		
+			for(var i=0; i<funcBlocks.length; i++){
+				if(funcBlocks[i].mc === mc){
+					return funcBlocks[i];
+				}
+			}
+		}
+		this.getFuncFromMC = getFuncFromMC;
+		
+		
+		function loadBlockInfo(block){
+			clearInputs();
+			focusBlock = block;
+			//callInputs();
+		}
+		this.loadBlockInfo = loadBlockInfo;
 		//////////////////////////CODE BLOCKS
 		var funcMap = new Map();
 		
@@ -2005,7 +2017,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.numChildBlocks = 0;
 			this.varName = null;
 			function compile(){
-				//console.log(this);
 				return iterative_compile(this.vars,this.params);
 			}
 			this.compile = compile;
@@ -2018,7 +2029,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				this.vars = Array.apply(null, Array(integer));
 				this.inputs = Array.apply(null, Array(integer));
 				this.childMCs = Array.apply(null, Array(integer));
-				//console.log(this.vars);
 			}
 			this.numParams = numParams;
 		}
@@ -2030,7 +2040,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.type = "primative";
 			this.frame_color = 1;
 			this.params = [
-				["name", false, "string"],
+				["name", true, "string"],
 				["value", true, "string"]
 			];
 			this.codeBegin = "";
@@ -2079,7 +2089,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.codeEnd = "]";
 			this.numParams(this.params.length);
 			function compile(){
-				//console.log(getHashedState(this.vars));
 				if(getHashedState(this.vars)===10){
 					//ignoreID
 					var vars = this.vars;
@@ -2116,7 +2125,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.codeEnd = "]";
 			this.numParams(this.params.length);
 			function compile(){
-				console.log(getHashedState(this.vars));
 				if(getHashedState(this.vars)===10){
 					//ignoreID
 					var vars = this.vars;
