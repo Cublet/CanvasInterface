@@ -985,7 +985,6 @@ p.frameBounds = [rect];
 		this.stop();
 		var yScale = 1;
 		function shrink(){
-		
 		    createjs.Tween.get(this.block)
 		         .to({scaleX:.85}, 150)
 		         .call(handleComplete);
@@ -1108,6 +1107,13 @@ p.frameBounds = [rect];
 			}
 		}
 		this.updateVal = updateVal;
+		
+		this.addEventListener("click", focusOnMe);
+		function focusOnMe(event){
+			console.log("PAY ATTENTION TO ME!");
+			event.currentTarget.block.highlight.visible = true;
+			console.log(event.currentTarget);
+		}
 	}
 
 	// actions tween:
