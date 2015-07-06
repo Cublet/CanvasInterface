@@ -1310,7 +1310,10 @@ p.frameBounds = [rect, rect];
 		
 		this.addEventListener("click", focusOnMe);
 		function focusOnMe(event){
+		
+			
 			if(me.chill){
+				me.chill = false;
 				return;
 			}
 			event.currentTarget.block.highlight.visible = true;
@@ -1318,6 +1321,7 @@ p.frameBounds = [rect, rect];
 			var func = exportRoot.getFuncFromMC(event.currentTarget);
 			if(func){
 				console.log("loading func");
+				console.log(func);
 				exportRoot.loadBlockInfo(func);
 			}else if(me.type){
 				console.log("loading prim");
@@ -1474,8 +1478,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.1,85), new cjs.Rectangle(0,0,5.7,
 		}
 	}
 	this.frame_33 = function() {
+		exportRoot.callInputs(1);
 		this.parent.removeChild(this);
-		exportRoot.callInputs();
 	}
 
 	// actions tween:
@@ -1549,7 +1553,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		exportRoot.removeChild(exportRoot.alertLib);
 	}
 	this.frame_33 = function() {
-		exportRoot.callInputs();
+		exportRoot.callInputs(1);
 		this.parent.removeChild(this);
 	}
 
@@ -1770,12 +1774,17 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 		}
 		
-			function generateInput(block) {
+		
+		function generateInput(block,origin) {
+				console.log(block.inputs[0]);
+				console.log(block.inputs[0]);
+				if(block.inputs[0]){
+					return;
+				}
 				var yShift = 0;
 				for (var j = 0; j < block.params.length; j++) {
 					var param = block.params[j];
 					if (param[2] === "string" || param[2] === "integer") {
-						console.log("MAKING TEXT");
 						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j);	
 						if(block.vars[j]){
 							txtBox.setInput(block.vars[j]);
@@ -1786,8 +1795,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				}
 				tempBlocks = new Array();
 				//window.addEventListener("keyup", handleNonOptionalChecks);
-		
-			}
+		}
 		this.generateInput = generateInput;
 		
 		function getTextBoxBlock(textBox){
@@ -1857,8 +1865,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				openPane = null;
 			}
 			if(type === "sentence"){
-				console.log("MAKING TEXT");
-				console.log("MAKING TEXT");
 				func_title.text = "Sentence";
 				func_desc.text = "A list of letters.";
 				//defaultValue, optional, x, y, size, width, index
@@ -1903,10 +1909,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 		}
 		
-		function callInputs(){
+		function callInputs(origin){
 			
 			if(focusBlock){
-				me.generateInput(focusBlock);
+				me.generateInput(focusBlock,origin);
 			}
 		}
 		this.callInputs = callInputs;
@@ -1974,10 +1980,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			if(focusBlock){
 				console.log("FOCUS BLOCK ACTIVE");
 				for(var i=0; i<focusBlock.inputs.length; i++){
-					focusBlock.inputs[i].removeListener(); 
-					document.body.removeChild(focusBlock.inputs[i].btn);
+					if(focusBlock.inputs[i]){
+						focusBlock.inputs[i].removeListener(); 
+						document.body.removeChild(focusBlock.inputs[i].btn);
+					}
 				}
-				
 				focusBlock.mc.block.highlight.visible = false;
 				focusBlock.inputs = [null,null];
 				focusBlock.focus = false;
@@ -2002,7 +2009,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		function loadBlockInfo(block){
 			clearInputs();
 			focusBlock = block;
-			//callInputs();
+			callInputs(0);
 		}
 		this.loadBlockInfo = loadBlockInfo;
 		//////////////////////////CODE BLOCKS
