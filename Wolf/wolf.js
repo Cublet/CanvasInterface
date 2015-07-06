@@ -997,6 +997,7 @@ p.frameBounds = [rect];
 		this.blockStack = new Array();
 		var stacker = 0;
 		var tempVal = "nothing";
+		var me = this;
 		function addBlock(type,val, bindedBlock, bindedIndex){
 			tempVal = val;
 			//console.log("..");
@@ -1027,13 +1028,7 @@ p.frameBounds = [rect];
 				 
 			var midPoint = Math.round(this.blockStack.length/2);
 			//console.log("length:"+this.blockStack.length+ "mid: "+midPoint);
-			for(var i=0; i<this.blockStack.length; i++){	
-			
-				createjs.Tween.get(this.blockStack[i])
-				.to({y:-stacker*h/2+50 + i*h}, 150);
-				
-				
-			}
+			updateSubPos();
 		    function handleComplete() {
 				this.parent.addChild(myMC);
 				myMC.alpha = 0;
@@ -1044,15 +1039,64 @@ p.frameBounds = [rect];
 		}
 		this.addBlock = addBlock;
 		
-		function removeBlock(type,val){
+		function targetMC(block, index){
+			console.log(me.blockStack);
+			for(var i=0; i<me.blockStack.length; i++){
+				if(me.blockStack[i].bindedBlock == block && me.blockStack[i].bindedIndex === index){
+					return [me.blockStack[i],i];
+				}
+			}
+			return 
+		}
+		
+		function updateSubPos(){
+			var h = 88;
+			stacker = me.blockStack.length;
+			for(var i=0; i<me.blockStack.length; i++){	
+				createjs.Tween.get(me.blockStack[i])
+				.to({y:-stacker*h/2+50 + i*h}, 150);
+				console.log("updating["+i+"]: "+(-stacker*h/2+50 + i*h));
+			}
+		}
+		
+		function removeBlock(block, index){
+			console.log("REMOVING BLOCK");
+			if(!targetMC(block, index)){
+				console.log("nope");
+				return "nope";
+			}
+			var MC = targetMC(block, index)[0];
+			var index = targetMC(block, index)[1];
 			
+			//console.log(MC);
+			//console.log(index);
+			createjs.Tween.get(me.blockStack[index])
+		         .to({alpha:0}, 150)
+		         .call(handleComplete);
+			function handleComplete() {
+				me.removeChild(me.blockStack[index]);
+				me.blockStack.splice(index,1);
+			
+				yScale-=1.4;
+				createjs.Tween.get(me.block)
+					 .to({scaleY:yScale}, 150);
+				if(me.blockStack.length === 0){
+					createjs.Tween.get(me.title)
+						 .to({y:15}, 150);
+					}else{
+					createjs.Tween.get(me.title)
+						 .to({y:(-yScale*64)/2+40}, 150);
+					}
+				updateSubPos();
+			}
+				
 		}
 		this.removeBlock = removeBlock;
 		
 		
 		function updateVal(key){
 			for(var i=0; i<this.blockStack.length; i++){
-				console.log(this.blockStack[i]);
+				//console.log(this.blockStack[i]);
 				if(this.blockStack[i].bindedBlock == key){
 					var tits = this.blockStack[i].bindedBlock.vars[this.blockStack[i].bindedIndex];
 					if(tits.length>10){
@@ -1648,24 +1692,25 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					}
 				}
 			}
-			console.log("FAILURE");
+			//console.log("FAILURE");
 		}
 		
 		function inputHandler(k,input){
 			
 			var block = getTextBoxBlock(input);
 			var varsIndex = input.index;
-			if(!block.vars[varsIndex]){
+			if(!block.vars[varsIndex] && input.btn.value !== ""){
 				var altered = input.defaultValue;
 				block.mc.addBlock("string",altered+": ", block, varsIndex);
 			}
 			
-			//console.log(varsIndex);
-			console.log(varsIndex);
-			console.log(block.vars);
-		
 			block.vars[varsIndex] = input.btn.value;
-			block.mc.updateVal(block);
+			if(input.btn.value === ""){
+				block.mc.removeBlock(block, varsIndex)
+			}else{
+				block.mc.updateVal(block);
+			}
+			
 			if (!input.optional) {
 				if (input.btn.value === "") {
 					input.btn.style.background = "rgb(232, 110, 110)";
@@ -1676,7 +1721,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 			updateCode();
 		}
-		
+		/*
 		function handleNonOptionalChecks(k) {
 			for (var i = 0; i < funcBlocks.length; i++) {
 				if(funcBlocks[i].focus){
@@ -1703,7 +1748,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					if(funcBlocks[i].numChildBlocks != inputsFilled){
 						//console.log("it worked before?");
 						if(funcBlocks[i].numChildBlocks< inputsFilled){
-							console.log("adding space..");
+							//console.log("adding space..");
 							//console.log(funcBlocks[i]);
 							funcBlocks[i].mc.addBlock("string",altered+": ");
 						}else{ 
@@ -1718,7 +1763,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 			
 		}
-		
+		*/
 		var funcBlocks = new Array();
 		//var codeBinder = new Array();
 		var func_desc = this.func_desc;
