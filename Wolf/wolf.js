@@ -997,6 +997,7 @@ p.frameBounds = [rect];
 		var stacker = 0;
 		var tempVal = "nothing";
 		var me = this;
+		this.chill = false;
 		function addBlock(type,val, bindedBlock, bindedIndex){
 			tempVal = val;
 			//console.log("..");
@@ -1020,6 +1021,7 @@ p.frameBounds = [rect];
 			myMC.block.highlight.visible = false;
 			myMC.bindedBlock = bindedBlock;
 			myMC.bindedIndex = bindedIndex;
+			
 			this.blockStack.push(myMC);
 			stacker = this.blockStack.length;
 			//console.log('myMC: ' + myMC); // myMC Should not be null		
@@ -1030,6 +1032,7 @@ p.frameBounds = [rect];
 			updateSubPos();
 		    function handleComplete() {
 				this.parent.addChild(myMC);
+				myMC.type = "sentence";
 				myMC.alpha = 0;
 				createjs.Tween.get(myMC)
 		         .to({alpha:1}, 150);
@@ -1110,9 +1113,14 @@ p.frameBounds = [rect];
 		
 		this.addEventListener("click", focusOnMe);
 		function focusOnMe(event){
-			console.log("PAY ATTENTION TO ME!");
+			if(me.chill){
+				return;
+			}
 			event.currentTarget.block.highlight.visible = true;
-			console.log(event.currentTarget);
+			me.parent.chill = true;
+			if(me.type){
+				exportRoot.primitivePrompt(me.type,me.title.text,event.currentTarget);
+			}
 		}
 	}
 
@@ -1704,6 +1712,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		function inputHandler(k,input){
 			
 			var block = getTextBoxBlock(input);
+			if(!block){
+				return;
+			}
 			var varsIndex = input.index;
 			if(!block.vars[varsIndex] && input.btn.value !== ""){
 				var altered = input.defaultValue;
@@ -1727,49 +1738,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 			updateCode();
 		}
-		/*
-		function handleNonOptionalChecks(k) {
-			for (var i = 0; i < funcBlocks.length; i++) {
-				if(funcBlocks[i].focus){
-					var inputsFilled = 0;
-					var altered = "nothing";
-					for(var j=0; j<funcBlocks[i].inputs.length; j++){
-						var txtBox = funcBlocks[i].inputs[j];
-						//console.log("checking");
-						if(txtBox.btn.value !==""){
-							inputsFilled++;
-							if(!funcBlocks[i].vars[j]){
-								altered = funcBlocks[i].inputs[j].defaultValue;
-							}
-							funcBlocks[i].vars[j] = txtBox.btn.value;
-						}
-						if (!txtBox.optional) {
-							if (txtBox.btn.value == "") {
-								txtBox.btn.style.background = "rgb(232, 110, 110)";
-							} else {
-								txtBox.btn.style.background = "white";
-							}
-						}
-					}
-					if(funcBlocks[i].numChildBlocks != inputsFilled){
-						//console.log("it worked before?");
-						if(funcBlocks[i].numChildBlocks< inputsFilled){
-							//console.log("adding space..");
-							//console.log(funcBlocks[i]);
-							funcBlocks[i].mc.addBlock("string",altered+": ");
-						}else{ 
-							funcBlocks[i].mc.removeBlock("string",altered+": ");
-						}
-						funcBlocks[i].numChildBlocks = inputsFilled;
-						
-					}
-					
-				}
-			}
-			
-			
-		}
-		*/
+		
 		var funcBlocks = new Array();
 		//var codeBinder = new Array();
 		var func_desc = this.func_desc;
@@ -1787,6 +1756,54 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.addFunc = addFunc;
 		
+		var canvasClean = new Array();
+		var inputClean = new Array();
+		var focusMC = null;
+		var variables = new Array();
+		function primitivePrompt(type,defaultVal,mc){
+			clearInputs();
+			if(type === "sentence"){
+				func_title.text = "Sentence";
+				func_desc.text = "A list of letters.";
+				//defaultValue, optional, x, y, size, width, index
+				var varName = new TextBox("Variable Name", true, 1140, 306 , 38, 390, 0);
+				var varValue = new TextBox("Value", true, 1140, 366 , 38, 390, 0);
+				varValue.btn.value = defaultVal;
+				var text = new createjs.Text("Create a variable by naming it.", "25px Verdana", "#000000");
+				text.x = 1140;
+				text.y = 500;
+				text.textBaseline = "alphabetic";
+				stage.addChild(text);
+				canvasClean.push(text);
+				inputClean.push(varName);
+				inputClean.push(varValue);
+				//TODO: block.inputs[j] = txtBox;
+			}
+			focusMC = mc;
+		}
+		this.primitivePrompt = primitivePrompt;
+		
+		
+		function savePrimitive(){
+			
+			if(inputClean[0] && inputClean[0].btn.value!==""){
+				var block = new Sentence(focusMC);
+				block.inputs[0] = inputClean[0];
+				block.inputs[1] = inputClean[1];
+				funcBlocks.push(block);
+				block.vars[1] = inputClean[0].btn.value;
+				variables.push(block);
+				console.log("added");
+				focusBlock = block;
+			}else{
+				for(var i=0; i<inputClean.length; i++){
+					 inputClean[i].removeListener(); 
+					 document.body.removeChild(inputClean[i].btn);
+				}
+				inputClean = new Array();
+			}
+			
+		}
 		
 		function callInputs(){
 			generateInput(focusBlock);
@@ -1848,6 +1865,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		
 		function clearInputs(){
+			savePrimitive();
+			for(var i=0; i<canvasClean.length;i++){
+				stage.removeChild(canvasClean[i]);
+			}
+			canvasClean = new Array();
 			if(focusBlock){
 				
 				for(var i=0; i<focusBlock.inputs.length; i++){
@@ -1858,7 +1880,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				focusBlock.inputs = [null,null];
 				focusBlock.focus = false;
 				focusBlock = null;
-				
 		    }
 		}
 		this.clearInputs = clearInputs;
@@ -1873,12 +1894,14 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.focus = true;
 			this.mc = mc;
 			this.numChildBlocks = 0;
+			this.varName = null;
 			function compile(){
 				//console.log(this);
 				return iterative_compile(this.vars,this.params);
 			}
 			this.compile = compile;
 			this.vars = [null, null];
+			
 			this.inputs = [null,null];
 			this.childMCs = [null,null]
 			
@@ -1890,6 +1913,29 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 			this.numParams = numParams;
 		}
+		
+		var Sentence = function (mc) {
+			Block.apply(this,arguments);
+			this.name = "Sentence";
+			this.desc = "A list of characters";
+			this.type = "primative";
+			this.params = [
+				["name", false, "string"],
+				["value", true, "string"]
+			];
+			this.codeBegin = "";
+			this.codeEnd = "";
+			this.numParams(this.params.length);
+			function compile(){
+				return vars[1];
+			}
+			this.compile = compile;
+		}
+		Sentence.prototype = Block.prototype;       
+		Sentence.prototype.constructor = Sentence;  
+		funcMap.set("Sentence", Sentence);
+		
+		
 		
 		var WolframAlpha = function (mc) {
 			Block.apply(this,arguments);
