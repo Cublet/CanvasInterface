@@ -18,30 +18,44 @@ lib.properties = {
 
 
 
-(lib.Magnifier_64 = function() {
+(lib.closeIcon = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.Pencil_edit_button_64 = function() {
+(lib.JASON = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.Square_root_of_x_math_formula_64 = function() {
+(lib.Magnifier_64 = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.Two_books_64 = function() {
+(lib.Pencil_edit_button_64 = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
 	this.gotoAndStop(3);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.Square_root_of_x_math_formula_64 = function() {
+	this.spriteSheet = ss["wolf_atlas_"];
+	this.gotoAndStop(4);
+}).prototype = p = new cjs.Sprite();
+
+
+
+(lib.Two_books_64 = function() {
+	this.spriteSheet = ss["wolf_atlas_"];
+	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 
 
@@ -414,6 +428,19 @@ p.frameBounds = [rect];
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(0,0,151.1,59);
 p.frameBounds = [rect, rect];
+
+
+(lib.libSymbol = function() {
+	this.initialize();
+
+	// Layer 1
+	this.instance = new lib.Two_books_64();
+	this.instance.setTransform(0,0,0.625,0.625);
+
+	this.addChild(this.instance);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(0,0,40,40);
+p.frameBounds = [rect];
 
 
 (lib.isVarBorder = function() {
@@ -1328,6 +1355,31 @@ p.frameBounds = [rect, rect];
 				exportRoot.primitivePrompt(me.type,me.title.text,event.currentTarget);
 			}
 		}
+		
+		
+		function addImage(bitmap){
+			yScale+=4.6;
+			bitmap.x = 100;
+			bitmap.y = (-yScale*64)/2+85;
+			bitmap.alpha = 0;
+			me.addChild(bitmap);
+			
+			createjs.Tween.get(this.block)
+		         .to({scaleY:yScale}, 150)
+		         .call(handleComplete);
+			createjs.Tween.get(bitmap)
+		         .to({alpha:1}, 150)
+		         .call(handleComplete);
+			createjs.Tween.get(this.title)
+		         .to({y:(-yScale*64)/2+40}, 150);
+		}
+		this.addImage = addImage;
+		
+		
+		function removeImage(){
+			console.log("must remove image");
+		}
+		this.addImage = addImage;
 	}
 
 	// actions tween:
@@ -1365,6 +1417,25 @@ p.frameBounds = [rect, rect];
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-145,-12,601,88);
+p.frameBounds = [rect];
+
+
+(lib.inputOptions = function() {
+	this.initialize();
+
+	// Layer 1
+	this.instance = new lib.libSymbol();
+	this.instance.setTransform(407.1,29.9,1,1,0,0,0,20,20);
+	this.instance.filters = [new cjs.ColorFilter(0.34, 0.34, 0.34, 1, 0, 0, 0, 0)];
+	this.instance.cache(-2,-2,44,44);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#B8B8B8").s().p("Egh7AErIAApVMBD3AAAIAAJVg");
+	this.shape.setTransform(222.3,29.9);
+
+	this.addChild(this.shape,this.instance);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(5,0,434.6,59.9);
 p.frameBounds = [rect];
 
 
@@ -1734,42 +1805,116 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		
 		
-		var TextBox = function (defaultValue, optional, x, y, size, width, index) {
+		
+		var TextBox = function (defaultValue, optional, x, y, size, width, index, browse, block) {
 			this.defaultValue = defaultValue;
 			this.optional = optional;
 			this.index = index;
+			this.browse = browse;
+			this.block = block;
 			var btn = document.createElement("input");
 			btn.style.position = "absolute";
 			btn.style.top = "" + y + "px";
 			btn.style.left = "" + x + "px";
 			btn.style.fontSize = "" + size + "px";
 			btn.placeholder = defaultValue;
-			btn.style.width = "" + width + "px";
+			btn.style.width = "" + 350 + "px";
+			
+			var myMC = new lib.inputOptions();
+			myMC.x = x-20;
+			myMC.y = y-12;
+			myMC.scaleX = 1;
+			myMC.scaleY = 1;
+			this.options = myMC;
+			stage.addChild(myMC);	
+			this.btn = btn;
+			var me = this;
+			if(browse){
+				if(block.vars[index]){
+					var btn = document.createElement("DIV");
+					btn.innerHTML = block.vars[index];
+					btn.style.position = "absolute";
+					btn.style.top = "" + (y+12) + "px";
+					btn.style.left = "" + (x+70) + "px";
+					btn.style.fontSize = "" + 24 + "px";
+					me.btn = btn;
+					var myMC = new lib.closeIcon();
+					myMC.scaleX = .5;
+					myMC.scaleY = .5;
+					myMC.x = x;
+					myMC.y = y+1;
+					stage.addChild(myMC);
+					myMC.addEventListener("click", function (e){
+						block.vars[index] = null;
+						stage.removeChild(e.currentTarget);
+						stage.removeChild(me.options);
+						document.body.removeChild(me.btn);
+						e.currentTarget.removeAllEventListeners();
+						me.block.mc.removeImage(bitmap);
+						me = new TextBox(defaultValue, optional, x, y, size, width, index, browse, block);
+					});
+					
+				}else{
+					btn.setAttribute("type", "file");
+					btn.style.fontSize = "" + 24 + "px";
+					btn.style.top = "" + (y+10) + "px";
+					btn.browse = true;
+				}
+			}
 			document.body.appendChild(btn);
 			if (!optional) {
 				btn.style.background = "rgb(232, 110, 110)";
 			}
-			this.btn = btn;
-			var me = this;
+		
+			
+			
+			function dispImage(k){
+			  var dir = k.currentTarget.value;
+			  console.log(dir);
+			  //var bitmap = new createjs.Bitmap("http://i.imgur.com/BfsytQc.jpg");
+			
+			  //console.log(bitmap);
+			  var bitmap = new lib.JASON();
+			  bitmap.scaleX = .5;
+			  bitmap.scaleY = .5;
+			  me.block.mc.addImage(bitmap);
+			  me.block.vars[index] = "\""+dir+"\"";
+			  updateCode();
+			}
+		
 			function createListener(){
-				  btn.addEventListener("keyup", function(k){inputHandler(k,me)});
+				 // console.log(me.options);
+			
+				  if(browse){
+					  btn.addEventListener("change", dispImage);
+				  }else{
+					btn.addEventListener("keyup", function(k){inputHandler(k,me)});
+				  }
 			}
 			this.createListener = createListener;
 			
 			function removeListener(){
+				  stage.removeChild(me.options);
 				  btn.removeEventListener("keyup", function(k){inputHandler(k,me)});
+				  if(browse){
+					  
+				  }else{
+					btn.addEventListener("keyup", function(k){inputHandler(k,me)});
+				  }
 			}
 			this.removeListener = removeListener;
 			
 			function setInput(val){
 				  if(typeof val !== 'object'){
-					  btn.value = val;
+					  if(!btn.browse){
+						btn.value = val;
+					  }
 				  }else{
 					  console.log("IS OBJECT");
 				  }
 			}
 			this.setInput = setInput;
-			
+		
 			createListener();
 			
 		}
@@ -1785,13 +1930,19 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				for (var j = 0; j < block.params.length; j++) {
 					var param = block.params[j];
 					if (param[2] === "string" || param[2] === "integer") {
-						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j);	
+						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block);	
 						if(block.vars[j]){
 							txtBox.setInput(block.vars[j]);
 						}
 						block.inputs[j] = txtBox;			
-						yShift += 58;
+					}else if(param[2] === "browse"){
+						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, true, block);	
+						if(block.vars[j]){
+							txtBox.setInput(block.vars[j]);
+						}
+						block.inputs[j] = txtBox;			
 					}
+					yShift += 65;
 				}
 				tempBlocks = new Array();
 				//window.addEventListener("keyup", handleNonOptionalChecks);
@@ -1868,8 +2019,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				func_title.text = "Sentence";
 				func_desc.text = "A list of letters.";
 				//defaultValue, optional, x, y, size, width, index
-				var varName = new TextBox("Variable Name", true, 1140, 306 , 38, 390, 0);
-				var varValue = new TextBox("Value", true, 1140, 366 , 38, 390, 0);
+				var varName = new TextBox("Variable Name", true, 1140, 306 , 38, 390, 0, false, null);
+				var varValue = new TextBox("Value", true, 1140, 371 , 38, 390, 0, false, null);
 				varValue.btn.value = defaultVal;
 				var text = new createjs.Text("Create a variable by naming it.", "25px Verdana", "#000000");
 				text.x = 1140;
@@ -1885,7 +2036,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.primitivePrompt = primitivePrompt;
 		
-		
 		function savePrimitive(){
 			if(inputClean[0]){
 				if(inputClean[0].btn.value!==""){
@@ -1897,6 +2047,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					block.vars[1] = inputClean[1].btn.value;
 					variables.push(block);
 					focusBlock = block;
+					block.mc.title.text = "\""+block.vars[0]+"\"";
 					focusMC.block.isVar.visible = true;
 				}else{
 					for(var i=0; i<inputClean.length; i++){
@@ -2117,6 +2268,43 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		SocialMediaData.prototype.constructor = SocialMediaData;  
 		funcMap.set("SocialMediaData", SocialMediaData);
 		
+		
+		
+		var Image = function (mc) {
+			Block.apply(this,arguments);
+			this.name = "Image";
+			this.desc = "A picture.";
+			this.type = "search";
+			this.params = [
+				["Browse", true, "browse"],
+				["URL", true, "string"],
+			    ["CameraIcon", true, "integer"]
+			];
+			
+			this.codeBegin = "Import[";
+			this.codeEnd = "];\n%";
+			this.numParams(this.params.length);
+			function compile(){
+				if(getHashedState(this.vars)===10){
+					//ignoreID
+					var vars = this.vars;
+					vars[2] = null;
+					return iterative_compile(this.vars,this.params);
+				}
+				if(getHashedState(this.vars)===30){
+					var vars = this.vars.slice(0); 
+					var params = [[false,false,"list"],[false,false,"string"]];
+					vars[0] = "{\""+vars[0]+"\","+vars[2]+"}";
+					vars[2] = null;
+					return iterative_compile(vars,params);
+				}
+				return iterative_compile(this.vars,this.params);
+			}
+			this.compile = compile;
+		}
+		Image.prototype = Block.prototype;       
+		Image.prototype.constructor = Image;  
+		funcMap.set("Image", Image);
 		/*
 		var WikipediaData = function (mc) {
 			Block.apply(this,arguments);
@@ -2154,7 +2342,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		funcMap.set("WikipediaData", WikipediaData);
 		*/
 		
-		var searchLibs = new Array(new WolframAlpha(),new SocialMediaData());
+		var searchLibs = new Array(new WolframAlpha(),new SocialMediaData(), new Image());
 		function getSearchLib(){
 			return searchLibs;
 		}
