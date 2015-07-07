@@ -1356,20 +1356,20 @@ p.frameBounds = [rect, rect];
 			}
 		}
 		
-		
+		var imageHolder= null;
 		function addImage(bitmap){
 			yScale+=4.6;
 			bitmap.x = 100;
 			bitmap.y = (-yScale*64)/2+85;
 			bitmap.alpha = 0;
+			imageHolder = bitmap;
 			me.addChild(bitmap);
 			
 			createjs.Tween.get(this.block)
 		         .to({scaleY:yScale}, 150)
 		         .call(handleComplete);
 			createjs.Tween.get(bitmap)
-		         .to({alpha:1}, 150)
-		         .call(handleComplete);
+		         .to({alpha:1}, 150);
 			createjs.Tween.get(this.title)
 		         .to({y:(-yScale*64)/2+40}, 150);
 		}
@@ -1377,9 +1377,24 @@ p.frameBounds = [rect, rect];
 		
 		
 		function removeImage(){
-			console.log("must remove image");
+			yScale-=4.6;
+			if(imageHolder){
+				createjs.Tween.get(imageHolder)
+		         .to({alpha:0}, 150)
+		         .call(handleComplete);
+			}
+			function handleComplete(){
+				me.removeChild(imageHolder);
+				imageHolder = null;
+				createjs.Tween.get(me.block)
+		         .to({scaleY:yScale}, 150);
+				createjs.Tween.get(me.title)
+		         .to({y:(-yScale*64)/2+47}, 150);
+			}
+			
+				 
 		}
-		this.addImage = addImage;
+		this.removeImage = removeImage;
 	}
 
 	// actions tween:
@@ -1850,8 +1865,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						stage.removeChild(me.options);
 						document.body.removeChild(me.btn);
 						e.currentTarget.removeAllEventListeners();
-						me.block.mc.removeImage(bitmap);
-						me = new TextBox(defaultValue, optional, x, y, size, width, index, browse, block);
+						me.block.mc.removeImage();
+						var textB = new TextBox(defaultValue, optional, x, y, size, width, index, browse, block);
+						block.inputs[me.index]= textB;
+						me = textB;
 					});
 					
 				}else{
@@ -1870,7 +1887,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 			function dispImage(k){
 			  var dir = k.currentTarget.value;
-			  console.log(dir);
+			  //console.log(dir);
 			  //var bitmap = new createjs.Bitmap("http://i.imgur.com/BfsytQc.jpg");
 			
 			  //console.log(bitmap);
@@ -1921,8 +1938,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		
 		function generateInput(block,origin) {
-				console.log(block.inputs[0]);
-				console.log(block.inputs[0]);
+				//console.log(block.inputs[0]);
+				//console.log(block.inputs[0]);
 				if(block.inputs[0]){
 					return;
 				}
@@ -2129,10 +2146,12 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				focusLib = null;
 			}
 			if(focusBlock){
-				console.log("FOCUS BLOCK ACTIVE");
+				//console.log("FOCUS BLOCK ACTIVE");
 				for(var i=0; i<focusBlock.inputs.length; i++){
 					if(focusBlock.inputs[i]){
 						focusBlock.inputs[i].removeListener(); 
+						console.log("IMPORT");
+						console.log(focusBlock.inputs[i].btn);
 						document.body.removeChild(focusBlock.inputs[i].btn);
 					}
 				}
