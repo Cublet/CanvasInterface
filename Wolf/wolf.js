@@ -60,6 +60,40 @@ lib.properties = {
 
 
 
+(lib.yellow_btn = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+	this.frame_1 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f().s("#9C6401").ss(1,1,1).p("EgiNgE1MBEbAAAIAAJrMhEbAAAg");
+	this.shape.setTransform(219.1,31);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#DE8E01").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_1.setTransform(219.1,31);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#F8AE2E").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_2.setTransform(219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
+p.frameBounds = [rect, rect];
+
+
 (lib.variable_btn = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -911,19 +945,21 @@ p.frameBounds = [rect];
 	// timeline functions:
 	this.frame_0 = function() {
 		this.stop();
-	}
-	this.frame_1 = function() {
-		this.stop();
+		var me = this;
+		function go(frame){
+			me.gotoAndStop(frame);
+		}
+		this.go = go;
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(3));
 
 	// Layer 4
 	this.isVar = new lib.isVarBorder();
 	this.isVar.setTransform(222.5,32.5,1,1,0,0,0,222.5,32.5);
 
-	this.timeline.addTween(cjs.Tween.get(this.isVar).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this.isVar).wait(3));
 
 	// Layer 3
 	this.shape = new cjs.Shape();
@@ -938,18 +974,22 @@ p.frameBounds = [rect];
 	this.shape_2.graphics.f("#730472").s().p("EgirAE2IAAprMBFWAAAIAAJrg");
 	this.shape_2.setTransform(223,32);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape_1}]},1).wait(1));
+	this.shape_3 = new cjs.Shape();
+	this.shape_3.graphics.f("#E38D00").s().p("EgirAE2IAAprMBFWAAAIAAJrg");
+	this.shape_3.setTransform(223,32);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape_1}]},1).to({state:[{t:this.shape_3}]},1).wait(1));
 
 	// Layer 2
 	this.highlight = new lib.glower();
 	this.highlight.setTransform(0,1.6,1.021,1.02,0,0,0,0,1.5);
 	this.highlight.shadow = new cjs.Shadow("rgba(0,204,255,1)",0,0,20);
 
-	this.timeline.addTween(cjs.Tween.get(this.highlight).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this.highlight).wait(3));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-10,-10,469,88);
-p.frameBounds = [rect, rect];
+p.frameBounds = [rect, rect, rect];
 
 
 (lib.searchLib = function(mode,startPosition,loop) {
@@ -1236,7 +1276,7 @@ p.frameBounds = [rect];
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(3));
 
 	// Layer 3
 	this.title = new cjs.Text("Title", "bold 25px 'Verdana'", "#FFFFFF");
@@ -1246,7 +1286,7 @@ p.frameBounds = [rect];
 	this.title.lineWidth = 428;
 	this.title.setTransform(216.1,14.9);
 
-	this.timeline.addTween(cjs.Tween.get(this.title).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this.title).wait(3));
 
 	// Layer 1
 	this.block = new lib.blue_btn();
@@ -1255,11 +1295,14 @@ p.frameBounds = [rect];
 	this.block2 = new lib.purple_btn();
 	this.block2.setTransform(219.1,31,1,1,0,0,0,219.1,31);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.block}]}).to({state:[{t:this.block2}]},1).wait(1));
+	this.block3 = new lib.yellow_btn();
+	this.block3.setTransform(219.1,31,1,1,0,0,0,219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.block}]}).to({state:[{t:this.block2}]},1).to({state:[{t:this.block3}]},1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-0.5,-0.5,439.2,63);
-p.frameBounds = [rect, rect];
+p.frameBounds = [rect, rect, rect];
 
 
 (lib.libBlock = function(mode,startPosition,loop) {
@@ -1284,6 +1327,33 @@ p.frameBounds = [rect, rect];
 		var tempVal = "nothing";
 		var me = this;
 		this.chill = false;
+		
+		
+		var top = new createjs.Shape();
+		top.graphics.beginFill("#ff0000").drawRect(0, -80, 430, 80);
+		top.alpha = .1;
+		me.addChild(top);
+		me.top = top;
+		
+		var bottom = new createjs.Shape();
+		bottom.graphics.beginFill("#ff0000").drawRect(0, 64, 430, 80);
+		bottom.alpha = .1;
+		me.addChild(bottom);
+		me.bottom = bottom;
+		
+		function removeHit(){
+			me.removeChild(me.bottom);
+			me.removeChild(me.top);
+			me.bottom = null;
+			me.top = null;
+		}
+		this.removeHit = removeHit;
+		
+		function checkForSnap(others){
+			
+		}
+		this.checkForSnap = checkForSnap;
+		
 		function addBlock(type,val, bindedBlock, bindedIndex){
 			tempVal = val;
 			yScale+=1.4;
@@ -1292,32 +1362,36 @@ p.frameBounds = [rect, rect];
 		         .call(handleComplete);
 			createjs.Tween.get(this.title)
 		         .to({y:(-yScale*64)/2+40}, 150);
-				 
+			top.y = (-yScale*64)/2;
 			var myMC = new lib.libBlock();
 			var bounds = myMC.frameBounds[0];
 			myMC.x = 180;
 			var h = bounds.height;
 			myMC.y = 50 - bounds.height/2 + stacker*bounds.height/2;
 			myMC.block.scaleX = .75;
-			myMC.block.gotoAndStop(0);
+			
 			myMC.type.text = tempVal;
 			myMC.block.highlight.visible = false;
 			myMC.bindedBlock = bindedBlock;
 			myMC.bindedIndex = bindedIndex;
-			
 			this.blockStack.push(myMC);
 			stacker = this.blockStack.length;
-			
+			//console.log(myMC);
+			//window.myMC = myMC;
 			var midPoint = Math.round(this.blockStack.length/2);
 			updateSubPos();
 		    function handleComplete() {
 				this.parent.addChild(myMC);
 				myMC.type = "sentence";
 				myMC.alpha = 0;
+				
 				createjs.Tween.get(myMC)
-		         .to({alpha:1}, 150);
+		         .to({alpha:1}, 150).call(finished);
 		    }
-			
+			function finished(){
+				myMC.removeHit();
+				myMC.block.gotoAndStop(1);
+			}
 		}
 		this.addBlock = addBlock;
 		
@@ -1508,13 +1582,14 @@ p.frameBounds = [rect];
 
 	// timeline functions:
 	this.frame_0 = function() {
-		var funcLib = exportRoot.getSearchLib();
-		
+		var funcLib = exportRoot.getGraphicsLib();
+		var others = exportRoot.getAllBlocks();
 		for(var i=0; i<funcLib.length; i++){
 			var btn = new lib.libFunc();
 			btn.addEventListener("mouseover", highlight_on);
 			btn.addEventListener("rollout", highlight_off);
 			btn.addEventListener("mousedown", pressed);
+			btn.gotoAndStop(2);
 			btn.x = 28;
 			btn.y = 320+i*70;
 			//console.log(funcLib[i]);
@@ -1535,14 +1610,14 @@ p.frameBounds = [rect];
 		
 		function highlight_on(event){
 			//console.log("fuck");
-			event.currentTarget.block.gotoAndStop(1);
+			event.currentTarget.block3.gotoAndStop(1);
 			desc.text = event.currentTarget.desc;
 			
 		}
 		
 		function highlight_off(event){
 			//console.log("off");
-			event.currentTarget.block.gotoAndStop(0);
+			event.currentTarget.block3.gotoAndStop(0);
 		}
 		
 		
@@ -1567,14 +1642,15 @@ p.frameBounds = [rect];
 		    console.log("pressed");
 			stage.addEventListener("stagemousemove", dragged);
 			stage.addEventListener("stagemouseup", released);
-			
 		}
 		
 		function dragged(evt){
 			//console.log("dragging");
 			//console.log("offX: "+offX+" offY:"+offY);
+			focusMC.block.gotoAndStop(2);
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
+			focusMC.checkForSnap(others);
 		}
 		
 		function released (evt){
@@ -2091,7 +2167,27 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		
 		
-		
+		var BlockInput = function (defaultValue, optional, type, yShift, block, index){
+			this.defaultValue = defaultValue;
+			this.optional = optional;
+			this.index = index;
+			this.type = type;
+			this.yShift = yShift;
+			this.block = block;
+			this.index = index;
+			var button = new lib.libFunc();
+			button.x = 1100;
+			button.y = 306+yShift;
+			button.alpha = .5;
+			console.log(type);
+			button.title.text = type;
+			stage.addChild(button);
+			function removeListener(){
+				 stage.removeChild(button);
+			}
+			this.removeListener = removeListener;
+			
+		}
 		
 		var TextBox = function (defaultValue, optional, x, y, size, width, index, browse, block) {
 			this.defaultValue = defaultValue;
@@ -2184,6 +2280,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 			function removeListener(){
 				  stage.removeChild(me.options);
+				  document.body.removeChild(me.btn);
 				  btn.removeEventListener("keyup", function(k){inputHandler(k,me)});
 				  if(browse){
 					  
@@ -2205,7 +2302,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.setInput = setInput;
 		
 			createListener();
-			
 		}
 		
 		
@@ -2223,18 +2319,26 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						if(block.vars[j]){
 							txtBox.setInput(block.vars[j]);
 						}
-						block.inputs[j] = txtBox;			
+						block.inputs[j] = txtBox;
+						yShift += 75;
 					}else if(param[2] === "browse"){
 						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, true, block);	
 						if(block.vars[j]){
 							txtBox.setInput(block.vars[j]);
 						}
-						block.inputs[j] = txtBox;			
+						block.inputs[j] = txtBox;
+						yShift += 75;
+					}else{
+						console.log("Time to be smart");
+						var txtBox = new BlockInput(param[0], param[1], param[2], yShift, block, j)
+						block.inputs[j] = txtBox;
+						yShift += 100;
 					}
-					yShift += 65;
+					
 				}
 				tempBlocks = new Array();
 				//window.addEventListener("keyup", handleNonOptionalChecks);
+				updateCode();
 		}
 		this.generateInput = generateInput;
 		
@@ -2379,27 +2483,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 			return ret;
 		}
-		function iterative_compile(vars,params){
+		this.getHashedState = getHashedState;
 		
-			var trim = false;
-			var output = "";
-			for (var i = 0; i < vars.length; i++) {
-				if (typeof vars[i] == "object") {
-					//TODO: recursively unfold nested blocks
-				} else if (vars[i]) {
-					trim = true;
-					if(params[i][2] === "string"){
-						output += "\"" + vars[i] + "\",";
-					}else{
-						output += "" + vars[i] + ",";
-					}
-				}
-			}
-			if (trim) {
-				output = output.substring(0, output.length - 1);
-			}
-			return output;
-		}
 		function compile(func) {
 			var output = func.codeBegin;
 			output+=func.compile();
@@ -2419,12 +2504,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 			if(focusBlock){
 				//console.log("FOCUS BLOCK ACTIVE");
+				console.log(focusBlock.inputs);
 				for(var i=0; i<focusBlock.inputs.length; i++){
 					if(focusBlock.inputs[i]){
 						focusBlock.inputs[i].removeListener(); 
-						console.log("IMPORT");
-						console.log(focusBlock.inputs[i].btn);
-						document.body.removeChild(focusBlock.inputs[i].btn);
 					}
 				}
 				focusBlock.mc.block.highlight.visible = false;
@@ -2455,6 +2538,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.loadBlockInfo = loadBlockInfo;
 		
+		
 		function includeJs(jsFilePath) {
 		    var js = document.createElement("script");
 		    js.type = "text/javascript";
@@ -2462,189 +2546,14 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		    document.head.appendChild(js);
 		}
 		includeJs("js/blocks.js");
-		//////////////////////////CODE BLOCKS
-		/*
-		var funcMap = new Map();
-		
-		var Block = function(mc){
-			this.root = true;
-			this.vars = [null,null];
-			this.focus = true;
-			this.mc = mc;
-			this.frame_color = 0;
-			this.numChildBlocks = 0;
-			this.varName = null;
-			function compile(){
-				return iterative_compile(this.vars,this.params);
-			}
-			this.compile = compile;
-			this.vars = [null, null];
-			
-			this.inputs = [null,null];
-			this.childMCs = [null,null]
-			
-			function numParams(integer){
-				this.vars = Array.apply(null, Array(integer));
-				this.inputs = Array.apply(null, Array(integer));
-				this.childMCs = Array.apply(null, Array(integer));
-			}
-			this.numParams = numParams;
-		}
-		
-		var Sentence = function (mc) {
-			Block.apply(this,arguments);
-			this.name = "Sentence";
-			this.desc = "A list of characters";
-			this.type = "primative";
-			this.frame_color = 1;
-			this.params = [
-				["name", true, "string"],
-				["value", true, "string"]
-			];
-			this.codeBegin = "";
-			this.codeEnd = "";
-			this.numParams(this.params.length);
-			function compile(){
-				return vars[1];
-			}
-			this.compile = compile;
-		}
-		Sentence.prototype = Block.prototype;       
-		Sentence.prototype.constructor = Sentence;  
-		funcMap.set("Sentence", Sentence);
 		
 		
-		
-		var WolframAlpha = function (mc) {
-			Block.apply(this,arguments);
-			this.name = "wolframAlpha";
-			this.desc = "Sends query to Wolfram|Alpha and imports the output.";
-			this.type = "search";
-			this.params = [
-				["query", false, "string"],
-				["format", true, "string"]
-			];
-			this.codeBegin = "WolframAlpha[";
-			this.codeEnd = "]";
-		}
-		WolframAlpha.prototype = Block.prototype;       
-		WolframAlpha.prototype.constructor = WolframAlpha;  
-		funcMap.set("wolframAlpha", WolframAlpha);
-		
-		
-		var SocialMediaData = function (mc) {
-			Block.apply(this,arguments);
-			this.name = "SocialMediaData";
-			this.desc = "gives the value of the specified property for the social media entity.";
-			this.type = "search";
-			this.params = [
-				["name", false, "string"],
-				["property", true, "string"],
-			    ["account_id", true, "integer"]
-			];
-			
-			this.codeBegin = "SocialMediaData[";
-			this.codeEnd = "]";
-			this.numParams(this.params.length);
-			function compile(){
-				if(getHashedState(this.vars)===10){
-					//ignoreID
-					var vars = this.vars;
-					vars[2] = null;
-					return iterative_compile(this.vars,this.params);
-				}
-				if(getHashedState(this.vars)===30){
-					var vars = this.vars.slice(0); 
-					var params = [[false,false,"list"],[false,false,"string"]];
-					vars[0] = "{\""+vars[0]+"\","+vars[2]+"}";
-					vars[2] = null;
-					return iterative_compile(vars,params);
-				}
-				return iterative_compile(this.vars,this.params);
-			}
-			this.compile = compile;
-		}
-		SocialMediaData.prototype = Block.prototype;       
-		SocialMediaData.prototype.constructor = SocialMediaData;  
-		funcMap.set("SocialMediaData", SocialMediaData);
-		
-		
-		
-		var Image = function (mc) {
-			Block.apply(this,arguments);
-			this.name = "Image";
-			this.desc = "A picture.";
-			this.type = "search";
-			this.params = [
-				["Browse", true, "browse"],
-				["URL", true, "string"],
-			    ["CameraIcon", true, "integer"]
-			];
-			
-			this.codeBegin = "Import[";
-			this.codeEnd = "];\n%";
-			this.numParams(this.params.length);
-			function compile(){
-				if(getHashedState(this.vars)===10){
-					//ignoreID
-					var vars = this.vars;
-					vars[2] = null;
-					return iterative_compile(this.vars,this.params);
-				}
-				if(getHashedState(this.vars)===30){
-					var vars = this.vars.slice(0); 
-					var params = [[false,false,"list"],[false,false,"string"]];
-					vars[0] = "{\""+vars[0]+"\","+vars[2]+"}";
-					vars[2] = null;
-					return iterative_compile(vars,params);
-				}
-				return iterative_compile(this.vars,this.params);
-			}
-			this.compile = compile;
-		}
-		Image.prototype = Block.prototype;       
-		Image.prototype.constructor = Image;  
-		funcMap.set("Image", Image);
-		/*
-		var WikipediaData = function (mc) {
-			Block.apply(this,arguments);
-			this.name = "WikipediaData";
-			this.desc = "Scrapes Wikipedia using the parameters given.";
-			this.type = "search";
-			this.params = [
-				["article", false, "string"],
-				["property", true, "string"],
-			    ["options", true, "string"]
-			];
-			this.codeBegin = "SocialMediaData[";
-			this.codeEnd = "]";
-			this.numParams(this.params.length);
-			function compile(){
-				if(getHashedState(this.vars)===10){
-					//ignoreID
-					var vars = this.vars;
-					vars[2] = null;
-					return iterative_compile(this.vars,this.params);
-				}
-				if(getHashedState(this.vars)===30){
-					var vars = this.vars;
-					var params = [[false,false,"list"],[false,false,"string"]];
-					vars[0] = "{\""+vars[0]+"\","+vars[2]+"}";
-					vars[2] = null;
-					return iterative_compile(vars,params);
-				}
-				return iterative_compile(this.vars,this.params);
-			}
-			this.compile = compile;
-		}
-		WikipediaData.prototype = Block.prototype;       
-		WikipediaData.prototype.constructor = WikipediaData;  
-		funcMap.set("WikipediaData", WikipediaData);
-		*/
 		var searchLibs;
+		var graphicsLibs;
 		setTimeout(function(){ 
 			searchLibs = new Array(new WolframAlpha(),new SocialMediaData(), new Image());
-		
+			graphicsLibs = new Array(new Blur());
+			
 		}, 300);
 		function getSearchLib(){
 			return searchLibs;
@@ -2655,6 +2564,16 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return variables;
 		}
 		this.getVariables = getVariables;
+		
+		function getGraphicsLib(){
+			return graphicsLibs;
+		}
+		this.getGraphicsLib = getGraphicsLib;
+		
+		function getAllBlocks(){
+			return funcBlocks;
+		}
+		this.getAllBlocks = getAllBlocks;
 	}
 
 	// actions tween:

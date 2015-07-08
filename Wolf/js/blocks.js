@@ -1,3 +1,25 @@
+function iterative_compile(vars,params){
+
+	var trim = false;
+	var output = "";
+	for (var i = 0; i < vars.length; i++) {
+		if (typeof vars[i] == "object") {
+			//TODO: recursively unfold nested blocks
+		} else if (vars[i]) {
+			trim = true;
+			if(params[i][2] === "string"){
+				output += "\"" + vars[i] + "\",";
+			}else{
+				output += "" + vars[i] + ",";
+			}
+		}
+	}
+	if (trim) {
+		output = output.substring(0, output.length - 1);
+	}
+	return output;
+}
+
 //////////////////////////CODE BLOCKS
 var funcMap = new Map();
 
@@ -117,22 +139,17 @@ var Image = function (mc) {
 	];
 	
 	this.codeBegin = "Import[";
-	this.codeEnd = "];\n%";
+	this.codeEnd = "]%";
 	this.numParams(this.params.length);
 	function compile(){
-		if(getHashedState(this.vars)===10){
-			//ignoreID
-			var vars = this.vars;
-			vars[2] = null;
-			return iterative_compile(this.vars,this.params);
+		//console.log("Hashed: "+getHashedState(this.vars));
+		var hash = getHashedState(this.vars);
+		if(hash === 2 && this.inputs[1] && this.inputs[2]){
+			this.inputs[1].btn.readOnly = true;
+			this.inputs[2].btn.readOnly = true;
+
 		}
-		if(getHashedState(this.vars)===30){
-			var vars = this.vars.slice(0); 
-			var params = [[false,false,"list"],[false,false,"string"]];
-			vars[0] = "{\""+vars[0]+"\","+vars[2]+"}";
-			vars[2] = null;
-			return iterative_compile(vars,params);
-		}
+		
 		return iterative_compile(this.vars,this.params);
 	}
 	this.compile = compile;
@@ -176,3 +193,28 @@ WikipediaData.prototype = Block.prototype;
 WikipediaData.prototype.constructor = WikipediaData;  
 funcMap.set("WikipediaData", WikipediaData);
 */
+var getHashedState = exportRoot.getHashedState;
+
+//GRAPHICS LIBS
+var Blur = function (mc) {
+	Block.apply(this,arguments);
+	this.name = "Blur";
+	this.desc = "Blurs an Image";
+	this.type = "draw";
+	this.frame_color = 2;
+	this.params = [
+		["Image", false, "Image"],
+		["Strength", true, "integer"]
+	];
+	
+	this.codeBegin = "Blur[";
+	this.codeEnd = "]";
+	this.numParams(this.params.length);
+	function compile(){
+		return iterative_compile(this.vars,this.params);
+	}
+	this.compile = compile;
+}
+Blur.prototype = Block.prototype;       
+Blur.prototype.constructor = Blur;  
+funcMap.set("Blur", Blur);
