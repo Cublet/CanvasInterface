@@ -812,13 +812,27 @@ p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
 p.frameBounds = [rect, rect];
 
 
+(lib.Arrow = function() {
+	this.initialize();
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#FF3300").s().p("AkDgxIBkAAIABigIE/ACIgBCgIBkAAIkEEBg");
+	this.shape.setTransform(0,-19.2);
+
+	this.addChild(this.shape);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(-26,-40.3,52,42.1);
+p.frameBounds = [rect];
+
+
 (lib.ContentVar = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
 	this.frame_0 = function() {
 		var funcLib = exportRoot.getVariables();
-		
+		var others = exportRoot.getAllBlocks();
 		for(var i=0; i<funcLib.length; i++){
 			var btn = new lib.libFunc();
 			btn.gotoAndStop(funcLib[i].frame_color);
@@ -827,7 +841,6 @@ p.frameBounds = [rect, rect];
 			btn.addEventListener("mousedown", pressed);
 			btn.x = 28;
 			btn.y = 290+i*70;
-			//console.log(funcLib[i]);
 			btn.desc = funcLib[i].vars[1];
 			btn.func = funcLib[i];
 			btn.title.text = funcLib[i].vars[0];
@@ -842,26 +855,18 @@ p.frameBounds = [rect, rect];
 		
 		
 		var desc = this.desc;
-		//console.log(desc);
 		function highlight_on(event){
-			//console.log("fuck");
 			event.currentTarget.block2.gotoAndStop(1);
-			//console.log(desc);
-			//console.log(event.currentTarget.desc);
 			desc.text = event.currentTarget.desc;
 			
 		}
 		
 		function highlight_off(event){
-			//console.log("off");
 			event.currentTarget.block2.gotoAndStop(0);
 		}
 		
 		
 		function pressed(evt){
-			//var funcLib = exportRoot.searchLibs;
-			//console.log(funcLib);
-			//console.log(evt);
 			var button = evt.currentTarget;
 		
 			var myMC = new lib.libBlock();
@@ -886,19 +891,15 @@ p.frameBounds = [rect, rect];
 		}
 		
 		function dragged(evt){
-			//console.log("dragging");
-			//console.log("offX: "+offX+" offY:"+offY);
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
+			focusMC.checkForSnap(others);
 		}
 		
 		function released (evt){
-			//console.log("up");
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			//console.log(focusMC.func.name);
-			//exportRoot.addFunc(focusMC.func.name, focusMC);
 		}
 	}
 
@@ -1097,7 +1098,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 	// timeline functions:
 	this.frame_0 = function() {
 		var funcLib = exportRoot.getSearchLib();
-		
+		var others = exportRoot.getAllBlocks();
 		for(var i=0; i<funcLib.length; i++){
 			var btn = new lib.libFunc();
 			btn.addEventListener("mouseover", highlight_on);
@@ -1105,7 +1106,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 			btn.addEventListener("mousedown", pressed);
 			btn.x = 28;
 			btn.y = 320+i*70;
-			//console.log(funcLib[i]);
 			btn.desc = funcLib[i].desc;
 			btn.func = funcLib[i];
 			btn.title.text = funcLib[i].name;
@@ -1122,24 +1122,18 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 		var desc = this.description;
 		
 		function highlight_on(event){
-			//console.log("fuck");
 			event.currentTarget.block.gotoAndStop(1);
 			desc.text = event.currentTarget.desc;
 			
 		}
 		
 		function highlight_off(event){
-			//console.log("off");
 			event.currentTarget.block.gotoAndStop(0);
 		}
 		
 		
 		function pressed(evt){
-			//var funcLib = exportRoot.searchLibs;
-			//console.log(funcLib);
-			//console.log(evt);
 			var button = evt.currentTarget;
-			console.log(button.func);
 			var myMC = new lib.libBlock();
 			myMC.x=746;
 			myMC.y=234;
@@ -1152,26 +1146,22 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 		    focusMC.y = evt.stageY-evt.localY;
 			offX = Number(evt.localX);
 			offY = Number(evt.localY);
-		    console.log("pressed");
 			stage.addEventListener("stagemousemove", dragged);
 			stage.addEventListener("stagemouseup", released);
 			
 		}
 		
 		function dragged(evt){
-			//console.log("dragging");
-			//console.log("offX: "+offX+" offY:"+offY);
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
+			focusMC.checkForSnap(others);
 		}
 		
 		function released (evt){
-			//console.log("up");
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
 			focusMC.shrink();
-			console.log(focusMC.func.name);
 			exportRoot.addFunc(focusMC.func.name, focusMC);
 		}
 	}
@@ -1313,6 +1303,7 @@ p.frameBounds = [rect, rect, rect];
 		this.stop();
 		this.block.isVar.visible = false;
 		var yScale = 1;
+		var hideHitBoxes = true;
 		function shrink(){
 		    createjs.Tween.get(this.block)
 		         .to({scaleX:.85}, 150)
@@ -1327,20 +1318,30 @@ p.frameBounds = [rect, rect, rect];
 		var tempVal = "nothing";
 		var me = this;
 		this.chill = false;
-		
+		var arrow = this.arrow;
+		arrow.visible = false;
 		
 		var top = new createjs.Shape();
-		top.graphics.beginFill("#ff0000").drawRect(0, -80, 430, 80);
+		top.graphics.beginFill("#ff0000").drawRect(0, 0, 230, 80);
 		top.alpha = .1;
+		top.x = 100;
+		top.y = -80;
 		me.addChild(top);
 		me.top = top;
 		
+		
 		var bottom = new createjs.Shape();
-		bottom.graphics.beginFill("#ff0000").drawRect(0, 64, 430, 80);
+		bottom.graphics.beginFill("#ff0000").drawRect(0, 0, 230, 80);
 		bottom.alpha = .1;
+		bottom.x = 100;
+		bottom.y = 64;
 		me.addChild(bottom);
 		me.bottom = bottom;
 		
+		if(hideHitBoxes){
+			top.alpha = 0;
+			bottom.alpha = 0;
+		}
 		function removeHit(){
 			me.removeChild(me.bottom);
 			me.removeChild(me.top);
@@ -1349,8 +1350,55 @@ p.frameBounds = [rect, rect, rect];
 		}
 		this.removeHit = removeHit;
 		
-		function checkForSnap(others){
+		function checkCollision(x1,y1,x2,y2){
+			var width = 230;
+			var height = 80;
+			//console.log("{x1:"+x1+", y1:"+y1+"}   {x2:"+x2+", y2:"+y2+"}");
 			
+			return x1 < x2 + width && x1 + width > x2 && y1 < y2 + height && y1 + height > y2;
+		}
+		
+		function checkForSnap(others){
+			for(var i=0; i<others.length; i++){
+				var func = me.func;
+				if(!func){
+					console.log("no Func");
+					return;
+				}
+				for(var j=0; j<func.params.length; j++){
+					var param = func.params[j][2];
+					//console.log("compare: "+param+" -> "+others[i].name);
+					if(param === others[i].name){
+						var otherMC = others[i].mc.bottom;
+						//console.log(otherMC);
+						//console.log("{x1:"+otherMC.x+", y1:"+otherMC.y+"}   {x2:"+top.x+", y2:"+top.y+"}");
+						var x1 = otherMC.x+others[i].mc.x;
+						var y1 = otherMC.y+others[i].mc.y;
+						var x2 = top.x+me.x;
+						var y2 = top.y+me.y;
+						if(checkCollision(x1,y1,x2,y2)){
+							if(!hideHitBoxes){
+								otherMC.alpha = .5;
+								top.alpha = .5;
+							}
+							arrow.visible = true
+							var yDist = (y2+76)-y1;
+							var xDist = x2-x1;
+				
+							arrow.scaleY = (yDist/76)*2;
+							arrow.skewX = -(xDist)/4;
+						}else{
+							arrow.visible = false;
+							if(!hideHitBoxes){
+								otherMC.alpha = .1;
+								top.alpha = .1;
+							}
+						}
+						//console.log("other: "+otherMC.getBounds());
+						//console.log("me: "+top.getBounds());
+					}
+				}
+			}
 		}
 		this.checkForSnap = checkForSnap;
 		
@@ -1362,7 +1410,13 @@ p.frameBounds = [rect, rect, rect];
 		         .call(handleComplete);
 			createjs.Tween.get(this.title)
 		         .to({y:(-yScale*64)/2+40}, 150);
-			top.y = (-yScale*64)/2;
+				 
+			if(me.top){
+				me.top.y = (-yScale*64)/2+25;
+				me.bottom.y = (yScale*64)/2-30;
+				
+			}
+			
 			var myMC = new lib.libBlock();
 			var bounds = myMC.frameBounds[0];
 			myMC.x = 180;
@@ -1376,8 +1430,6 @@ p.frameBounds = [rect, rect, rect];
 			myMC.bindedIndex = bindedIndex;
 			this.blockStack.push(myMC);
 			stacker = this.blockStack.length;
-			//console.log(myMC);
-			//window.myMC = myMC;
 			var midPoint = Math.round(this.blockStack.length/2);
 			updateSubPos();
 		    function handleComplete() {
@@ -1460,8 +1512,6 @@ p.frameBounds = [rect, rect, rect];
 		
 		this.addEventListener("click", focusOnMe);
 		function focusOnMe(event){
-		
-			
 			if(me.chill){
 				me.chill = false;
 				return;
@@ -1470,11 +1520,11 @@ p.frameBounds = [rect, rect, rect];
 			me.parent.chill = true;
 			var func = exportRoot.getFuncFromMC(event.currentTarget);
 			if(func){
-				console.log("loading func");
-				console.log(func);
+				//console.log("loading func");
+				//console.log(func);
 				exportRoot.loadBlockInfo(func);
 			}else if(me.type){
-				console.log("loading prim");
+				//console.log("loading prim");
 				exportRoot.primitivePrompt(me.type,me.title.text,event.currentTarget);
 			}
 		}
@@ -1495,6 +1545,12 @@ p.frameBounds = [rect, rect, rect];
 		         .to({alpha:1}, 150);
 			createjs.Tween.get(this.title)
 		         .to({y:(-yScale*64)/2+40}, 150);
+				 
+			if(me.top){
+				me.top.y = (-yScale*64)/2+25;
+				me.bottom.y = (yScale*64)/2-30;
+				
+			}
 		}
 		this.addImage = addImage;
 		
@@ -1513,15 +1569,19 @@ p.frameBounds = [rect, rect, rect];
 		         .to({scaleY:yScale}, 150);
 				createjs.Tween.get(me.title)
 		         .to({y:(-yScale*64)/2+47}, 150);
-			}
-			
-				 
+			}	 
 		}
 		this.removeImage = removeImage;
 	}
 
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
+
+	// Layer 2
+	this.arrow = new lib.Arrow();
+	this.arrow.setTransform(218.1,-5.9,1.808,1.808,0,0,0,0.6,0);
+
+	this.timeline.addTween(cjs.Tween.get(this.arrow).wait(1));
 
 	// Layer 4
 	this.shape = new cjs.Shape();
@@ -1554,7 +1614,7 @@ p.frameBounds = [rect, rect, rect];
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.block},{t:this.type}]}).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(-145,-12,601,88);
+p.nominalBounds = rect = new cjs.Rectangle(-145,-78.8,601,154.8);
 p.frameBounds = [rect];
 
 
@@ -2050,7 +2110,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(0,0,1,89);
-p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9,89), new cjs.Rectangle(0,0,61.4,89), new cjs.Rectangle(0,0,226.5,89), new cjs.Rectangle(0,0,481.9,89), new cjs.Rectangle(0,0,528.4,89), new cjs.Rectangle(0,0,545.5,89), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,-0.5,549.9,91.2), new cjs.Rectangle(0,-2.2,549.9,98.6), new cjs.Rectangle(0,-5.6,549.9,113.5), new cjs.Rectangle(0,-11.7,549.9,140), new cjs.Rectangle(0,-22.9,549.9,188.2), new cjs.Rectangle(0,-48,549.9,296.9), new cjs.Rectangle(0,-135.1,549.9,674.2), new cjs.Rectangle(0,-160.1,549.9,782.2), new cjs.Rectangle(0,-170,549.9,825.6), new cjs.Rectangle(0,-175.1,549.9,847.1), new cjs.Rectangle(0,-177.4,549.9,857.2), rect=new cjs.Rectangle(0,-178,549.9,860), rect, new cjs.Rectangle(0,-176.1,549.9,852.9), new cjs.Rectangle(0,-169.4,549.9,823.8), new cjs.Rectangle(0,-149.8,549.9,738.7), new cjs.Rectangle(0,-39,549.9,258.5), new cjs.Rectangle(0,-10,549.9,132.7), new cjs.Rectangle(0,-1.9,549.9,97.3), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,0,440.1,89), new cjs.Rectangle(0,0,330.3,89), new cjs.Rectangle(0,0,220.6,89), new cjs.Rectangle(0,0,110.8,89), new cjs.Rectangle(0,0,1,89)];
+p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9,89), new cjs.Rectangle(0,0,61.4,89), new cjs.Rectangle(0,0,226.4,89), new cjs.Rectangle(0,0,481.7,89), new cjs.Rectangle(0,0,528.3,89), new cjs.Rectangle(0,0,545.5,89), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,-0.5,549.9,91.2), new cjs.Rectangle(0,-2.2,549.9,98.6), new cjs.Rectangle(0,-5.6,549.9,113.5), new cjs.Rectangle(0,-11.7,549.9,140), new cjs.Rectangle(0,-22.9,549.9,188.2), new cjs.Rectangle(0,-48,549.9,296.9), new cjs.Rectangle(0,-135.1,549.9,674.2), new cjs.Rectangle(0,-160.1,549.9,782.2), new cjs.Rectangle(0,-170,549.9,825.6), new cjs.Rectangle(0,-175.1,549.9,847.1), new cjs.Rectangle(0,-177.4,549.9,857.2), rect=new cjs.Rectangle(0,-178,549.9,860), rect, new cjs.Rectangle(0,-176.1,549.9,852.9), new cjs.Rectangle(0,-169.4,549.9,823.8), new cjs.Rectangle(0,-149.8,549.9,738.7), new cjs.Rectangle(0,-39,549.9,258.5), new cjs.Rectangle(0,-10,549.9,132.7), new cjs.Rectangle(0,-1.9,549.9,97.3), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,0,440.1,89), new cjs.Rectangle(0,0,330.3,89), new cjs.Rectangle(0,0,220.6,89), new cjs.Rectangle(0,0,110.8,89), new cjs.Rectangle(0,0,1,89)];
 
 
 // stage content:
@@ -2179,7 +2239,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			button.x = 1100;
 			button.y = 306+yShift;
 			button.alpha = .5;
-			console.log(type);
 			button.title.text = type;
 			stage.addChild(button);
 			function removeListener(){
@@ -2255,10 +2314,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 			function dispImage(k){
 			  var dir = k.currentTarget.value;
-			  //console.log(dir);
-			  //var bitmap = new createjs.Bitmap("http://i.imgur.com/BfsytQc.jpg");
-			
-			  //console.log(bitmap);
 			  var bitmap = new lib.JASON();
 			  bitmap.scaleX = .5;
 			  bitmap.scaleY = .5;
@@ -2268,8 +2323,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 		
 			function createListener(){
-				 // console.log(me.options);
-			
+		
 				  if(browse){
 					  btn.addEventListener("change", dispImage);
 				  }else{
@@ -2306,8 +2360,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		
 		function generateInput(block,origin) {
-				//console.log(block.inputs[0]);
-				//console.log(block.inputs[0]);
+			
 				if(block.inputs[0]){
 					return;
 				}
@@ -2503,8 +2556,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				focusLib = null;
 			}
 			if(focusBlock){
-				//console.log("FOCUS BLOCK ACTIVE");
-				console.log(focusBlock.inputs);
 				for(var i=0; i<focusBlock.inputs.length; i++){
 					if(focusBlock.inputs[i]){
 						focusBlock.inputs[i].removeListener(); 
