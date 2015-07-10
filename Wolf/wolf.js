@@ -1328,6 +1328,11 @@ p.frameBounds = [rect, rect, rect];
 		var focusedBlock;
 		var focusedBlockInputIndex;
 		var focusedBlockIndex;
+		
+		function getYScale(){
+			return yScale;
+		}
+		this.getYScale = getYScale;
 		function shrink(){
 			
 			if(!destX || !destY){
@@ -1390,6 +1395,7 @@ p.frameBounds = [rect, rect, rect];
 		bottom.y = 64;
 		me.addChild(bottom);
 		me.bottom = bottom;
+		
 		
 		if(hideHitBoxes){
 			top.alpha = 0;
@@ -1472,8 +1478,7 @@ p.frameBounds = [rect, rect, rect];
 				createjs.Tween.get(depMC).to({y:depMC.y+shift}, 150);
 				//depMC.shiftDependents(mag);
 			}
-			
-			
+		
 		}
 		function addBlock(type,val, bindedBlock, bindedIndex){
 			tempVal = val;
@@ -1483,8 +1488,7 @@ p.frameBounds = [rect, rect, rect];
 		         .call(handleComplete);
 			createjs.Tween.get(this.title)
 		         .to({y:(-yScale*64)/2+40}, 150);
-				 
-			if(me.top){
+				if(me.top){
 				me.top.y = (-yScale*64)/2+25;
 				me.bottom.y = (yScale*64)/2-30;
 				
@@ -2743,8 +2747,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		stage.addEventListener("pressmove", makeSelect);
 		stage.addEventListener("pressup", executeSelect);
 		var selecter;
-		
 		var h_blocks;
+		var startX;
+		var startY;
 		function startSelect(m){
 			//console.log(m.nativeEvent);
 			if(m.nativeEvent.ctrlKey){
@@ -2755,6 +2760,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				stage.addChild(selecter);
 			}
 			h_blocks = getHighlightedBlocks(m.stageX,m.stageY);
+			startX = m.stageX;
+			startY = m.stageY;
 			//console.log(h_blocks);
 		}
 		
@@ -2777,6 +2784,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				var height = m.stageY - selecter.y;
 				selecter.graphics.beginFill("#0099FF").drawRect(0, 0, width, height);
 				selecter.alpha = .4;
+				highlightSelected(m.stageX,m.stageY);
 			}else{
 				//console.log(h_blocks);
 				 for(var i=0; i<h_blocks.length; i++){
@@ -2793,12 +2801,39 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				 h_blocks[0][0].mc.shrink();
 			}
 			if(m.nativeEvent.ctrlKey){
-				//console.log("killRect");
 				stage.removeChild(selecter);
 				selecter = null;
 			}
 			h_blocks = null;
 		}
+		
+		function highlightSelected(curX,curY){
+			for(var i=0; i<funcBlocks.length; i++){
+				//console.log(funcBlocks[i].mc.hitBox);
+				var x1=funcBlocks[i].mc.x;
+				var y1=funcBlocks[i].mc.y;
+				var w1=430;
+				var h1=funcBlocks[i].mc.getYScale()*64;
+				var x2=startX;
+				var y2=startY;
+				var w2=(curX-startX);
+				var h2=(curY-startY);
+				console.log("["+x1+","+y1+","+w1+","+h1+"]\n"+"["+x2+","+y2+","+w2+","+h2+"]");
+				if( x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2){
+					//console.log("intersection");
+					funcBlocks[i].mc.block.highlight.visible=true;
+				}
+			}
+		}
+		/*
+		function checkCollision(x1,y1,x2,y2){
+			var width = 230;
+			var height = 80;
+			//console.log("{x1:"+x1+", y1:"+y1+"}   {x2:"+x2+", y2:"+y2+"}");
+			
+			return x1 < x2 + width && x1 + width > x2 && y1 < y2 + height && y1 + height > y2;
+		}
+		*/
 	}
 
 	// actions tween:
