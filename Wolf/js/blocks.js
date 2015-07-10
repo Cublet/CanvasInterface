@@ -1,16 +1,27 @@
 function iterative_compile(vars,params){
-
 	var trim = false;
 	var output = "";
 	for (var i = 0; i < vars.length; i++) {
-		if (typeof vars[i] == "object") {
-			//TODO: recursively unfold nested blocks
-		} else if (vars[i]) {
-			trim = true;
-			if(params[i][2] === "string"){
-				output += "\"" + vars[i] + "\",";
+		console.log(vars[i]);
+
+		if (vars[i]) {
+
+			if (typeof vars[i] === "object") {
+				if(exportRoot.outputCompile){
+					console.log("   unfolding "+vars[i].name);
+				}
+				output += exportRoot.compile(vars[i]);
+			
 			}else{
-				output += "" + vars[i] + ",";
+				if(exportRoot.outputCompile){
+					console.log("   writting "+vars[i]);
+				}
+				trim = true;
+				if(params[i][2] === "string"){
+					output += "\"" + vars[i] + "\",";
+				}else{
+					output += "" + vars[i] + ",";
+				}
 			}
 		}
 	}
@@ -38,12 +49,14 @@ var Block = function(mc){
 	this.vars = [null, null];
 	
 	this.inputs = [null,null];
-	this.childMCs = [null,null]
+	this.childMCs = [null,null];
+	this.blockObject = [false,false];
 	
 	function numParams(integer){
 		this.vars = Array.apply(null, Array(integer));
 		this.inputs = Array.apply(null, Array(integer));
 		this.childMCs = Array.apply(null, Array(integer));
+		this.blockObject = Array.apply(false, Array(integer));
 	}
 	this.numParams = numParams;
 }
@@ -97,7 +110,7 @@ var SocialMediaData = function (mc) {
 	this.params = [
 		["name", false, "string"],
 		["property", true, "string"],
-	    ["account_id", true, "integer"]
+	    ["acc_id", true, "string"]
 	];
 	
 	this.codeBegin = "SocialMediaData[";
@@ -135,7 +148,7 @@ var Image = function (mc) {
 	this.params = [
 		["Browse", true, "browse"],
 		["URL", true, "string"],
-	    ["CameraIcon", true, "integer"]
+	    ["Camera", true, "string"]
 	];
 	
 	this.codeBegin = "Import[";

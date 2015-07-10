@@ -464,19 +464,6 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,151.1,59);
 p.frameBounds = [rect, rect];
 
 
-(lib.libSymbol = function() {
-	this.initialize();
-
-	// Layer 1
-	this.instance = new lib.Two_books_64();
-	this.instance.setTransform(0,0,0.625,0.625);
-
-	this.addChild(this.instance);
-}).prototype = p = new cjs.Container();
-p.nominalBounds = rect = new cjs.Rectangle(0,0,40,40);
-p.frameBounds = [rect];
-
-
 (lib.isVarBorder = function() {
 	this.initialize();
 
@@ -488,6 +475,34 @@ p.frameBounds = [rect];
 	this.addChild(this.shape);
 }).prototype = p = new cjs.Container();
 p.nominalBounds = rect = new cjs.Rectangle(-1,-1,447,67);
+p.frameBounds = [rect];
+
+
+(lib.inputOptions = function() {
+	this.initialize();
+
+	// Layer 1
+	this.extraVal = new cjs.Text("0", "30px 'Verdana'", "#565656");
+	this.extraVal.name = "extraVal";
+	this.extraVal.textAlign = "center";
+	this.extraVal.lineHeight = 32;
+	this.extraVal.lineWidth = 68;
+	this.extraVal.setTransform(406,10);
+
+	this.inputTitle = new cjs.Text("Camera", "30px 'Verdana'", "#565656");
+	this.inputTitle.name = "inputTitle";
+	this.inputTitle.textAlign = "right";
+	this.inputTitle.lineHeight = 32;
+	this.inputTitle.lineWidth = 123;
+	this.inputTitle.setTransform(90,10);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#B8B8B8").s().p("EgmJAErIAApVMBMTAAAIAAJVg");
+	this.shape.setTransform(208.3,29.9);
+
+	this.addChild(this.shape,this.inputTitle,this.extraVal);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(-36,0,488.6,59.9);
 p.frameBounds = [rect];
 
 
@@ -900,6 +915,7 @@ p.frameBounds = [rect];
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
+			focusMC.shrink();
 		}
 	}
 
@@ -1161,8 +1177,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink();
 			exportRoot.addFunc(focusMC.func.name, focusMC);
+			focusMC.shrink();
 		}
 	}
 
@@ -1304,13 +1320,37 @@ p.frameBounds = [rect, rect, rect];
 		this.block.isVar.visible = false;
 		var yScale = 1;
 		var hideHitBoxes = true;
+		var upperBlocks = new Array();
+		var lowerBlocks = new Array();
+		var destX;
+		var destY;
+		var possibleLowerBlock;
+		var focusedBlock;
+		var focusedBlockInputIndex;
+		var focusedBlockIndex;
 		function shrink(){
+			if(!destX || !destY){
+				destX = me.x;
+				destY = me.y;
+			}else{
+				arrow.visible = false;
+				focusedBlock.root = false;
+				//console.log("index: "+focusedBlockIndex);
+				setTimeout(function(){
+					//console.log("desperate: "+focusedBlockIndex+" j:"+focusedBlockInputIndex);
+					me.func.vars[focusedBlockIndex] = focusedBlock;
+					exportRoot.turnOnInput(focusedBlockInputIndex,focusedBlock);
+					//console.log("focusedBlock = "+focusedBlock);
+					//console.log(me.func);
+					//
+				},500);
+				//me.func.inputs[focusedBlockIndex].alpha = 1;
+			}
+			createjs.Tween.get(me)
+		         .to({x:destX, y:destY}, 150);
+			
 		    createjs.Tween.get(this.block)
-		         .to({scaleX:.85}, 150)
-		         .call(handleComplete);
-		    function handleComplete() {
-		        //Tween complete
-		    }
+		         .to({scaleX:.85}, 150);
 		}
 		this.shrink = shrink;
 		this.blockStack = new Array();
@@ -1376,6 +1416,10 @@ p.frameBounds = [rect, rect, rect];
 						var y1 = otherMC.y+others[i].mc.y;
 						var x2 = top.x+me.x;
 						var y2 = top.y+me.y;
+						focusedBlock = others[i];
+						focusedBlockIndex = Number(i);
+						focusedBlockInputIndex = Number(j);
+						//console.log("fB:"+focusedBlockIndex);
 						if(checkCollision(x1,y1,x2,y2)){
 							if(!hideHitBoxes){
 								otherMC.alpha = .5;
@@ -1387,6 +1431,8 @@ p.frameBounds = [rect, rect, rect];
 				
 							arrow.scaleY = (yDist/76)*2;
 							arrow.skewX = -(xDist)/4;
+							destY = me.y - yDist;
+							destX = me.x - xDist;
 						}else{
 							arrow.visible = false;
 							if(!hideHitBoxes){
@@ -1547,8 +1593,8 @@ p.frameBounds = [rect, rect, rect];
 		         .to({y:(-yScale*64)/2+40}, 150);
 				 
 			if(me.top){
-				me.top.y = (-yScale*64)/2+25;
-				me.bottom.y = (yScale*64)/2-30;
+				me.top.y = (-yScale*64)/2-35;
+				me.bottom.y = (yScale*64)/2+30;
 				
 			}
 		}
@@ -1615,25 +1661,6 @@ p.frameBounds = [rect, rect, rect];
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-145,-78.8,601,154.8);
-p.frameBounds = [rect];
-
-
-(lib.inputOptions = function() {
-	this.initialize();
-
-	// Layer 1
-	this.instance = new lib.libSymbol();
-	this.instance.setTransform(407.1,29.9,1,1,0,0,0,20,20);
-	this.instance.filters = [new cjs.ColorFilter(0.34, 0.34, 0.34, 1, 0, 0, 0, 0)];
-	this.instance.cache(-2,-2,44,44);
-
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#B8B8B8").s().p("Egh7AErIAApVMBD3AAAIAAJVg");
-	this.shape.setTransform(222.3,29.9);
-
-	this.addChild(this.shape,this.instance);
-}).prototype = p = new cjs.Container();
-p.nominalBounds = rect = new cjs.Rectangle(5,0,434.6,59.9);
 p.frameBounds = [rect];
 
 
@@ -1718,9 +1745,8 @@ p.frameBounds = [rect];
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink();
-			console.log(focusMC.func.name);
 			exportRoot.addFunc(focusMC.func.name, focusMC);
+			focusMC.shrink();
 		}
 	}
 
@@ -2135,6 +2161,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var me = this;
 		var alertLib = this.alertLib;
 		var openPane = null;
+		var outputCompile = false;
+		this.outputCompile = outputCompile;
+		
 		var Button = function (name, mc) {
 			this.name = name;
 			this.mc = mc;
@@ -2238,9 +2267,14 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			var button = new lib.libFunc();
 			button.x = 1100;
 			button.y = 306+yShift;
-			button.alpha = .5;
+			if(block.blockObject[index]){
+				button.alpha = 1;
+			}else{
+				button.alpha = .5;
+			}
 			button.title.text = type;
 			stage.addChild(button);
+			this.button = button;
 			function removeListener(){
 				 stage.removeChild(button);
 			}
@@ -2248,7 +2282,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			
 		}
 		
-		var TextBox = function (defaultValue, optional, x, y, size, width, index, browse, block) {
+		var TextBox = function (defaultValue, optional, x, y, size, width, index, browse, block, slider) {
 			this.defaultValue = defaultValue;
 			this.optional = optional;
 			this.index = index;
@@ -2257,7 +2291,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			var btn = document.createElement("input");
 			btn.style.position = "absolute";
 			btn.style.top = "" + y + "px";
-			btn.style.left = "" + x + "px";
+			btn.style.left = "" + (x+80) + "px";
 			btn.style.fontSize = "" + size + "px";
 			btn.placeholder = defaultValue;
 			btn.style.width = "" + 350 + "px";
@@ -2268,9 +2302,22 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			myMC.scaleX = 1;
 			myMC.scaleY = 1;
 			this.options = myMC;
-			stage.addChild(myMC);	
+			stage.addChild(myMC);
+			myMC.inputTitle.text = defaultValue+":";
 			this.btn = btn;
 			var me = this;
+			
+			if(slider){
+				btn.type = "Range";
+				btn.style.top = "" + (y+13) + "px";
+				btn.style.width = "" + 250 + "px";
+				myMC.extraVal.visible = true;
+				btn.value = 0;
+			}else{
+				myMC.extraVal.visible = false;
+			}
+			
+			
 			if(browse){
 				if(block.vars[index]){
 					var btn = document.createElement("DIV");
@@ -2321,10 +2368,62 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			  me.block.vars[index] = "\""+dir+"\"";
 			  updateCode();
 			}
+			function sliderBlockHandler(e){
 		
+				if(!me.block.vars[me.index] && btn.value != 0){
+					var altered = me.defaultValue;
+					me.block.mc.addBlock("string", altered+":", block, me.index);
+				}
+				
+				me.block.vars[me.index] = me.btn.value;
+				if(btn.value != 0){
+					me.block.mc.updateVal(block);
+				}else{
+					me.block.mc.removeBlock(me.block, me.index);
+					me.block.vars[me.index] = null;
+				}
+				
+				console.log(me.block.vars);
+			}
+			function updateVal(e){
+				me.options.extraVal.text = btn.value;
+				
+				/*
+					var block = getTextBoxBlock(input);
+					if(!block){
+						return;
+					}
+					var varsIndex = input.index;
+					if(!block.vars[varsIndex] && input.btn.value !== ""){
+						var altered = input.defaultValue;
+						block.mc.addBlock("string",altered+": ", block, varsIndex);
+					}
+					
+					block.vars[varsIndex] = input.btn.value;
+					if(input.btn.value === ""){
+						block.mc.removeBlock(block, varsIndex)
+					}else{
+						block.mc.updateVal(block);
+					}
+					
+					if (!input.optional) {
+						if (input.btn.value === "") {
+							input.btn.style.background = "rgb(232, 110, 110)";
+						} else {
+							input.btn.style.background = "white";
+						}
+					}
+					
+					updateCode();
+				*/
+				
+			}
 			function createListener(){
-		
-				  if(browse){
+				  if(slider){
+					   btn.addEventListener("mousemove", updateVal);
+					   btn.addEventListener("change", sliderBlockHandler);
+				  }
+				  else if(browse){
 					  btn.addEventListener("change", dispImage);
 				  }else{
 					btn.addEventListener("keyup", function(k){inputHandler(k,me)});
@@ -2336,10 +2435,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				  stage.removeChild(me.options);
 				  document.body.removeChild(me.btn);
 				  btn.removeEventListener("keyup", function(k){inputHandler(k,me)});
-				  if(browse){
-					  
+				  if(slider){
+					   btn.removeEventListener("mousemove", updateVal);
+				  }
+				  else if(browse){
+					    btn.removeEventListener("change", dispImage);
 				  }else{
-					btn.addEventListener("keyup", function(k){inputHandler(k,me)});
+						btn.removeEventListener("keyup", function(k){inputHandler(k,me)});
 				  }
 			}
 			this.removeListener = removeListener;
@@ -2358,7 +2460,15 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			createListener();
 		}
 		
-		
+		function turnOnInput(j, childBlock){
+			var funcs = getAllBlocks();
+			var i = funcs.length-1;
+			funcs[i].inputs[j].button.alpha=1;
+			funcs[i].blockObject[j] = true;
+			funcs[i].vars[j] = childBlock;
+			updateCode();
+		}
+		this.turnOnInput = turnOnInput;
 		function generateInput(block,origin) {
 			
 				if(block.inputs[0]){
@@ -2367,15 +2477,22 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				var yShift = 0;
 				for (var j = 0; j < block.params.length; j++) {
 					var param = block.params[j];
-					if (param[2] === "string" || param[2] === "integer") {
-						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block);	
+					if (param[2] === "string") {
+						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block, false);	
+						if(block.vars[j]){
+							txtBox.setInput(block.vars[j]);
+						}
+						block.inputs[j] = txtBox;
+						yShift += 75;
+					}else if(param[2] === "integer"){
+						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block, true);	
 						if(block.vars[j]){
 							txtBox.setInput(block.vars[j]);
 						}
 						block.inputs[j] = txtBox;
 						yShift += 75;
 					}else if(param[2] === "browse"){
-						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, true, block);	
+						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, true, block, false);	
 						if(block.vars[j]){
 							txtBox.setInput(block.vars[j]);
 						}
@@ -2392,6 +2509,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				tempBlocks = new Array();
 				//window.addEventListener("keyup", handleNonOptionalChecks);
 				updateCode();
+				console.log("inputs were created");
 		}
 		this.generateInput = generateInput;
 		
@@ -2515,6 +2633,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.callInputs = callInputs;
 		
 		function updateCode() {
+			if(outputCompile){
+				console.log("compiling..");
+			}
 			var output = "";
 			for (var i = 0; i < funcBlocks.length; i++) {
 				if (funcBlocks[i].root) {
@@ -2539,12 +2660,15 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.getHashedState = getHashedState;
 		
 		function compile(func) {
+			if(outputCompile){
+				console.log("compiling " +func.name+ "...");
+			}
 			var output = func.codeBegin;
 			output+=func.compile();
 			output += func.codeEnd;
 			return output;
 		}
-		
+		this.compile = compile;
 		function clearInputs(){
 			savePrimitive();
 			for(var i=0; i<canvasClean.length;i++){
@@ -2625,6 +2749,23 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return funcBlocks;
 		}
 		this.getAllBlocks = getAllBlocks;
+		
+		//hardDebugger
+		/*
+		 createjs.Ticker.addEventListener("tick", handleTick);
+		 function handleTick(event) {
+		     var funcs = getAllBlocks();
+			 if(funcs[1] && funcs[1].vars[0]){
+				 console.log("REAL");
+			 }else{
+				 var info="";
+				 if(funcs[1]){
+					 info = funcs[1].vars;
+				 }
+				 console.log("NOT ->"+info);
+			 }
+		 }
+		*/
 	}
 
 	// actions tween:
