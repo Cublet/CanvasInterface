@@ -2,7 +2,7 @@ function iterative_compile(vars,params){
 	var trim = false;
 	var output = "";
 	for (var i = 0; i < vars.length; i++) {
-		console.log(vars[i]);
+		//console.log(vars[i]);
 
 		if (vars[i]) {
 

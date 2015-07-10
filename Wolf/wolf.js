@@ -1130,6 +1130,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 		
 		
 		var focusMC = null;
+		var focusFunc = null;
 		var offX = 0;
 		var offY = 0;
 		var me = this;
@@ -1155,7 +1156,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 			myMC.y=234;
 			myMC.type.visible = false;
 			myMC.title.text = button.func.name;
-			myMC.func = button.func;
+			//myMC.func = button.func;
 			stage.addChild(myMC);
 			focusMC = myMC;
 			focusMC.x = evt.stageX-evt.localX;
@@ -1164,7 +1165,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 			offY = Number(evt.localY);
 			stage.addEventListener("stagemousemove", dragged);
 			stage.addEventListener("stagemouseup", released);
-			
+			focusFunc = button.func;
+			exportRoot.addFunc(focusFunc.name, focusMC);
 		}
 		
 		function dragged(evt){
@@ -1177,7 +1179,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,2.3,89), new cjs.Rectangle(0,0,6.5,
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			exportRoot.addFunc(focusMC.func.name, focusMC);
 			focusMC.shrink();
 		}
 	}
@@ -1320,8 +1321,7 @@ p.frameBounds = [rect, rect, rect];
 		this.block.isVar.visible = false;
 		var yScale = 1;
 		var hideHitBoxes = true;
-		var upperBlocks = new Array();
-		var lowerBlocks = new Array();
+		this.depBlocks = new Array();
 		var destX;
 		var destY;
 		var possibleLowerBlock;
@@ -1335,17 +1335,18 @@ p.frameBounds = [rect, rect, rect];
 			}else{
 				arrow.visible = false;
 				focusedBlock.root = false;
-				//console.log("index: "+focusedBlockIndex);
+				//console.log(focusedBlock);
+				
 				setTimeout(function(){
-					//console.log("desperate: "+focusedBlockIndex+" j:"+focusedBlockInputIndex);
+					me.depBlocks.push([-1,focusedBlock]);
+					//console.log(me.func);
+					focusedBlock.mc.depBlocks.push([1,me.func]);
 					me.func.vars[focusedBlockIndex] = focusedBlock;
 					exportRoot.turnOnInput(focusedBlockInputIndex,focusedBlock);
-					//console.log("focusedBlock = "+focusedBlock);
-					//console.log(me.func);
-					//
 				},500);
 				//me.func.inputs[focusedBlockIndex].alpha = 1;
 			}
+			
 			createjs.Tween.get(me)
 		         .to({x:destX, y:destY}, 150);
 			
@@ -1401,6 +1402,7 @@ p.frameBounds = [rect, rect, rect];
 		function checkForSnap(others){
 			for(var i=0; i<others.length; i++){
 				var func = me.func;
+				//console.log(func);
 				if(!func){
 					console.log("no Func");
 					return;
@@ -1447,7 +1449,20 @@ p.frameBounds = [rect, rect, rect];
 			}
 		}
 		this.checkForSnap = checkForSnap;
-		
+		function shiftDependents(mag){
+			console.log("shifting deps");
+			var h = 65;
+			var dep = me.depBlocks;	
+			for(var i=0; i<dep.length; i++){
+				var shift = mag*h*dep[i][0]/2;
+				var depMC = dep[i][1].mc;
+				console.log(depMC);
+				createjs.Tween.get(depMC).to({y:depMC.y+shift}, 150);
+				//depMC.shiftDependents(mag);
+			}
+			
+			
+		}
 		function addBlock(type,val, bindedBlock, bindedIndex){
 			tempVal = val;
 			yScale+=1.4;
@@ -1462,7 +1477,7 @@ p.frameBounds = [rect, rect, rect];
 				me.bottom.y = (yScale*64)/2-30;
 				
 			}
-			
+			shiftDependents(1.4);
 			var myMC = new lib.libBlock();
 			var bounds = myMC.frameBounds[0];
 			myMC.x = 180;
@@ -1536,7 +1551,9 @@ p.frameBounds = [rect, rect, rect];
 						 .to({y:(-yScale*64)/2+40}, 150);
 					}
 				updateSubPos();
+				shiftDependents(-1.4);
 			}
+			
 				
 		}
 		this.removeBlock = removeBlock;
@@ -1597,6 +1614,7 @@ p.frameBounds = [rect, rect, rect];
 				me.bottom.y = (yScale*64)/2+30;
 				
 			}
+			shiftDependents(4.6);
 		}
 		this.addImage = addImage;
 		
@@ -1615,7 +1633,8 @@ p.frameBounds = [rect, rect, rect];
 		         .to({scaleY:yScale}, 150);
 				createjs.Tween.get(me.title)
 		         .to({y:(-yScale*64)/2+47}, 150);
-			}	 
+			}
+			shiftDependents(-4.6);
 		}
 		this.removeImage = removeImage;
 	}
@@ -1676,64 +1695,55 @@ p.frameBounds = [rect];
 			btn.addEventListener("mouseover", highlight_on);
 			btn.addEventListener("rollout", highlight_off);
 			btn.addEventListener("mousedown", pressed);
-			btn.gotoAndStop(2);
 			btn.x = 28;
 			btn.y = 320+i*70;
-			//console.log(funcLib[i]);
 			btn.desc = funcLib[i].desc;
 			btn.func = funcLib[i];
 			btn.title.text = funcLib[i].name;
+			btn.gotoAndStop(2);
 			this.addChild(btn);
 		}
 		
-		
 		var focusMC = null;
+		var focusFunc = null;
 		var offX = 0;
 		var offY = 0;
 		var me = this;
-		
-		
 		var desc = this.description;
 		
 		function highlight_on(event){
-			//console.log("fuck");
-			event.currentTarget.block3.gotoAndStop(1);
+			event.currentTarget.block.gotoAndStop(1);
 			desc.text = event.currentTarget.desc;
 			
 		}
 		
 		function highlight_off(event){
-			//console.log("off");
-			event.currentTarget.block3.gotoAndStop(0);
+			event.currentTarget.block.gotoAndStop(0);
 		}
 		
 		
 		function pressed(evt){
-			//var funcLib = exportRoot.searchLibs;
-			//console.log(funcLib);
-			//console.log(evt);
 			var button = evt.currentTarget;
-			console.log(button.func);
 			var myMC = new lib.libBlock();
 			myMC.x=746;
 			myMC.y=234;
 			myMC.type.visible = false;
 			myMC.title.text = button.func.name;
-			myMC.func = button.func;
+			//myMC.func = button.func;
+			myMC.block.gotoAndStop(2);
 			stage.addChild(myMC);
 			focusMC = myMC;
 			focusMC.x = evt.stageX-evt.localX;
 		    focusMC.y = evt.stageY-evt.localY;
 			offX = Number(evt.localX);
 			offY = Number(evt.localY);
-		    console.log("pressed");
 			stage.addEventListener("stagemousemove", dragged);
 			stage.addEventListener("stagemouseup", released);
+			focusFunc = button.func;
+			exportRoot.addFunc(focusFunc.name, focusMC);
 		}
 		
 		function dragged(evt){
-			//console.log("dragging");
-			//console.log("offX: "+offX+" offY:"+offY);
 			focusMC.block.gotoAndStop(2);
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
@@ -1741,11 +1751,9 @@ p.frameBounds = [rect];
 		}
 		
 		function released (evt){
-			//console.log("up");
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			exportRoot.addFunc(focusMC.func.name, focusMC);
 			focusMC.shrink();
 		}
 	}
@@ -2221,7 +2229,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var myMC = new lib.funcLib();
 					myMC.x = libX - 1;
 					myMC.y = 149 + libY;
-				
+		
 					stage.addChild(myMC);
 					focusLib = myMC;
 					openPane = myMC;
@@ -2230,7 +2238,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var myMC = new lib.graphicsLib();
 					myMC.x = libX - 1;
 					myMC.y = 234 + libY;
-			
+		
 					stage.addChild(myMC);
 					focusLib = myMC;
 					openPane = myMC;
@@ -2239,7 +2247,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var myMC = new lib.varLib();
 					myMC.x = libX - 1;
 					myMC.y = 319 + libY;
-			
+		
 					stage.addChild(myMC);
 					focusLib = myMC;
 					openPane = myMC;
@@ -2256,7 +2264,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		
 		
-		var BlockInput = function (defaultValue, optional, type, yShift, block, index){
+		var BlockInput = function (defaultValue, optional, type, yShift, block, index) {
 			this.defaultValue = defaultValue;
 			this.optional = optional;
 			this.index = index;
@@ -2266,20 +2274,20 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			this.index = index;
 			var button = new lib.libFunc();
 			button.x = 1100;
-			button.y = 306+yShift;
-			if(block.blockObject[index]){
+			button.y = 306 + yShift;
+			if (block.blockObject[index]) {
 				button.alpha = 1;
-			}else{
+			} else {
 				button.alpha = .5;
 			}
 			button.title.text = type;
 			stage.addChild(button);
 			this.button = button;
-			function removeListener(){
-				 stage.removeChild(button);
+			function removeListener() {
+				stage.removeChild(button);
 			}
 			this.removeListener = removeListener;
-			
+		
 		}
 		
 		var TextBox = function (defaultValue, optional, x, y, size, width, index, browse, block, slider) {
@@ -2291,49 +2299,49 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			var btn = document.createElement("input");
 			btn.style.position = "absolute";
 			btn.style.top = "" + y + "px";
-			btn.style.left = "" + (x+80) + "px";
+			btn.style.left = "" + (x + 80) + "px";
 			btn.style.fontSize = "" + size + "px";
 			btn.placeholder = defaultValue;
 			btn.style.width = "" + 350 + "px";
-			
+		
 			var myMC = new lib.inputOptions();
-			myMC.x = x-20;
-			myMC.y = y-12;
+			myMC.x = x - 20;
+			myMC.y = y - 12;
 			myMC.scaleX = 1;
 			myMC.scaleY = 1;
 			this.options = myMC;
 			stage.addChild(myMC);
-			myMC.inputTitle.text = defaultValue+":";
+			myMC.inputTitle.text = defaultValue + ":";
 			this.btn = btn;
 			var me = this;
-			
-			if(slider){
+		
+			if (slider) {
 				btn.type = "Range";
-				btn.style.top = "" + (y+13) + "px";
+				btn.style.top = "" + (y + 13) + "px";
 				btn.style.width = "" + 250 + "px";
 				myMC.extraVal.visible = true;
 				btn.value = 0;
-			}else{
+			} else {
 				myMC.extraVal.visible = false;
 			}
-			
-			
-			if(browse){
-				if(block.vars[index]){
+		
+		
+			if (browse) {
+				if (block.vars[index]) {
 					var btn = document.createElement("DIV");
 					btn.innerHTML = block.vars[index];
 					btn.style.position = "absolute";
-					btn.style.top = "" + (y+12) + "px";
-					btn.style.left = "" + (x+70) + "px";
+					btn.style.top = "" + (y + 12) + "px";
+					btn.style.left = "" + (x + 70) + "px";
 					btn.style.fontSize = "" + 24 + "px";
 					me.btn = btn;
 					var myMC = new lib.closeIcon();
 					myMC.scaleX = .5;
 					myMC.scaleY = .5;
-					myMC.x = x;
-					myMC.y = y+1;
+					myMC.x = x+355;
+					myMC.y = y + 1;
 					stage.addChild(myMC);
-					myMC.addEventListener("click", function (e){
+					myMC.addEventListener("click", function (e) {
 						block.vars[index] = null;
 						stage.removeChild(e.currentTarget);
 						stage.removeChild(me.options);
@@ -2341,14 +2349,14 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						e.currentTarget.removeAllEventListeners();
 						me.block.mc.removeImage();
 						var textB = new TextBox(defaultValue, optional, x, y, size, width, index, browse, block);
-						block.inputs[me.index]= textB;
+						block.inputs[me.index] = textB;
 						me = textB;
 					});
-					
-				}else{
+		
+				} else {
 					btn.setAttribute("type", "file");
 					btn.style.fontSize = "" + 24 + "px";
-					btn.style.top = "" + (y+10) + "px";
+					btn.style.top = "" + (y + 10) + "px";
 					btn.browse = true;
 				}
 			}
@@ -2357,161 +2365,165 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				btn.style.background = "rgb(232, 110, 110)";
 			}
 		
-			
-			
-			function dispImage(k){
-			  var dir = k.currentTarget.value;
-			  var bitmap = new lib.JASON();
-			  bitmap.scaleX = .5;
-			  bitmap.scaleY = .5;
-			  me.block.mc.addImage(bitmap);
-			  me.block.vars[index] = "\""+dir+"\"";
-			  updateCode();
-			}
-			function sliderBlockHandler(e){
 		
-				if(!me.block.vars[me.index] && btn.value != 0){
+		
+			function dispImage(k) {
+				var dir = k.currentTarget.value;
+				var bitmap = new lib.JASON();
+				bitmap.scaleX = .5;
+				bitmap.scaleY = .5;
+				me.block.mc.addImage(bitmap);
+				me.block.vars[index] = "\"" + dir + "\"";
+				updateCode();
+			}
+			function sliderBlockHandler(e) {
+		
+				if (!me.block.vars[me.index] && btn.value != 0) {
 					var altered = me.defaultValue;
-					me.block.mc.addBlock("string", altered+":", block, me.index);
+					me.block.mc.addBlock("string", altered + ":", block, me.index);
 				}
-				
+		
 				me.block.vars[me.index] = me.btn.value;
-				if(btn.value != 0){
+				if (btn.value != 0) {
 					me.block.mc.updateVal(block);
-				}else{
+				} else {
 					me.block.mc.removeBlock(me.block, me.index);
 					me.block.vars[me.index] = null;
 				}
-				
+		
 				updateCode();
 			}
-			function updateVal(e){
+			function updateVal(e) {
 				me.options.extraVal.text = btn.value;
 			}
-			function createListener(){
-				  if(slider){
-					   btn.addEventListener("mousemove", updateVal);
-					   btn.addEventListener("change", sliderBlockHandler);
-				  }
-				  else if(browse){
-					  btn.addEventListener("change", dispImage);
-				  }else{
-					btn.addEventListener("keyup", function(k){inputHandler(k,me)});
-				  }
+			function createListener() {
+				if (slider) {
+					btn.addEventListener("mousemove", updateVal);
+					btn.addEventListener("change", sliderBlockHandler);
+				} else if (browse) {
+					btn.addEventListener("change", dispImage);
+				} else {
+					btn.addEventListener("keyup", function (k) {
+						inputHandler(k, me)
+					});
+				}
 			}
 			this.createListener = createListener;
-			
-			function removeListener(){
-				  stage.removeChild(me.options);
-				  document.body.removeChild(me.btn);
-				  btn.removeEventListener("keyup", function(k){inputHandler(k,me)});
-				  if(slider){
-					   btn.removeEventListener("mousemove", updateVal);
-				  }
-				  else if(browse){
-					    btn.removeEventListener("change", dispImage);
-				  }else{
-						btn.removeEventListener("keyup", function(k){inputHandler(k,me)});
-				  }
+		
+			function removeListener() {
+				stage.removeChild(me.options);
+				document.body.removeChild(me.btn);
+				btn.removeEventListener("keyup", function (k) {
+					inputHandler(k, me)
+				});
+				if (slider) {
+					btn.removeEventListener("mousemove", updateVal);
+				} else if (browse) {
+					btn.removeEventListener("change", dispImage);
+				} else {
+					btn.removeEventListener("keyup", function (k) {
+						inputHandler(k, me)
+					});
+				}
 			}
 			this.removeListener = removeListener;
-			
-			function setInput(val){
-				  if(typeof val !== 'object'){
-					  if(!btn.browse){
+		
+			function setInput(val) {
+				if (typeof val !== 'object') {
+					if (!btn.browse) {
 						btn.value = val;
-					  }
-				  }else{
-					  console.log("IS OBJECT");
-				  }
+					}
+				} else {
+					console.log("IS OBJECT");
+				}
 			}
 			this.setInput = setInput;
 		
 			createListener();
 		}
 		
-		function turnOnInput(j, childBlock){
-			var funcs = getAllBlocks();
-			var i = funcs.length-1;
-			funcs[i].inputs[j].button.alpha=1;
-			funcs[i].blockObject[j] = true;
-			funcs[i].vars[j] = childBlock;
-			updateCode();
-		}
-		this.turnOnInput = turnOnInput;
-		function generateInput(block,origin) {
-			
-				if(block.inputs[0]){
-					return;
-				}
-				var yShift = 0;
-				for (var j = 0; j < block.params.length; j++) {
-					var param = block.params[j];
-					if (param[2] === "string") {
-						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block, false);	
-						if(block.vars[j]){
-							txtBox.setInput(block.vars[j]);
-						}
-						block.inputs[j] = txtBox;
-						yShift += 75;
-					}else if(param[2] === "integer"){
-						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block, true);	
-						if(block.vars[j]){
-							txtBox.setInput(block.vars[j]);
-						}
-						block.inputs[j] = txtBox;
-						yShift += 75;
-					}else if(param[2] === "browse"){
-						var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, true, block, false);	
-						if(block.vars[j]){
-							txtBox.setInput(block.vars[j]);
-						}
-						block.inputs[j] = txtBox;
-						yShift += 75;
-					}else{
-						console.log("Time to be smart");
-						var txtBox = new BlockInput(param[0], param[1], param[2], yShift, block, j)
-						block.inputs[j] = txtBox;
-						yShift += 100;
-					}
-					
-				}
-				tempBlocks = new Array();
-				//window.addEventListener("keyup", handleNonOptionalChecks);
+			function turnOnInput(j, childBlock) {
+				var funcs = getAllBlocks();
+				var i = funcs.length - 1;
+				funcs[i].inputs[j].button.alpha = 1;
+				funcs[i].blockObject[j] = true;
+				funcs[i].vars[j] = childBlock;
 				updateCode();
-				console.log("inputs were created");
+			}
+		this.turnOnInput = turnOnInput;
+		function generateInput(block, origin) {
+		
+			if (block.inputs[0]) {
+				return;
+			}
+			var yShift = 0;
+			for (var j = 0; j < block.params.length; j++) {
+				var param = block.params[j];
+				if (param[2] === "string") {
+					var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block, false);
+					if (block.vars[j]) {
+						txtBox.setInput(block.vars[j]);
+					}
+					block.inputs[j] = txtBox;
+					yShift += 75;
+				} else if (param[2] === "integer") {
+					var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, false, block, true);
+					if (block.vars[j]) {
+						txtBox.setInput(block.vars[j]);
+					}
+					block.inputs[j] = txtBox;
+					yShift += 75;
+				} else if (param[2] === "browse") {
+					var txtBox = new TextBox(param[0], param[1], 1140, 306 + yShift, 38, 390, j, true, block, false);
+					if (block.vars[j]) {
+						txtBox.setInput(block.vars[j]);
+					}
+					block.inputs[j] = txtBox;
+					yShift += 75;
+				} else {
+					console.log("Time to be smart");
+					var txtBox = new BlockInput(param[0], param[1], param[2], yShift, block, j)
+					block.inputs[j] = txtBox;
+					yShift += 100;
+				}
+		
+			}
+			tempBlocks = new Array();
+			//window.addEventListener("keyup", handleNonOptionalChecks);
+			updateCode();
+			console.log("inputs were created");
 		}
 		this.generateInput = generateInput;
 		
-		function getTextBoxBlock(textBox){
-			for(var i=0; i<funcBlocks.length; i++){
-				for(var j=0; j<funcBlocks[i].inputs.length; j++){
-					if(textBox === funcBlocks[i].inputs[j]){
+		function getTextBoxBlock(textBox) {
+			for (var i = 0; i < funcBlocks.length; i++) {
+				for (var j = 0; j < funcBlocks[i].inputs.length; j++) {
+					if (textBox === funcBlocks[i].inputs[j]) {
 						return funcBlocks[i];
 					}
 				}
 			}
 		}
 		
-		function inputHandler(k,input){
-			
+		function inputHandler(k, input) {
+		
 			var block = getTextBoxBlock(input);
-			if(!block){
+			if (!block) {
 				return;
 			}
 			var varsIndex = input.index;
-			if(!block.vars[varsIndex] && input.btn.value !== ""){
+			if (!block.vars[varsIndex] && input.btn.value !== "") {
 				var altered = input.defaultValue;
-				block.mc.addBlock("string",altered+": ", block, varsIndex);
+				block.mc.addBlock("string", altered + ": ", block, varsIndex);
 			}
-			
+		
 			block.vars[varsIndex] = input.btn.value;
-			if(input.btn.value === ""){
+			if (input.btn.value === "") {
 				block.mc.removeBlock(block, varsIndex)
-			}else{
+			} else {
 				block.mc.updateVal(block);
 			}
-			
+		
 			if (!input.optional) {
 				if (input.btn.value === "") {
 					input.btn.style.background = "rgb(232, 110, 110)";
@@ -2519,7 +2531,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					input.btn.style.background = "white";
 				}
 			}
-			
+		
 			updateCode();
 		}
 		
@@ -2535,6 +2547,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			focusBlock = block;
 			func_desc.text = block.desc;
 			func_title.text = block.name;
+			console.log(block);
+			mc.func = block;
 			updateCode();
 		}
 		this.addFunc = addFunc;
@@ -2543,18 +2557,18 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var inputClean = new Array();
 		var focusMC = null;
 		var variables = new Array();
-		function primitivePrompt(type,defaultVal,mc){
+		function primitivePrompt(type, defaultVal, mc) {
 			clearInputs();
-			if(openPane){
+			if (openPane) {
 				openPane.play();
 				openPane = null;
 			}
-			if(type === "sentence"){
+			if (type === "sentence") {
 				func_title.text = "Sentence";
 				func_desc.text = "A list of letters.";
 				//defaultValue, optional, x, y, size, width, index
-				var varName = new TextBox("Variable Name", true, 1140, 306 , 38, 390, 0, false, null);
-				var varValue = new TextBox("Value", true, 1140, 371 , 38, 390, 0, false, null);
+				var varName = new TextBox("Variable Name", true, 1140, 306, 38, 390, 0, false, null);
+				var varValue = new TextBox("Value", true, 1140, 371, 38, 390, 0, false, null);
 				varValue.btn.value = defaultVal;
 				var text = new createjs.Text("Create a variable by naming it.", "25px Verdana", "#000000");
 				text.x = 1140;
@@ -2570,9 +2584,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.primitivePrompt = primitivePrompt;
 		
-		function savePrimitive(){
-			if(inputClean[0]){
-				if(inputClean[0].btn.value!==""){
+		function savePrimitive() {
+			if (inputClean[0]) {
+				if (inputClean[0].btn.value !== "") {
 					var block = new Sentence(focusMC);
 					block.inputs[0] = inputClean[0];
 					block.inputs[1] = inputClean[1];
@@ -2581,29 +2595,29 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					block.vars[1] = inputClean[1].btn.value;
 					variables.push(block);
 					focusBlock = block;
-					block.mc.title.text = "\""+block.vars[0]+"\"";
+					block.mc.title.text = "\"" + block.vars[0] + "\"";
 					focusMC.block.isVar.visible = true;
-				}else{
-					for(var i=0; i<inputClean.length; i++){
-						 inputClean[i].removeListener(); 
-						 document.body.removeChild(inputClean[i].btn);
+				} else {
+					for (var i = 0; i < inputClean.length; i++) {
+						inputClean[i].removeListener();
+						document.body.removeChild(inputClean[i].btn);
 					}
 				}
 			}
-			
-			
+		
+		
 		}
 		
-		function callInputs(origin){
-			
-			if(focusBlock){
-				me.generateInput(focusBlock,origin);
+		function callInputs(origin) {
+		
+			if (focusBlock) {
+				me.generateInput(focusBlock, origin);
 			}
 		}
 		this.callInputs = callInputs;
 		
 		function updateCode() {
-			if(outputCompile){
+			if (outputCompile) {
 				console.log("compiling..");
 			}
 			var output = "";
@@ -2611,18 +2625,18 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				if (funcBlocks[i].root) {
 					output += compile(funcBlocks[i]);
 				}
-				output+=";\n";
+				output += ";\n";
 			}
 			btn.value = output;
 		}
 		
 		////////////////////////////COMPILATION
-		function getHashedState(vars){
-			var primes = [2,3,5,7,11,13,17,19];
+		function getHashedState(vars) {
+			var primes = [2, 3, 5, 7, 11, 13, 17, 19];
 			var ret = 1;
-			for(var i=0; i<vars.length; i++){
-				if(vars[i]){
-					ret*=primes[i];
+			for (var i = 0; i < vars.length; i++) {
+				if (vars[i]) {
+					ret *= primes[i];
 				}
 			}
 			return ret;
@@ -2630,45 +2644,45 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.getHashedState = getHashedState;
 		
 		function compile(func) {
-			if(outputCompile){
-				console.log("compiling " +func.name+ "...");
+			if (outputCompile) {
+				console.log("compiling " + func.name + "...");
 			}
 			var output = func.codeBegin;
-			output+=func.compile();
+			output += func.compile();
 			output += func.codeEnd;
 			return output;
 		}
 		this.compile = compile;
-		function clearInputs(){
+		function clearInputs() {
 			savePrimitive();
-			for(var i=0; i<canvasClean.length;i++){
+			for (var i = 0; i < canvasClean.length; i++) {
 				stage.removeChild(canvasClean[i]);
 			}
 			canvasClean = new Array();
-			if(focusLib){
+			if (focusLib) {
 				focusLib.play();
 				focusLib = null;
 			}
-			if(focusBlock){
-				for(var i=0; i<focusBlock.inputs.length; i++){
-					if(focusBlock.inputs[i]){
-						focusBlock.inputs[i].removeListener(); 
+			if (focusBlock) {
+				for (var i = 0; i < focusBlock.inputs.length; i++) {
+					if (focusBlock.inputs[i]) {
+						focusBlock.inputs[i].removeListener();
 					}
 				}
 				focusBlock.mc.block.highlight.visible = false;
-				focusBlock.inputs = [null,null];
+				focusBlock.inputs = [null, null];
 				focusBlock.focus = false;
 				focusBlock = null;
-		    }
+			}
 			inputClean = new Array();
 		}
 		this.clearInputs = clearInputs;
 		
 		
-		function getFuncFromMC(mc){
+		function getFuncFromMC(mc) {
 		
-			for(var i=0; i<funcBlocks.length; i++){
-				if(funcBlocks[i].mc === mc){
+			for (var i = 0; i < funcBlocks.length; i++) {
+				if (funcBlocks[i].mc === mc) {
 					return funcBlocks[i];
 				}
 			}
@@ -2676,7 +2690,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.getFuncFromMC = getFuncFromMC;
 		
 		
-		function loadBlockInfo(block){
+		function loadBlockInfo(block) {
 			clearInputs();
 			focusBlock = block;
 			callInputs(0);
@@ -2685,37 +2699,37 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		
 		function includeJs(jsFilePath) {
-		    var js = document.createElement("script");
-		    js.type = "text/javascript";
-		    js.src = jsFilePath;
-		    document.head.appendChild(js);
+			var js = document.createElement("script");
+			js.type = "text/javascript";
+			js.src = jsFilePath;
+			document.head.appendChild(js);
 		}
 		includeJs("js/blocks.js");
 		
 		
 		var searchLibs;
 		var graphicsLibs;
-		setTimeout(function(){ 
-			searchLibs = new Array(new WolframAlpha(),new SocialMediaData(), new Image());
+		setTimeout(function () {
+			searchLibs = new Array(new WolframAlpha(), new SocialMediaData(), new Image());
 			graphicsLibs = new Array(new Blur());
-			
+		
 		}, 300);
-		function getSearchLib(){
+		function getSearchLib() {
 			return searchLibs;
 		}
 		this.getSearchLib = getSearchLib;
 		
-		function getVariables(){
+		function getVariables() {
 			return variables;
 		}
 		this.getVariables = getVariables;
 		
-		function getGraphicsLib(){
+		function getGraphicsLib() {
 			return graphicsLibs;
 		}
 		this.getGraphicsLib = getGraphicsLib;
 		
-		function getAllBlocks(){
+		function getAllBlocks() {
 			return funcBlocks;
 		}
 		this.getAllBlocks = getAllBlocks;
@@ -2736,6 +2750,41 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			 }
 		 }
 		*/
+		
+		//SELECT RECTANGLE
+		
+		stage.addEventListener("mousedown", startSelect);
+		stage.addEventListener("pressmove", makeSelect);
+		stage.addEventListener("pressup", executeSelect);
+		var selecter;
+		
+		function startSelect(m){
+			console.log(m.nativeEvent);
+			if(m.nativeEvent.ctrlKey){
+				console.log("mkRect");
+				selecter = new createjs.Shape();
+				selecter.x = m.stageX;
+				selecter.y = m.stageY;
+				stage.addChild(selecter);
+			}
+		}
+		function makeSelect(m){
+			if(m.nativeEvent.ctrlKey){
+				console.log("expandRect");
+				selecter.graphics.clear();
+				var width = m.stageX - selecter.x;
+				var height = m.stageY - selecter.y;
+				selecter.graphics.beginFill("#0099FF").drawRect(0, 0, width, height);
+				selecter.alpha = .4;
+			}
+		}
+		function executeSelect(m){
+			if(m.nativeEvent.ctrlKey){
+				console.log("killRect");
+				stage.removeChild(selecter);
+				selecter = null;
+			}
+		}
 	}
 
 	// actions tween:
