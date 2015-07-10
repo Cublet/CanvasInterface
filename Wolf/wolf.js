@@ -2383,40 +2383,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					me.block.vars[me.index] = null;
 				}
 				
-				console.log(me.block.vars);
+				updateCode();
 			}
 			function updateVal(e){
 				me.options.extraVal.text = btn.value;
-				
-				/*
-					var block = getTextBoxBlock(input);
-					if(!block){
-						return;
-					}
-					var varsIndex = input.index;
-					if(!block.vars[varsIndex] && input.btn.value !== ""){
-						var altered = input.defaultValue;
-						block.mc.addBlock("string",altered+": ", block, varsIndex);
-					}
-					
-					block.vars[varsIndex] = input.btn.value;
-					if(input.btn.value === ""){
-						block.mc.removeBlock(block, varsIndex)
-					}else{
-						block.mc.updateVal(block);
-					}
-					
-					if (!input.optional) {
-						if (input.btn.value === "") {
-							input.btn.style.background = "rgb(232, 110, 110)";
-						} else {
-							input.btn.style.background = "white";
-						}
-					}
-					
-					updateCode();
-				*/
-				
 			}
 			function createListener(){
 				  if(slider){

@@ -20,7 +20,7 @@ function iterative_compile(vars,params){
 				if(params[i][2] === "string"){
 					output += "\"" + vars[i] + "\",";
 				}else{
-					output += "" + vars[i] + ",";
+					output += "," + vars[i] + ",";
 				}
 			}
 		}
