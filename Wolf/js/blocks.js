@@ -42,6 +42,7 @@ var Block = function(mc){
 	this.frame_color = 0;
 	this.numChildBlocks = 0;
 	this.varName = null;
+	this.occupied = false;
 	function compile(){
 		return iterative_compile(this.vars,this.params);
 	}
@@ -59,6 +60,8 @@ var Block = function(mc){
 		this.blockObject = Array.apply(false, Array(integer));
 	}
 	this.numParams = numParams;
+
+
 }
 
 var Sentence = function (mc) {
