@@ -1378,48 +1378,57 @@ p.frameBounds = [rect, rect, rect];
 		var focusedBlockInputIndex;
 		var focusedBlockIndex;
 		
-		function getYScale(){
+		function getYScale() {
 			return yScale;
 		}
 		this.getYScale = getYScale;
-		function shrink(){
-			
-			if(!destX || !destY){
-				destX = me.x;
-				destY = me.y;
-			}else{
-				var dist = Math.sqrt(Math.pow((me.x-destX),2)+Math.pow((me.y-destY),2));
-				arrow.visible = false;
-				if(focusedBlock && dist<175){
-					focusedBlock.root = false;
-					//console.log(focusedBlock);
-					
-					setTimeout(function(){
-						me.depBlocks.push([-1,focusedBlock]);
-						//console.log(me.func);
-						focusedBlock.mc.depBlocks.push([1,me.func]);
-						me.func.vars[focusedBlockIndex] = focusedBlock;
-						focusedBlock.occupied = true;
-						exportRoot.turnOnInput(focusedBlockInputIndex,focusedBlock);
-					},500);
-				}
-				//me.func.inputs[focusedBlockIndex].alpha = 1;
+		function shrink() {
+			//console.log("<"+me.x+","+(me.x+400)+">");
+			if (me.x < -360 || (me.x + 400) > 1000) {
+				exportRoot.deleteFunc(me.func);
 			}
-			var dist = Math.sqrt(Math.pow((me.x-destX),2)+Math.pow((me.y-destY),2));
-			if(dist<175){
-			createjs.Tween.get(me)
-		         .to({x:destX, y:destY}, 150);
-			}else{
-				if(focusedBlock){
-					
-					me.func.vars[focusedBlockInputIndex] = null;
-					focusedBlock.root = true;
-					focusedBlock.occupied = false;
-					//console.log("not root anymore:"+me.func.vars[focusedBlockInputIndex]);
+		
+			var dist = Math.sqrt(Math.pow((me.x - destX), 2) + Math.pow((me.y - destY), 2));
+			arrow.visible = false;
+			if (focusedBlock && dist < 175) {
+				focusedBlock.root = false;
+				//console.log(focusedBlock);
+		
+				setTimeout(function () {
+					me.depBlocks.push([-1, focusedBlock]);
+					//console.log(me.func);
+					focusedBlock.mc.depBlocks.push([1, me.func]);
+					me.func.vars[focusedBlockIndex] = focusedBlock;
+					focusedBlock.occupied = true;
+					exportRoot.turnOnInput(focusedBlockInputIndex, focusedBlock);
+				}, 500);
+			}
+			//me.func.inputs[focusedBlockIndex].alpha = 1;
+			if(destX && destY){
+				var dist = Math.sqrt(Math.pow((me.x - destX), 2) + Math.pow((me.y - destY), 2));
+				if (dist < 175) {
+					createjs.Tween.get(me)
+						.to({
+							x: destX,
+							y: destY
+						}, 150);
+				} else {
+					if (focusedBlock) {
+		
+						me.func.vars[focusedBlockInputIndex] = null;
+						focusedBlock.root = true;
+						focusedBlock.occupied = false;
+						//console.log("not root anymore:"+me.func.vars[focusedBlockInputIndex]);
+					}
 				}
 			}
-		    createjs.Tween.get(this.block)
-		         .to({scaleX:.85}, 150);
+			createjs.Tween.get(this.block)
+				.to({
+					scaleX: .85
+				}, 150);
+				
+			//destX = null;
+			//destY = null;
 		}
 		this.shrink = shrink;
 		this.blockStack = new Array();
@@ -1448,11 +1457,11 @@ p.frameBounds = [rect, rect, rect];
 		me.bottom = bottom;
 		
 		
-		if(hideHitBoxes){
+		if (hideHitBoxes) {
 			top.alpha = 0;
 			bottom.alpha = 0;
 		}
-		function removeHit(){
+		function removeHit() {
 			me.removeChild(me.bottom);
 			me.removeChild(me.top);
 			me.bottom = null;
@@ -1460,53 +1469,54 @@ p.frameBounds = [rect, rect, rect];
 		}
 		this.removeHit = removeHit;
 		
-		function checkCollision(x1,y1,x2,y2){
+		function checkCollision(x1, y1, x2, y2) {
 			var width = 230;
 			var height = 80;
 			//console.log("{x1:"+x1+", y1:"+y1+"}   {x2:"+x2+", y2:"+y2+"}");
-			
+		
 			return x1 < x2 + width && x1 + width > x2 && y1 < y2 + height && y1 + height > y2;
 		}
 		
-		function checkForSnap(others){
-			for(var i=0; i<others.length; i++){
+		function checkForSnap(others) {
+			for (var i = 0; i < others.length; i++) {
 				var func = me.func;
 				//console.log(func);
-				if(!func){
+				if (!func) {
 					console.log("no Func");
 					return;
 				}
-				for(var j=0; j<func.params.length; j++){
+				for (var j = 0; j < func.params.length; j++) {
 					var param = func.params[j][2];
 					//console.log("compare: "+param+" -> "+others[i].name);
-					if(param === others[i].name && !others[i].occupied){
+					if (param === others[i].name && !others[i].occupied) {
 						var otherMC = others[i].mc.bottom;
 						//console.log(otherMC);
 						//console.log("{x1:"+otherMC.x+", y1:"+otherMC.y+"}   {x2:"+top.x+", y2:"+top.y+"}");
-						var x1 = otherMC.x+others[i].mc.x;
-						var y1 = otherMC.y+others[i].mc.y;
-						var x2 = top.x+me.x;
-						var y2 = top.y+me.y;
+						var x1 = otherMC.x + others[i].mc.x;
+						var y1 = otherMC.y + others[i].mc.y;
+						var x2 = top.x + me.x;
+						var y2 = top.y + me.y;
 						focusedBlock = others[i];
 						focusedBlockIndex = Number(i);
 						focusedBlockInputIndex = Number(j);
 						//console.log("fB:"+focusedBlockIndex);
-						if(checkCollision(x1,y1,x2,y2)){
-							if(!hideHitBoxes){
+						if (checkCollision(x1, y1, x2, y2)) {
+							//console.log("collided");
+							if (!hideHitBoxes) {
 								otherMC.alpha = .5;
 								top.alpha = .5;
 							}
 							arrow.visible = true
-							var yDist = (y2+76)-y1;
-							var xDist = x2-x1;
-				
-							arrow.scaleY = (yDist/76)*2;
-							arrow.skewX = -(xDist)/4;
+							var yDist = (y2 + 76) - y1;
+							var xDist = x2 - x1;
+		
+							arrow.scaleY = (yDist / 76) * 2;
+							arrow.skewX = -(xDist) / 4;
 							destY = me.y - yDist;
 							destX = me.x - xDist;
-						}else{
+						} else {
 							arrow.visible = false;
-							if(!hideHitBoxes){
+							if (!hideHitBoxes) {
 								otherMC.alpha = .1;
 								top.alpha = .1;
 							}
@@ -1518,123 +1528,141 @@ p.frameBounds = [rect, rect, rect];
 			}
 		}
 		this.checkForSnap = checkForSnap;
-		function shiftDependents(mag){
+		function shiftDependents(mag) {
 			//console.log("shifting deps");
 			var h = 65;
-			var dep = me.depBlocks;	
-			for(var i=0; i<dep.length; i++){
-				var shift = mag*h*dep[i][0]/2;
+			var dep = me.depBlocks;
+			for (var i = 0; i < dep.length; i++) {
+				var shift = mag * h * dep[i][0] / 2;
 				var depMC = dep[i][1].mc;
 				//console.log(depMC);
-				createjs.Tween.get(depMC).to({y:depMC.y+shift}, 150);
+				createjs.Tween.get(depMC).to({
+					y: depMC.y + shift
+				}, 150);
 				//depMC.shiftDependents(mag);
 			}
 		
 		}
-		function addBlock(type,val, bindedBlock, bindedIndex){
+		function addBlock(type, val, bindedBlock, bindedIndex) {
 			tempVal = val;
-			yScale+=1.4;
+			yScale += 1.4;
 			createjs.Tween.get(this.block)
-		         .to({scaleY:yScale}, 150)
-		         .call(handleComplete);
+				.to({
+					scaleY: yScale
+				}, 150)
+				.call(handleComplete);
 			createjs.Tween.get(this.title)
-		         .to({y:(-yScale*64)/2+40}, 150);
-				if(me.top){
-				me.top.y = (-yScale*64)/2+25;
-				me.bottom.y = (yScale*64)/2-30;
-				
+				.to({
+					y: (-yScale * 64) / 2 + 40
+				}, 150);
+			if (me.top) {
+				me.top.y = (-yScale * 64) / 2 + 25;
+				me.bottom.y = (yScale * 64) / 2 - 30;
+		
 			}
 			shiftDependents(1.4);
 			var myMC = new lib.libBlock();
 			var bounds = myMC.frameBounds[0];
 			myMC.x = 180;
 			var h = bounds.height;
-			myMC.y = 50 - bounds.height/2 + stacker*bounds.height/2;
+			myMC.y = 50 - bounds.height / 2 + stacker * bounds.height / 2;
 			myMC.block.scaleX = .75;
-			
+		
 			myMC.type.text = tempVal;
 			myMC.block.highlight.visible = false;
 			myMC.bindedBlock = bindedBlock;
 			myMC.bindedIndex = bindedIndex;
 			this.blockStack.push(myMC);
 			stacker = this.blockStack.length;
-			var midPoint = Math.round(this.blockStack.length/2);
+			var midPoint = Math.round(this.blockStack.length / 2);
 			updateSubPos();
-		    function handleComplete() {
+			function handleComplete() {
 				this.parent.addChild(myMC);
 				myMC.type = "sentence";
 				myMC.alpha = 0;
-				
+		
 				createjs.Tween.get(myMC)
-		         .to({alpha:1}, 150).call(finished);
-		    }
-			function finished(){
+					.to({
+						alpha: 1
+					}, 150).call(finished);
+			}
+			function finished() {
 				myMC.removeHit();
 				myMC.block.gotoAndStop(1);
 			}
 		}
 		this.addBlock = addBlock;
 		
-		function targetMC(block, index){
-			for(var i=0; i<me.blockStack.length; i++){
-				if(me.blockStack[i].bindedBlock == block && me.blockStack[i].bindedIndex === index){
-					return [me.blockStack[i],i];
+		function targetMC(block, index) {
+			for (var i = 0; i < me.blockStack.length; i++) {
+				if (me.blockStack[i].bindedBlock == block && me.blockStack[i].bindedIndex === index) {
+					return [me.blockStack[i], i];
 				}
 			}
-			return 
+			return
 		}
 		
-		function updateSubPos(){
+		function updateSubPos() {
 			var h = 88;
 			stacker = me.blockStack.length;
-			for(var i=0; i<me.blockStack.length; i++){	
+			for (var i = 0; i < me.blockStack.length; i++) {
 				createjs.Tween.get(me.blockStack[i])
-				.to({y:-stacker*h/2+50 + i*h}, 150);
+					.to({
+						y: -stacker * h / 2 + 50 + i * h
+					}, 150);
 			}
 		}
 		
-		function removeBlock(block, index, kill){
-			if(!targetMC(block, index)){
+		function removeBlock(block, index, kill) {
+			if (!targetMC(block, index)) {
 				return "nope";
 			}
 			var MC = targetMC(block, index)[0];
-			if(!kill){
+			if (!kill) {
 				index = targetMC(block, index)[1];
 			}
-			
+		
 			createjs.Tween.get(me.blockStack[index])
-		         .to({alpha:0}, 150)
-		         .call(handleComplete);
+				.to({
+					alpha: 0
+				}, 150)
+				.call(handleComplete);
 			function handleComplete() {
 				me.removeChild(me.blockStack[index]);
-				me.blockStack.splice(index,1);
-			
-				yScale-=1.4;
+				me.blockStack.splice(index, 1);
+		
+				yScale -= 1.4;
 				createjs.Tween.get(me.block)
-					 .to({scaleY:yScale}, 150);
-				if(me.blockStack.length === 0){
+					.to({
+						scaleY: yScale
+					}, 150);
+				if (me.blockStack.length === 0) {
 					createjs.Tween.get(me.title)
-						 .to({y:15}, 150);
-					}else{
+						.to({
+							y: 15
+						}, 150);
+				} else {
 					createjs.Tween.get(me.title)
-						 .to({y:(-yScale*64)/2+40}, 150);
-					}
+						.to({
+							y: (-yScale * 64) / 2 + 40
+						}, 150);
+				}
 				updateSubPos();
 				shiftDependents(-1.4);
 			}
-			
-				
+		
+		
 		}
 		this.removeBlock = removeBlock;
 		
 		
-		function updateVal(key){
-			for(var i=0; i<this.blockStack.length; i++){
-				if(this.blockStack[i].bindedBlock == key){
+		function updateVal(key) {
+			for (var i = 0; i < this.blockStack.length; i++) {
+				if (this.blockStack[i].bindedBlock == key) {
 					var tits = String(this.blockStack[i].bindedBlock.vars[this.blockStack[i].bindedIndex]);
-					if(tits.length>10){
-						tits = tits.substring(0,10);
-						tits = tits+"..";
+					if (tits.length > 10) {
+						tits = tits.substring(0, 10);
+						tits = tits + "..";
 					}
 					this.blockStack[i].title.text = tits;
 				}
@@ -1642,75 +1670,87 @@ p.frameBounds = [rect, rect, rect];
 		}
 		this.updateVal = updateVal;
 		
-		this.addEventListener("click", focusOnMe);
-		function focusOnMe(event){
+		this.addEventListener("mousedown", focusOnMe);
+		function focusOnMe(event) {
 			//console.log("focus on me babe");
-			if(!me.type){
+			if (!me.type) {
 				//console.log("highlighting..");
 				event.currentTarget.block.highlight.visible = true;
 			}
 			var func = exportRoot.getFuncFromMC(event.currentTarget);
-			if(func){
+			if (func) {
 				exportRoot.loadBlockInfo(func);
-			}else if(me.type){
+			} else if (me.type) {
 				//exportRoot.primitivePrompt(me.type,me.title.text,event.currentTarget);
 			}
 		}
 		
-		var imageHolder= null;
-		function addImage(bitmap){
-			yScale+=4.6;
+		var imageHolder = null;
+		function addImage(bitmap) {
+			yScale += 4.6;
 			bitmap.x = 100;
-			bitmap.y = (-yScale*64)/2+85;
+			bitmap.y = (-yScale * 64) / 2 + 85;
 			bitmap.alpha = 0;
 			imageHolder = bitmap;
 			me.addChild(bitmap);
-			
+		
 			createjs.Tween.get(this.block)
-		         .to({scaleY:yScale}, 150)
-		         .call(handleComplete);
+				.to({
+					scaleY: yScale
+				}, 150)
+				.call(handleComplete);
 			createjs.Tween.get(bitmap)
-		         .to({alpha:1}, 150);
+				.to({
+					alpha: 1
+				}, 150);
 			createjs.Tween.get(this.title)
-		         .to({y:(-yScale*64)/2+40}, 150);
-				 
-			if(me.top){
-				me.top.y = (-yScale*64)/2-35;
-				me.bottom.y = (yScale*64)/2+30;
-				
+				.to({
+					y: (-yScale * 64) / 2 + 40
+				}, 150);
+		
+			if (me.top) {
+				me.top.y = (-yScale * 64) / 2 - 35;
+				me.bottom.y = (yScale * 64) / 2 + 30;
+		
 			}
 			shiftDependents(4.6);
 		}
 		this.addImage = addImage;
 		
 		
-		function removeImage(){
-			yScale-=4.6;
-			if(imageHolder){
+		function removeImage() {
+			yScale -= 4.6;
+			if (imageHolder) {
 				createjs.Tween.get(imageHolder)
-		         .to({alpha:0}, 150)
-		         .call(handleComplete);
+					.to({
+						alpha: 0
+					}, 150)
+					.call(handleComplete);
 			}
-			function handleComplete(){
+			function handleComplete() {
 				me.removeChild(imageHolder);
 				imageHolder = null;
 				createjs.Tween.get(me.block)
-		         .to({scaleY:yScale}, 150);
+					.to({
+						scaleY: yScale
+					}, 150);
 				createjs.Tween.get(me.title)
-		         .to({y:(-yScale*64)/2+47}, 150);
+					.to({
+						y: (-yScale * 64) / 2 + 47
+					}, 150);
 			}
 			shiftDependents(-4.6);
 		}
 		this.removeImage = removeImage;
 		
-		function killSelf(){
+		function killSelf() {
 			console.log("killing self");
 			yScale = 1;
-			for(var i=0; i<me.blockStack.length; i++){
+			for (var i = 0; i < me.blockStack.length; i++) {
 				console.log("removing block");
 				removeBlock(me.func, i, true);
 			}
-			if(imageHolder){
+			if (imageHolder) {
 				console.log("removing image");
 				removeImage();
 			}
@@ -2890,6 +2930,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				 }
 				 if(h_blocks.length === 1){
 					 alertLib.visible = false;
+					 lastLib = null;
 					 h_blocks[0][0].mc.checkForSnap(exportRoot.getAllBlocks());
 				 }
 			}
@@ -2927,7 +2968,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				//console.log("["+x1+","+y1+","+w1+","+h1+"]\n"+"["+x2+","+y2+","+w2+","+h2+"]");
 				
 				if( x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2){
-					//console.log("intersection");
 					funcBlocks[i].mc.block.highlight.visible=true;
 				}
 			}
@@ -2958,6 +2998,17 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				}
 			}
 		}
+		
+		function deleteFunc(func){
+			for(var i=0; i<funcBlocks.length; i++){
+				if(funcBlocks[i] === func){
+					clearInputs();
+					func.mc.killSelf();
+					alertLib.visible = true;
+				}
+			}
+		}
+		this.deleteFunc = deleteFunc;
 	}
 
 	// actions tween:
