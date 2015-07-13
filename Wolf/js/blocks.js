@@ -33,7 +33,6 @@ function iterative_compile(vars,params){
 
 //////////////////////////CODE BLOCKS
 var funcMap = new Map();
-
 var Block = function(mc){
 	this.root = true;
 	this.vars = [null,null];
@@ -43,6 +42,9 @@ var Block = function(mc){
 	this.numChildBlocks = 0;
 	this.varName = null;
 	this.occupied = false;
+	this.inputFrame = 0;
+	this.outputFrame = 0;
+	this.myColor = "#003973";
 	function compile(){
 		return iterative_compile(this.vars,this.params);
 	}
@@ -148,6 +150,7 @@ var Image = function (mc) {
 	this.name = "Image";
 	this.desc = "A picture.";
 	this.type = "search";
+	this.inputFrame = 0;
 	this.params = [
 		["Browse", true, "browse"],
 		["URL", true, "string"],
@@ -217,7 +220,9 @@ var Blur = function (mc) {
 	this.name = "Blur";
 	this.desc = "Blurs an Image";
 	this.type = "draw";
+	this.outputFrame = 1;
 	this.frame_color = 2;
+	this.myColor = "#E38D00";
 	this.params = [
 		["Image", false, "Image"],
 		["Strength", true, "integer"]

@@ -19,42 +19,42 @@ lib.properties = {
 
 
 (lib.closeIcon = function() {
-	this.spriteSheet = ss["wolf_atlas_"];
+	this.spriteSheet = ss["RECOVER_wolf_atlas_"];
 	this.gotoAndStop(0);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.JASON = function() {
-	this.spriteSheet = ss["wolf_atlas_"];
+	this.spriteSheet = ss["RECOVER_wolf_atlas_"];
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.Magnifier_64 = function() {
-	this.spriteSheet = ss["wolf_atlas_"];
+	this.spriteSheet = ss["RECOVER_wolf_atlas_"];
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.Pencil_edit_button_64 = function() {
-	this.spriteSheet = ss["wolf_atlas_"];
+	this.spriteSheet = ss["RECOVER_wolf_atlas_"];
 	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.Square_root_of_x_math_formula_64 = function() {
-	this.spriteSheet = ss["wolf_atlas_"];
+	this.spriteSheet = ss["RECOVER_wolf_atlas_"];
 	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
 
 (lib.Two_books_64 = function() {
-	this.spriteSheet = ss["wolf_atlas_"];
+	this.spriteSheet = ss["RECOVER_wolf_atlas_"];
 	this.gotoAndStop(5);
 }).prototype = p = new cjs.Sprite();
 
@@ -847,37 +847,6 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,506.1,319.6);
 p.frameBounds = [rect];
 
 
-(lib.connectionHype = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Layer 1
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#FF0000").s().p("AgTDiIgCgQQAAhUAagIQAKgDAIANQAJAOAAAYQAABMgeAAQgQAAgFgQgAijCdQgDgHAAgHQAAgkApgNQApgNAAAjQABAFgcAYQgbAYgDAAQgPAAgHgMgAB6CJIgSgcQABgpAoAYQAoAYAAAVQgBAIgDAHQgHAMgPAAQgRAAgUgbgAj8AgIgEgNQAAgbA5gDQA6gCAAAbQAAAOgMAGQgSAKg5AAQgRAAgHgMgACtACIgEgLQAAgaAsgDQAsgDAAAdQAAAMgJAFQgNAJgiAAQgUAAgIgMgABihtIgDgMQAAgVAtgYQAsgYABApQAAAGgbAXQgaAYgLAAQgQAAgHgNgAiyh2QgLgOAAgIQAAgmApAQQAoAPgBAXQAAAIgEAHQgIAKgRAAQgZAAgPgTgAgQiqIAAgYQAAgwAXABQAZACAAAtIAAAZQgFAUgUAAQgTAAgEgVg");
-	this.shape.setTransform(28.8,36.8);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#FF0000").s().p("AgWD7IAAgbQAAg4AYACQAaABAABBQAAASgCAGQgFAQgTAAQgUAAgEgZgACMCeIgTgjQAAguAqAgQArAgAAAbQAAAIgFAHQgHAKgNAAQgSAAgXgjgAjbCwIgDgNQAAgTA0gbQA1gaAAAqQAAAKgeAWQgfAXgTAAQgPAAgHgMgAkWAjQgHgFAAgMQAAgbA3ACQA3ADAAAYQAAALgFAFQgLAKgiAAQgoAAgNgLgADAAIQgGgFAAgKQAAgeAyADQAyACAAAbQAAAXgiAAQguAAgOgKgAjjiqQAAgqAyAZQAyAZAAAgQAAAIgFAHQgHAKgPAAQgOAAg7hBgACOiJQgEgHAAgHQAAgZArgNQAqgNAAAiQAAALgVAQQgWAQgRAAQgPAAgGgMgAgRjVIgDgfQAAgjAZAFQAaAFAAAuQAAAQgCAIQgGARgRAAQgRAAgGgfg");
-	this.shape_1.setTransform(28.9,36.1);
-
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#FF0000").s().p("AgjEyIgDgNQAAgPADgKIgBgHQAAgeAdgDQAbgDgBAhQAAAJgEAKIAAAAQgBAMgFALQgHASgQAAQgOAAgHgMgAkLDNIgCgSQAAgkAogEQAogFABAeQAAAEgaAYQgbAXgCAAQgUAAgEgSgAC3DCQgLgRAAgIQAAgrAnAZQAnAYAAASQgBAJgGAHQgIAJgOAAQgVAAgRgYgAlCAjQgHgJAAgJQAAgdAqADQApACAAAYQAAAMgMAJQgNAKgXAAQgSAAgKgNgADzAPQgGgGAAgJQAAgiAvAEQAuAEAAAaQAAAKgHAHQgIAIgSAAQgpAAgNgKgACtigIgDgNQAAgdAsgEQArgFAAAeQAAAMgMAJQgQAMgiAAQgPAAgHgMgAkKiuQgIgIAAgMQAAgjAqALQApALAAAVQAAAJgFAHQgIAKgRAAQggAAgNgOgAgdkKQgEgJgBgIQABgZAfgHQAdgIAAAhQAAAKgJAOQgKAQgMAAQgRAAgIgQg");
-	this.shape_2.setTransform(29.3,36.2);
-
-	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f("#FF0000").s().p("AglFIIgEgMQAAgaAZAAQAXAAAAAZQAAAIgFAIQgFAKgNAAQgPAAgGgNgAknDfIgDgMQgBgaAZAAQAZAAAAAZQAAAIgEAIQgIAKgNAAQgNAAgIgNgADcDYIgDgNQAAgaAZACQAZACAAAWQAAAIgFAHQgHAKgNAAQgOAAgIgMgAllAfIgEgNQAAgXAZAAQAZAAAAAXQAAAIgFAHQgHAKgNAAQgOAAgHgMgAE7AQIgDgNQAAgYAZACQAZACAAAUQAAAIgFAHQgHAKgNAAQgOAAgIgMgADzi+IgDgMQgBgaAZAAQAZAAAAAZQAAAIgEAIQgIAKgNAAQgOAAgHgNgAknjDIgDgMQgBgaAZAAQAZAAAAAZQAAAIgEAIQgIAKgNAAQgNAAgIgNgAgNkuIgDgNQAAgaAXACQAZACAAAWQAAAIgFAHQgHAKgNAAQgMAAgIgMg");
-	this.shape_3.setTransform(28.3,36.6);
-
-	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f("#FF0000").s().p("AgeFUIgBgGQAAgMANAAQAMAAAAAMQAAAEgCAEQgEAFgGAAQgJAAgDgHgAkuDuIgCgGQAAgNANAAQANAAAAANQgBAEgCAEQgEAFgGAAQgIAAgDgHgAECDXIgBgGQAAgMANAAQAMAAAAAMQAAAEgCAEQgEAFgGAAQgJAAgDgHgAlvAhIgBgGQAAgNAMAAQANAAAAANQAAAEgDAEQgDAFgHAAQgHAAgEgHgAFZANIgBgGQAAgLANAAQAMAAABALQgBAEgCAEQgDAFgHAAQgIAAgEgHgAEUjLIgCgHQAAgNANAAQAMgBAAAOQABAEgDAFQgDAFgHAAQgIAAgDgHgAksjNIgBgGQAAgNANAAQAMAAAAANQAAAEgCAEQgEAFgGAAQgIAAgEgHgAgDlIIgBgGQAAgMALAAQAMAAAAAMQABAFgDADQgDAFgHAAQgHAAgDgHg");
-	this.shape_4.setTransform(28.3,36.5);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},4).to({state:[{t:this.shape_2}]},4).to({state:[{t:this.shape_3}]},4).to({state:[{t:this.shape_4}]},4).to({state:[]},4).wait(11));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(3,12.6,51.5,48.5);
-p.frameBounds = [rect, rect, rect, rect, rect=new cjs.Rectangle(0.3,8.5,57.3,55.3), rect, rect, rect, rect=new cjs.Rectangle(-3.7,4.4,66,63.7), rect, rect, rect, rect=new cjs.Rectangle(-8,2.6,72.5,68.2), rect, rect, rect, rect=new cjs.Rectangle(-8.7,1.7,74,69.6), rect, rect, rect, rect=null, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect];
-
-
 (lib.click_on_lib_alert = function() {
 	this.initialize();
 
@@ -1063,9 +1032,7 @@ p.frameBounds = [rect];
 		function dragged(evt){
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
-			try{
-				focusMC.checkForSnap(others);
-			}catch(e){}
+			focusMC.checkForSnap(others);
 		}
 		
 		function released (evt){
@@ -1303,9 +1270,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		function dragged(evt){
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
-			try{
-				focusMC.checkForSnap(others);
-			}catch(e){}
+			focusMC.checkForSnap(others);
 		}
 		
 		function released (evt){
@@ -1375,20 +1340,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-1.9,0,511.2,768.7);
 p.frameBounds = [rect];
-
-
-(lib.rotHype = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Layer 1
-	this.instance = new lib.connectionHype();
-	this.instance.setTransform(31.4,22.5,1,1,0,0,0,34.4,35);
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(4).to({rotation:6.5},0).wait(4).to({rotation:15.9,x:31.5},0).wait(8).to({rotation:27.9,x:31.2,y:23.5},0).wait(4).to({rotation:44.8},0).wait(4).to({rotation:61.3},0).wait(4).to({rotation:70.7,x:29.7,y:25.3},0).wait(4).to({regX:34.3,rotation:86.4,y:25.2},0).wait(4).to({rotation:97.6,x:26.4,y:26.4},0).wait(4).to({rotation:113.4},0).wait(4).to({rotation:131.6,x:23.9,y:26.6},0).wait(4).to({rotation:144.8,x:22.9},0).wait(4).to({rotation:161.7,x:22.2,y:25.9},0).wait(4).to({rotation:181},0).wait(4).to({rotation:199.7,x:21.7,y:22.6},0).wait(4).to({regY:34.9,rotation:215.6,x:21.4,y:21.7},0).wait(4).to({rotation:242.4,x:22.2,y:20.1},0).wait(4).to({rotation:257.9,x:23.7,y:18.4},0).wait(4).to({rotation:269.8,x:25,y:17.4},0).wait(4));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(0,0,51.5,48.5);
-p.frameBounds = [rect, rect, rect, rect, rect=new cjs.Rectangle(-2.7,-3.4,56.6,54), rect, rect, rect, rect=new cjs.Rectangle(-5.9,-7.8,62.8,60.8), rect, rect, rect, rect, rect, rect, rect, rect=new cjs.Rectangle(-8.7,-11,68.2,66.9), rect, rect, rect, rect=new cjs.Rectangle(-9.4,-14.6,70.7,70.7), rect, rect, rect, rect=new cjs.Rectangle(-6.7,-14.8,67.3,68.4), rect, rect, rect, rect=new cjs.Rectangle(-5.2,-11.7,62.8,64.6), rect, rect, rect, rect=new cjs.Rectangle(1.8,-7.4,51.6,54.4), rect, rect, rect, rect=new cjs.Rectangle(-2,-8.1,54.9,57.5), rect, rect, rect, rect=new cjs.Rectangle(-5.4,-12.6,64.9,66.5), rect, rect, rect, rect=new cjs.Rectangle(-8.9,-14,70.4,70.7), rect, rect, rect, rect=new cjs.Rectangle(-8.6,-12.6,70,69.3), rect, rect, rect, rect=new cjs.Rectangle(-5.2,-8.6,64.1,62.2), rect, rect, rect, rect=new cjs.Rectangle(1.6,-0.5,52.4,49.4), rect, rect, rect, rect=new cjs.Rectangle(-4.9,-8.7,64.8,63), rect, rect, rect, rect=new cjs.Rectangle(-8,-11.3,70.1,69.4), rect, rect, rect, rect=new cjs.Rectangle(-7,-9.9,66.9,68.2), rect, rect, rect, rect=new cjs.Rectangle(-2.4,-6.9,58.2,60.6), rect, rect, rect, rect=new cjs.Rectangle(2.5,-2.9,48.7,51.7), rect, rect, rect];
 
 
 (lib.library = function() {
@@ -1549,9 +1500,7 @@ p.frameBounds = [rect, rect];
 			focusMC.block.gotoAndStop(2);
 		    focusMC.x = evt.stageX-offX;
 		    focusMC.y = evt.stageY-offY;
-			try{
-				focusMC.checkForSnap(others);
-			}catch(e){}
+			focusMC.checkForSnap(others);
 		}
 		
 		function released (evt){
@@ -1776,44 +1725,6 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,1,89);
 p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9,89), new cjs.Rectangle(0,0,61.4,89), new cjs.Rectangle(0,0,226.4,89), new cjs.Rectangle(0,0,481.7,89), new cjs.Rectangle(0,0,528.3,89), new cjs.Rectangle(0,0,545.5,89), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,0,549.9,91.2), new cjs.Rectangle(0,0,549.9,98.6), new cjs.Rectangle(0,0,549.9,113.5), new cjs.Rectangle(0,0,549.9,140), new cjs.Rectangle(0,0,549.9,188.2), new cjs.Rectangle(0,0,549.9,296.9), new cjs.Rectangle(0,0,549.9,674.2), new cjs.Rectangle(0,0,549.9,782.2), new cjs.Rectangle(0,0.1,549.9,825.6), new cjs.Rectangle(0,0,549.9,847.1), new cjs.Rectangle(0,0,549.9,857.2), rect=new cjs.Rectangle(0,0,549.9,860), rect, new cjs.Rectangle(0,0,549.9,749.9), new cjs.Rectangle(0,0,549.9,639.7), new cjs.Rectangle(0,0,549.9,529.6), new cjs.Rectangle(0,0,549.9,419.4), new cjs.Rectangle(0,0,549.9,309.3), new cjs.Rectangle(0,0,549.9,199.2), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,0,440.1,89), new cjs.Rectangle(0,0,330.3,89), new cjs.Rectangle(0,0,220.6,89), new cjs.Rectangle(0,0,110.8,89), new cjs.Rectangle(0,0,1,89)];
 
 
-(lib.con_sym = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// timeline functions:
-	this.frame_0 = function() {
-		this.stop();
-		this.hyper.visible = false;
-	}
-	this.frame_1 = function() {
-		this.stop();
-		this.hyper.visible = false;
-	}
-
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
-
-	// Layer 3
-	this.hyper = new lib.rotHype();
-	this.hyper.setTransform(-0.5,0.2,1,1,0,0,0,25.8,24.2);
-
-	this.timeline.addTween(cjs.Tween.get(this.hyper).wait(2));
-
-	// Layer 1
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#FF0000").ss(10,1,1).p("ACWAAQAAA+gsAsQgsAsg+AAQg9AAgsgsQgsgsAAg+QAAg9AsgsQAsgsA9AAQA+AAAsAsQAsAsAAA9g");
-	this.shape.setTransform(0,-1);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#009933").ss(10,1,1).p("AiGiGIENAAIAAENIkNAAg");
-	this.shape_1.setTransform(-0.5,-0.5);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},1).wait(1));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(-26.3,-24,51.5,48.5);
-p.frameBounds = [rect, rect];
-
-
 (lib.varLib = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -1910,8 +1821,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var shapeLoad = false;
 		var inputShape = this.inputShape;
 		var outputShape = this.outputShape;
-		var myInputs = new Array();
-		var myOutputs = new Array();
+		var inputMCs = new Array();
+		var outputMCs = new Array();
+		
 		function getYScale() {
 			return yScale;
 		}
@@ -1924,7 +1836,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 			var dist = Math.sqrt(Math.pow((me.x - destX), 2) + Math.pow((me.y - destY), 2));
 			arrow.visible = false;
-			if (focusedBlock && dist < 260) {
+			if (focusedBlock && dist < 175) {
 				focusedBlock.root = false;
 				//console.log(focusedBlock);
 		
@@ -1940,17 +1852,15 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			//me.func.inputs[focusedBlockIndex].alpha = 1;
 			if (destX && destY) {
 				var dist = Math.sqrt(Math.pow((me.x - destX), 2) + Math.pow((me.y - destY), 2));
-				if (dist < 260) {
+				if (dist < 175) {
 					createjs.Tween.get(me)
 						.to({
 							x: destX,
 							y: destY
 						}, 150);
-					 //console.log(myOutputs);
-					  myInputs[0][1].hyper.visible = true;
 				} else {
 					if (focusedBlock) {
-						myInputs[0][1].hyper.visible = false;
+		
 						me.func.vars[focusedBlockInputIndex] = null;
 						focusedBlock.root = true;
 						focusedBlock.occupied = false;
@@ -1976,19 +1886,19 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		arrow.visible = false;
 		
 		var top = new createjs.Shape();
-		top.graphics.beginFill("#ff0000").drawRect(0, 0, 230, 180);
+		top.graphics.beginFill("#ff0000").drawRect(0, 0, 230, 80);
 		top.alpha = .1;
 		top.x = 100;
-		top.y = -180;
+		top.y = -80;
 		me.addChild(top);
 		me.top = top;
 		
 		
 		var bottom = new createjs.Shape();
-		bottom.graphics.beginFill("#ff0000").drawRect(0, 0, 230, 180);
+		bottom.graphics.beginFill("#ff0000").drawRect(0, 0, 230, 80);
 		bottom.alpha = .1;
 		bottom.x = 100;
-		bottom.y = 60;
+		bottom.y = 64;
 		me.addChild(bottom);
 		me.bottom = bottom;
 		
@@ -2007,7 +1917,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		function checkCollision(x1, y1, x2, y2) {
 			var width = 230;
-			var height = 180;
+			var height = 80;
 			//console.log("{x1:"+x1+", y1:"+y1+"}   {x2:"+x2+", y2:"+y2+"}");
 			return x1 < x2 + width && x1 + width > x2 && y1 < y2 + height && y1 + height > y2;
 		}
@@ -2015,65 +1925,24 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		function checkForSnap(others) {
 			var func = me.func;
 			if (!shapeLoad) {
-				shapeLoad = true;
 				/*
-				//console.log(func);
-				//console.log(func.inputShape);
+				shapeLoad = true;
 				inputShape.gotoAndStop(func.inputFrame);
 				outputShape.gotoAndStop(func.outputFrame);
-				//console.log(outputShape);
 				for (var i = 0; i < outputShape.children.length; i++) {
 					if (outputShape.children[i].gotoAndStop) {
 						outputShape.children[i].gotoAndStop((func.frame_color + 1));
 					}
-				}
-				*/
+				}*/
 				for(var i=0; i<func.params.length; i++){
-					
 					if(func.params[i][2] === "Image"){
-						//input
-						var input = new createjs.Shape();
-						input.graphics.beginFill(func.myColor).drawRect(0, -30, 20, 30);
-						me.addChild(input);
-						input.x = 430/2;
-						input.y = 20;
-						
-						var inputMC = new lib.con_sym();
-						inputMC.x = 430/2+10;
-						me.addChild(inputMC);
-						myInputs.push([input,inputMC]);
-						createjs.Tween.get(input).to({
-							scaleY: 1.5
-						}, 300);
-						createjs.Tween.get(inputMC).to({
-							y: -40
-						}, 300);
-						
-						
-						
-						
+						var myMC = new lib.inputMC();
+						myMC.x = 5;
+						myMC.y = -40;
+						stage.addChild(myMC);
+						outputMCs.push(myMC);
 					}
 				}
-				//output
-				var output = new createjs.Shape();
-				output.graphics.beginFill(func.myColor).drawRect(0, 0, 20, 10);
-				me.addChild(output);
-				output.x = 430/2;
-				output.y = 60;
-				//myOutputs.push(output);
-				createjs.Tween.get(output).to({
-					scaleY: 3
-				}, 300);
-				var outputMC = new lib.con_sym();
-				outputMC.x = 430/2+10;
-				outputMC.y = 60;
-				me.addChild(outputMC);
-				createjs.Tween.get(outputMC).to({
-					y: 100
-				}, 300);
-				//console.log(func);
-				outputMC.gotoAndStop(func.outputFrame);
-				myOutputs =[output,outputMC];
 			}
 			for (var i = 0; i < others.length; i++) {
 				//console.log(func);
@@ -2107,12 +1976,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 							var xDist = x2 - x1;
 		
 							arrow.scaleY = (yDist / 76) * 2;
-							if((yDist / 76) * 2>0){
-								arrow.skewX = -(xDist) / 4;
-							}else{
-								arrow.skewX = (xDist) / 4;
-							}
-							destY = me.y - yDist-25;
+							arrow.skewX = -(xDist) / 4;
+							destY = me.y - yDist;
 							destX = me.x - xDist;
 						} else {
 							arrow.visible = false;
@@ -2129,7 +1994,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.checkForSnap = checkForSnap;
 		function shiftDependents(mag) {
-			
+			//console.log("shifting deps");
 			var h = 65;
 			var dep = me.depBlocks;
 			for (var i = 0; i < dep.length; i++) {
@@ -2143,26 +2008,12 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 			
 			//inputSymb
-			console.log(myInputs);
 			var shift = mag * h / 2;
-			for(var i=0; i<myInputs.length;i++){
-				console.log("shifting deps");
-				var input = myInputs[i][0];
-				var inputMC = myInputs[i][1];
-				console.log(input);
-				createjs.Tween.get(input).to({
-					y: input.y - shift
-				}, 150);
-				createjs.Tween.get(inputMC).to({
-					y: inputMC.y - shift
-				}, 150);
-			}
-			console.log(myOutputs);
-			createjs.Tween.get(myOutputs[0]).to({
-					y: myOutputs[0].y + shift
+			createjs.Tween.get(inputShape).to({
+					y: inputShape.y + shift
 			}, 150);
-			createjs.Tween.get(myOutputs[1]).to({
-					y: myOutputs[1].y + shift
+			createjs.Tween.get(outputShape).to({
+					y: outputShape.y - shift
 			}, 150);
 		}
 		function addBlock(type, val, bindedBlock, bindedIndex) {
@@ -2384,6 +2235,12 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
 
+	// Layer 6
+	this.explosion = new lib.explosion();
+	this.explosion.setTransform(233,30.9,1,1,0,0,0,21.8,22.3);
+
+	this.timeline.addTween(cjs.Tween.get(this.explosion).wait(1));
+
 	// Layer 7
 	this.outputShape = new lib.inputShape();
 	this.outputShape.setTransform(218,-1.4,1,1,0,0,0,154,20);
@@ -2393,15 +2250,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.inputShape},{t:this.outputShape}]}).wait(1));
 
-	// Layer 6
-	this.explosion = new lib.explosion();
-	this.explosion.setTransform(233,30.9,1,1,0,0,0,21.8,22.3);
-
-	this.timeline.addTween(cjs.Tween.get(this.explosion).wait(1));
-
 	// Layer 2
 	this.arrow = new lib.Arrow();
-	this.arrow.setTransform(216.1,-84.9,1.808,1.808,0,0,0,0.6,0);
+	this.arrow.setTransform(218.1,-5.9,1.808,1.808,0,0,0,0.6,0);
 
 	this.timeline.addTween(cjs.Tween.get(this.arrow).wait(1));
 
@@ -2436,7 +2287,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.block},{t:this.type}]}).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(-145,-157.8,601,241.8);
+p.nominalBounds = rect = new cjs.Rectangle(-145,-78.8,601,162.8);
 p.frameBounds = [rect];
 
 
@@ -2521,12 +2372,20 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 
 
 
-(lib.wolf = function(mode,startPosition,loop) {
+(lib.RECOVER_wolf = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
 	this.frame_0 = function() {
 		stage.enableMouseOver(20);
+		var btn = document.createElement("textarea");
+		btn.style.position = "absolute";
+		btn.style.top = "" + 880 + "px";
+		btn.style.left = "" + 5 + "px";
+		btn.style.fontSize = "" + 25 + "px";
+		btn.style.width = "" + 1600 + "px";
+		btn.style.height = "" + 400 + "px";
+		document.body.appendChild(btn);
 		
 		var me = this;
 		var alertLib = this.alertLib;
@@ -2996,7 +2855,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				output += "\n";
 			}
 			btn.value = output;
-			updateWolfDiv(output);
 		}
 		
 		////////////////////////////COMPILATION
@@ -3074,7 +2932,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			document.head.appendChild(js);
 		}
 		includeJs("js/blocks.js");
-		includeJs("js/jsGenDOM.js");
 		
 		
 		var searchLibs;
@@ -3194,10 +3051,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					 if(h_blocks.length === 1){
 						 alertLib.visible = false;
 						 lastLib = null;
-						 try{
-							h_blocks[0][0].mc.checkForSnap(exportRoot.getAllBlocks());
-						}catch(e){}
-					}
+						 h_blocks[0][0].mc.checkForSnap(exportRoot.getAllBlocks());
+					 }
 				}
 			}
 		}
