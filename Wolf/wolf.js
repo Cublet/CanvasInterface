@@ -8,7 +8,7 @@ lib.properties = {
 	width: 1600,
 	height: 860,
 	fps: 45,
-	color: "#2D2D2D",
+	color: "#EFEFEF",
 	manifest: []
 };
 
@@ -738,19 +738,17 @@ p.frameBounds = [rect, rect];
 	this.initialize(mode,startPosition,loop,{});
 
 	// timeline functions:
-	this.frame_0 = function() {
-		this.stop();
-	}
 	this.frame_12 = function() {
 		this.parent.block.visible = false;
 		this.parent.title.visible = false;
+		this.parent.removeInputs();
 	}
 	this.frame_17 = function() {
 		this.parent.parent.removeChild(this.parent);
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(12).call(this.frame_12).wait(5).call(this.frame_17).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).wait(12).call(this.frame_12).wait(5).call(this.frame_17).wait(1));
 
 	// Layer 1
 	this.shape = new cjs.Shape();
@@ -1073,6 +1071,11 @@ p.frameBounds = [rect];
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
 			focusMC.shrink();
+			if(evt.stageX<960){
+				stage.removeChild(focusMC);
+				stage.children[0].addChild(focusMC);
+				exportRoot.putLibsTopLayer(focusMC);
+			}
 		}
 	}
 
@@ -1313,6 +1316,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
 			focusMC.shrink();
+			//console.log(evt.stageX);
+			if(evt.stageX<960){
+				stage.removeChild(focusMC);
+				stage.children[0].addChild(focusMC);
+				exportRoot.putLibsTopLayer(focusMC);
+			}
+			
 		}
 	}
 
@@ -1389,6 +1399,37 @@ p.frameBounds = [rect];
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(0,0,51.5,48.5);
 p.frameBounds = [rect, rect, rect, rect, rect=new cjs.Rectangle(-2.7,-3.4,56.6,54), rect, rect, rect, rect=new cjs.Rectangle(-5.9,-7.8,62.8,60.8), rect, rect, rect, rect, rect, rect, rect, rect=new cjs.Rectangle(-8.7,-11,68.2,66.9), rect, rect, rect, rect=new cjs.Rectangle(-9.4,-14.6,70.7,70.7), rect, rect, rect, rect=new cjs.Rectangle(-6.7,-14.8,67.3,68.4), rect, rect, rect, rect=new cjs.Rectangle(-5.2,-11.7,62.8,64.6), rect, rect, rect, rect=new cjs.Rectangle(1.8,-7.4,51.6,54.4), rect, rect, rect, rect=new cjs.Rectangle(-2,-8.1,54.9,57.5), rect, rect, rect, rect=new cjs.Rectangle(-5.4,-12.6,64.9,66.5), rect, rect, rect, rect=new cjs.Rectangle(-8.9,-14,70.4,70.7), rect, rect, rect, rect=new cjs.Rectangle(-8.6,-12.6,70,69.3), rect, rect, rect, rect=new cjs.Rectangle(-5.2,-8.6,64.1,62.2), rect, rect, rect, rect=new cjs.Rectangle(1.6,-0.5,52.4,49.4), rect, rect, rect, rect=new cjs.Rectangle(-4.9,-8.7,64.8,63), rect, rect, rect, rect=new cjs.Rectangle(-8,-11.3,70.1,69.4), rect, rect, rect, rect=new cjs.Rectangle(-7,-9.9,66.9,68.2), rect, rect, rect, rect=new cjs.Rectangle(-2.4,-6.9,58.2,60.6), rect, rect, rect, rect=new cjs.Rectangle(2.5,-2.9,48.7,51.7), rect, rect, rect];
+
+
+(lib.nav_options = function() {
+	this.initialize();
+
+	// Layer 1
+	this.export_btn = new lib.export_btn();
+	this.export_btn.setTransform(510.2,56.1,1,1,0,0,0,130.1,58.1);
+
+	this.save_btn = new lib.save_btn();
+	this.save_btn.setTransform(349.6,26.5,1,1,0,0,0,89.5,30.5);
+
+	this.load_btn = new lib.load_btn();
+	this.load_btn.setTransform(214.5,27.5,1,1,0,0,0,75.5,29.5);
+
+	this.new_btn = new lib.newBtn();
+	this.new_btn.setTransform(69.5,27.5,1,1,0,0,0,69.5,29.5);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#2D2D2D").s().p("A8jEiIAAgBMhgcAAAIAApCMD5/AAAIAAJCMgwZAAAIAAABg");
+	this.shape.setTransform(801,29);
+
+	// Layer 2
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#2D2D2D").s().p("Ehm7AEiIAAobMDNBAAAIAAAQQAMgYASggIAYAAIgFAMQgZA6gYAbIAAGmIlAAAIAAA8g");
+	this.shape_1.setTransform(946,23);
+
+	this.addChild(this.shape_1,this.shape,this.new_btn,this.load_btn,this.save_btn,this.export_btn);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(0,-6,1604.9,64.1);
+p.frameBounds = [rect];
 
 
 (lib.library = function() {
@@ -1559,6 +1600,11 @@ p.frameBounds = [rect, rect];
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
 			focusMC.shrink();
+			if(evt.stageX<960){
+				stage.removeChild(focusMC);
+				stage.children[0].addChild(focusMC);
+				exportRoot.putLibsTopLayer(focusMC);
+			}
 		}
 	}
 
@@ -2365,18 +2411,55 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.removeImage = removeImage;
 		
+		function killSymbols(){
+			var shift = -60 ;
+			for(var i=0; i<myInputs.length;i++){
+				console.log("shifting deps");
+				var input = myInputs[i][0];
+				var inputMC = myInputs[i][1];
+				console.log(input);
+				createjs.Tween.get(input).to({
+					y: input.y - shift
+				}, 150);
+				createjs.Tween.get(inputMC).to({
+					y: inputMC.y - shift
+				}, 150);
+			}
+			console.log(myOutputs);
+			createjs.Tween.get(myOutputs[0]).to({
+					y: myOutputs[0].y + shift
+			}, 150);
+			createjs.Tween.get(myOutputs[1]).to({
+					y: myOutputs[1].y + shift
+			}, 150);
+		}
+		
+		function removeInputs(){
+			//console.log("im so happy");
+			for(var i=0; i<myInputs.length; i++){
+				myInputs[i].visible = false;
+			}
+			myOutputs[0].visible = false;
+			myOutputs[1].visible = false;
+		}
+		this.removeInputs = removeInputs;
 		function killSelf() {
-			console.log("killing self");
+			//console.log("killing self");
 			yScale = 1;
 			for (var i = 0; i < me.blockStack.length; i++) {
-				console.log("removing block");
+				//console.log("removing block");
 				removeBlock(me.func, i, true);
 			}
 			if (imageHolder) {
-				console.log("removing image");
+				//console.log("removing image");
 				removeImage();
 			}
-			me.explosion.play();
+			
+			killSymbols();
+			var explosion = new lib.explosion();
+			explosion.x = 430/2+10;
+			me.addChild(explosion);
+			//me.explosion.play();
 		}
 		this.killSelf = killSelf;
 	}
@@ -2392,12 +2475,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	this.inputShape.setTransform(218,64,1,1,0,0,0,154,20);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.inputShape},{t:this.outputShape}]}).wait(1));
-
-	// Layer 6
-	this.explosion = new lib.explosion();
-	this.explosion.setTransform(233,30.9,1,1,0,0,0,21.8,22.3);
-
-	this.timeline.addTween(cjs.Tween.get(this.explosion).wait(1));
 
 	// Layer 2
 	this.arrow = new lib.Arrow();
@@ -2531,6 +2608,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var me = this;
 		var alertLib = this.alertLib;
 		var outputCompile = false;
+		var navOptions = this.nav_options;
 		this.outputCompile = outputCompile;
 		
 		var Button = function (name, mc) {
@@ -2543,10 +2621,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			new Button("search", this.library.search_btn),
 			new Button("variables", this.library.var_btn),
 		
-			new Button("new", this.new_btn),
-			new Button("load", this.load_btn),
-			new Button("save", this.save_btn),
-			new Button("export", this.export_btn)
+			new Button("new", navOptions.new_btn),
+			new Button("load", navOptions.load_btn),
+			new Button("save", navOptions.save_btn),
+			new Button("export", navOptions.export_btn)
 		
 		);
 		
@@ -3275,6 +3353,22 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 		}
 		this.deleteFunc = deleteFunc;
+		
+		function putLibsTopLayer(mc){
+			console.log("setting indexes");
+			console.log("->"+stage.children[0].getChildIndex(navOptions));
+			console.log("->"+stage.children[0].getChildIndex(mc));
+			
+			//stage.children[0].setChildIndex( navOptions, stage.getNumChildren()-1);
+			stage.children[0].swapChildren(mc,navOptions);	
+			console.log(stage.children[0].children);
+			
+			console.log("swapped");
+			console.log("->"+stage.children[0].getChildIndex(navOptions));
+			console.log("->"+stage.children[0].getChildIndex(mc));
+			
+		}
+		this.putLibsTopLayer = putLibsTopLayer;
 	}
 
 	// actions tween:
@@ -3317,33 +3411,16 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	this.library = new lib.library();
 	this.library.setTransform(1287.6,460.1,1,1,0,0,0,312.4,400.1);
 
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#EFEFEF").s().p("EhV9A+gMAAAh8+MCYsAAAMAAAB89ITPAAIAAABg");
-	this.shape_1.setTransform(548.2,460);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.library}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.library).wait(1));
 
 	// Layer 1
-	this.export_btn = new lib.export_btn();
-	this.export_btn.setTransform(509.2,58.1,1,1,0,0,0,130.1,58.1);
+	this.nav_options = new lib.nav_options();
+	this.nav_options.setTransform(799.5,32.5,1,1,0,0,0,800.5,30.5);
 
-	this.save_btn = new lib.save_btn();
-	this.save_btn.setTransform(348.6,30.5,1,1,0,0,0,89.5,30.5);
-
-	this.load_btn = new lib.load_btn();
-	this.load_btn.setTransform(213.5,29.5,1,1,0,0,0,75.5,29.5);
-
-	this.new_btn = new lib.newBtn();
-	this.new_btn.setTransform(68.5,29.5,1,1,0,0,0,69.5,29.5);
-
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#2D2D2D").s().p("AkSJEIAAyHMBpKAAAIAASHgEhk3AJEIAAo7MAooAAAIAAAUISxAAIAAIng");
-	this.shape_2.setTransform(644.7,58);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.new_btn},{t:this.load_btn},{t:this.save_btn},{t:this.export_btn}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this.nav_options).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(798,430,1602.4,862.3);
+p.nominalBounds = rect = new cjs.Rectangle(799,426,1604.9,866.3);
 p.frameBounds = [rect];
 
 })(lib = lib||{}, images = images||{}, createjs = createjs||{}, ss = ss||{});
