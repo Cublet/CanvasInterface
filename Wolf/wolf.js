@@ -3200,15 +3200,16 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		*/
 		
 		//SELECT RECTANGLE
-		
-		stage.addEventListener("mousedown", startSelect);
-		stage.addEventListener("pressmove", makeSelect);
-		stage.addEventListener("pressup", executeSelect);
+		var everything = document.querySelector("body");
+		everything.addEventListener("mousedown", startSelect);
+		everything.addEventListener("mousemove", makeSelect);
+		everything.addEventListener("mouseup", executeSelect);
 		var selecter;
 		var h_blocks;
 		var startX;
 		var startY;
 		var clickedInEditPane = false;
+		var pressing = false;
 		function hitTest(x,y,block){
 			var x1=block.mc.x;
 			var y1=block.mc.y;
@@ -3217,23 +3218,26 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return x>x1 && x<x1+w1 && y>y1 && y<y1+h1;
 		}
 		function startSelect(m){
-			//console.log(m.nativeEvent);
-			if(m.nativeEvent.ctrlKey){
-				//console.log("mkRect");
+			pressing = true;
+			var relX = m.x;
+			var relY = m.y;
+			console.log(relX+":"+relY);
+			if(m.ctrlKey){
+				console.log("mkRect");
 				selecter = new createjs.Shape();
-				selecter.x = m.stageX;
-				selecter.y = m.stageY;
+				selecter.x = relX;
+				selecter.y = relY;
 				stage.addChild(selecter);
 			}
-			h_blocks = getHighlightedBlocks(m.stageX,m.stageY);
+			h_blocks = getHighlightedBlocks(relX,relY);
 			//console.log(h_blocks);
-			startX = m.stageX;
-			startY = m.stageY;
-			if(m.stageX<950){
+			startX = relX;
+			startY = relY;
+			if(relX<950){
 				clickedInEditPane = true;
 				var clicked = false;
 				for(var i=0; i<funcBlocks.length; i++){
-					if(!hitTest(m.stageX,m.stageY,funcBlocks[i])){
+					if(!hitTest(relX,relY,funcBlocks[i])){
 						funcBlocks[i].mc.block.highlight.visible = false;
 					}
 				}
@@ -3255,26 +3259,31 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return h_blocks;
 		}
 		function makeSelect(m){
-			if(m.nativeEvent.ctrlKey){
-				//console.log("expandRect");
-				selecter.graphics.clear();
-				var width = m.stageX - selecter.x;
-				var height = m.stageY - selecter.y;
-				selecter.graphics.beginFill("#0099FF").drawRect(0, 0, width, height);
-				selecter.alpha = .4;
-				highlightSelected(m.stageX,m.stageY);
-			}else{
-				if(clickedInEditPane){
-					 for(var i=0; i<h_blocks.length; i++){
-						h_blocks[i][0].mc.x = m.stageX + h_blocks[i][1];
-						h_blocks[i][0].mc.y = m.stageY+ h_blocks[i][2];
-					 }
-					 if(h_blocks.length === 1){
-						 alertLib.visible = false;
-						 lastLib = null;
-						 try{
-							h_blocks[0][0].mc.checkForSnap(exportRoot.getAllBlocks());
-						}catch(e){}
+			if(pressing){
+				var relX = m.x;
+				var relY = m.y;
+				if(m.ctrlKey){
+					//console.log("expandRect");
+					selecter.graphics.clear();
+					var width = relX - selecter.x;
+					var height = relY - selecter.y;
+					console.log("w:"+width);
+					selecter.graphics.beginFill("#0099FF").drawRect(0, 0, width, height);
+					selecter.alpha = .4;
+					highlightSelected(relX,relY);
+				}else{
+					if(clickedInEditPane){
+						 for(var i=0; i<h_blocks.length; i++){
+							h_blocks[i][0].mc.x = relX + h_blocks[i][1];
+							h_blocks[i][0].mc.y = relY+ h_blocks[i][2];
+						 }
+						 if(h_blocks.length === 1){
+							 alertLib.visible = false;
+							 lastLib = null;
+							 try{
+								h_blocks[0][0].mc.checkForSnap(exportRoot.getAllBlocks());
+							}catch(e){}
+						}
 					}
 				}
 			}
@@ -3283,11 +3292,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			if(h_blocks.length === 1){
 				 h_blocks[0][0].mc.shrink();
 			}
-			if(m.nativeEvent.ctrlKey){
+			if(m.ctrlKey){
 				stage.removeChild(selecter);
 				selecter = null;
 			}
 			h_blocks = null;
+			pressing = false;
+			
 		}
 		
 		function highlightSelected(curX,curY){
@@ -3355,17 +3366,17 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.deleteFunc = deleteFunc;
 		
 		function putLibsTopLayer(mc){
-			console.log("setting indexes");
-			console.log("->"+stage.children[0].getChildIndex(navOptions));
-			console.log("->"+stage.children[0].getChildIndex(mc));
+			//console.log("setting indexes");
+			//console.log("->"+stage.children[0].getChildIndex(navOptions));
+			//console.log("->"+stage.children[0].getChildIndex(mc));
 			
 			//stage.children[0].setChildIndex( navOptions, stage.getNumChildren()-1);
 			stage.children[0].swapChildren(mc,navOptions);	
 			console.log(stage.children[0].children);
 			
-			console.log("swapped");
-			console.log("->"+stage.children[0].getChildIndex(navOptions));
-			console.log("->"+stage.children[0].getChildIndex(mc));
+			//console.log("swapped");
+			//console.log("->"+stage.children[0].getChildIndex(navOptions));
+			//console.log("->"+stage.children[0].getChildIndex(mc));
 			
 		}
 		this.putLibsTopLayer = putLibsTopLayer;
