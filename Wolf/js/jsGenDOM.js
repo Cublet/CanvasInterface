@@ -19,9 +19,23 @@ wolfDiv.style.background = "rgb(39, 37, 37)";
 wolfDiv.innerHTML = "<img src = 'non_gen_images/wolfIcon.png' style='position:absolute;top:250px;left:250px'>";
 document.body.appendChild(wolfDiv);
 
+function loadedUp(){
+	var output = document.getElementById("output");
+	//console.log("width: "+ output.width +"height:"+output.height);
+	if(output.width>output.height){
+		output.style.width="100%";
+		output.style.position = "absolute";
+		output.style.top = "calc(50% - "+output.height/2+"px)";
+	}else{
+		output.style.height="100%";
+	}
+}
 
 function updateWolfDiv(string){
 	//xmlhttp.open("GET","demo_get.asp",true);
 	//xmlhttp.send();
 	//console.log("updating Wolf Div {\n"+string+"}");
+	
+	wolfDiv.innerHTML = "<img onload='loadedUp()' id='output' src='https://www.wolframcloud.com/objects/user-59b3837e-6a61-4346-96aa-80da1718a00d/expression?input=" + string + "'>";
+	
 }

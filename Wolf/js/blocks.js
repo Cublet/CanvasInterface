@@ -10,7 +10,7 @@ function iterative_compile(vars,params){
 				if(exportRoot.outputCompile){
 					console.log("   unfolding "+vars[i].name);
 				}
-				output += exportRoot.compile(vars[i]);
+				output += exportRoot.compile(vars[i])+",";
 			
 			}else{
 				if(exportRoot.outputCompile){
@@ -20,14 +20,14 @@ function iterative_compile(vars,params){
 				if(params[i][2] === "string"){
 					output += "\"" + vars[i] + "\",";
 				}else{
-					output += "," + vars[i] + ",";
+					output += "" + vars[i] + ",";
 				}
 			}
 		}
 	}
-	if (trim) {
-		output = output.substring(0, output.length - 1);
-	}
+	//if (trim) {
+	//	output = output.substring(0, output.length - 1);
+	//}
 	return output;
 }
 
@@ -50,7 +50,6 @@ var Block = function(mc){
 	}
 	this.compile = compile;
 	this.vars = [null, null];
-	
 	this.inputs = [null,null];
 	this.childMCs = [null,null];
 	this.blockObject = [false,false];
@@ -158,7 +157,7 @@ var Image = function (mc) {
 	];
 	
 	this.codeBegin = "Import[";
-	this.codeEnd = "]%";
+	this.codeEnd = "]";
 	this.numParams(this.params.length);
 	function compile(){
 		//console.log("Hashed: "+getHashedState(this.vars));
@@ -239,3 +238,34 @@ var Blur = function (mc) {
 Blur.prototype = Block.prototype;       
 Blur.prototype.constructor = Blur;  
 funcMap.set("Blur", Blur);
+
+
+
+var ImageIdentify = function (mc) {
+	Block.apply(this,arguments);
+	this.name = "ImageIdentify";
+	this.desc = "Identifies an image";
+	this.type = "search";
+	this.outputFrame = 1;
+	this.frame_color = 2;
+	//this.myColor = "#E38D00";
+	this.params = [
+		["Image", false, "Image"],
+		["Category", true, "string"],
+		["n", false, "integer"]
+	];
+	
+	this.codeBegin = "ImageIdentify[";
+	this.codeEnd = "]";
+	this.numParams(this.params.length);
+	function compile(){
+		return iterative_compile(this.vars,this.params);
+	}
+	this.compile = compile;
+}
+ImageIdentify.prototype = Block.prototype;       
+ImageIdentify.prototype.constructor = ImageIdentify;  
+funcMap.set("ImageIdentify", ImageIdentify);
+
+
+//MATH FUNCTIONS
