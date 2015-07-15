@@ -25,6 +25,12 @@ function iterative_compile(vars,params){
 			}
 		}
 	}
+
+	if(output.charAt(output.length-1) === ','){
+		console.log("removed comma");
+		output = output.substring(0,output.length-1);
+	}
+
 	//if (trim) {
 	//	output = output.substring(0, output.length - 1);
 	//}

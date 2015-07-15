@@ -19,6 +19,19 @@ wolfDiv.style.background = "rgb(39, 37, 37)";
 wolfDiv.innerHTML = "<img src = 'non_gen_images/wolfIcon.png' style='position:absolute;top:250px;left:250px'>";
 document.body.appendChild(wolfDiv);
 
+
+/*
+var coverDiv = document.createElement("DIV");
+coverDiv.style.position = "absolute";
+coverDiv.style.top = "" + 7 + "px";
+coverDiv.style.right = "" + (15) + "px";
+coverDiv.style.width = "" + (900) + "px";
+coverDiv.style.height = "" + 980 + "px";
+coverDiv.style.background = "rgb(39, 37, 37)";
+coverDiv.innerHTML = "<img src = 'non_gen_images/wolfIcon.png' style='position:absolute;top:250px;left:250px'>";
+document.body.appendChild(coverDiv);
+*/
+
 function loadedUp(){
 	var output = document.getElementById("output");
 	//console.log("width: "+ output.width +"height:"+output.height);
@@ -29,13 +42,11 @@ function loadedUp(){
 	}else{
 		output.style.height="100%";
 	}
+	//coverDiv.style.display = "none";
 }
 
 function updateWolfDiv(string){
-	//xmlhttp.open("GET","demo_get.asp",true);
-	//xmlhttp.send();
-	//console.log("updating Wolf Div {\n"+string+"}");
-	
 	wolfDiv.innerHTML = "<img onload='loadedUp()' id='output' src='https://www.wolframcloud.com/objects/user-59b3837e-6a61-4346-96aa-80da1718a00d/expression?input=" + string + "'>";
-	
+	//coverDiv.style.display = "default";
+
 }
