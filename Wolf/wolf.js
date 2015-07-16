@@ -2220,6 +2220,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 							inputMC.gotoAndStop(1);
 						}else if(func.params[i][0] === "Image(s)"){
 							inputMC.gotoAndStop(2);
+						}else if(func.params[i][0] === "Images"){
+							inputMC.gotoAndStop(1);
 						}
 					}
 				}
@@ -2791,7 +2793,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(0,0,1,89);
-p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9,89), new cjs.Rectangle(0,0,61.4,89), new cjs.Rectangle(0,0,226.5,89), new cjs.Rectangle(0,0,481.9,89), new cjs.Rectangle(0,0,528.4,89), new cjs.Rectangle(0,0,545.5,89), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,-0.2,549.9,91.2), new cjs.Rectangle(0,-1.1,549.9,98.6), new cjs.Rectangle(0,-2.8,549.9,113.5), new cjs.Rectangle(0,-5.9,549.9,140), new cjs.Rectangle(0,-11.6,549.9,188.2), new cjs.Rectangle(0,-24.3,549.9,296.9), new cjs.Rectangle(0,-68.3,549.9,674.2), new cjs.Rectangle(0,-80.9,549.9,782.2), new cjs.Rectangle(0,-86,549.9,825.6), new cjs.Rectangle(0,-88.5,549.9,847.1), new cjs.Rectangle(0,-89.7,549.9,857.2), rect=new cjs.Rectangle(0,-90,549.9,860), rect, new cjs.Rectangle(0,-89.4,549.9,852.6), new cjs.Rectangle(0,-85.8,549.9,822.5), new cjs.Rectangle(0,-75.4,549.9,733.4), new cjs.Rectangle(0,-20,549.9,260.1), new cjs.Rectangle(0,-5.2,549.9,133.5), new cjs.Rectangle(0,-1,549.9,97.4), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,0,440.1,89), new cjs.Rectangle(0,0,330.3,89), new cjs.Rectangle(0,0,220.6,89), new cjs.Rectangle(0,0,110.8,89), new cjs.Rectangle(0,0,1,89)];
+p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9,89), new cjs.Rectangle(0,0,61.4,89), new cjs.Rectangle(0,0,226.4,89), new cjs.Rectangle(0,0,481.7,89), new cjs.Rectangle(0,0,528.3,89), new cjs.Rectangle(0,0,545.5,89), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,-0.2,549.9,91.2), new cjs.Rectangle(0,-1.1,549.9,98.6), new cjs.Rectangle(0,-2.8,549.9,113.5), new cjs.Rectangle(0,-5.9,549.9,140), new cjs.Rectangle(0,-11.6,549.9,188.2), new cjs.Rectangle(0,-24.3,549.9,296.9), new cjs.Rectangle(0,-68.3,549.9,674.2), new cjs.Rectangle(0,-80.9,549.9,782.2), new cjs.Rectangle(0,-86,549.9,825.6), new cjs.Rectangle(0,-88.5,549.9,847.1), new cjs.Rectangle(0,-89.7,549.9,857.2), rect=new cjs.Rectangle(0,-90,549.9,860), rect, new cjs.Rectangle(0,-89.4,549.9,852.6), new cjs.Rectangle(0,-85.8,549.9,822.5), new cjs.Rectangle(0,-75.4,549.9,733.4), new cjs.Rectangle(0,-20,549.9,260.1), new cjs.Rectangle(0,-5.2,549.9,133.5), new cjs.Rectangle(0,-1,549.9,97.4), new cjs.Rectangle(0,0,549.9,89), new cjs.Rectangle(0,0,440.1,89), new cjs.Rectangle(0,0,330.3,89), new cjs.Rectangle(0,0,220.6,89), new cjs.Rectangle(0,0,110.8,89), new cjs.Rectangle(0,0,1,89)];
 
 
 // stage content:
@@ -3404,7 +3406,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				new FetchFaces(),
 				new Classify()
 			);
-			graphicsLibs = new Array(new Blur());
+			graphicsLibs = new Array(
+				new Blur(),
+				new ImageCollage()
+			);
 			mathLibs = new Array();
 			console.log(searchLibs);
 		}, 300);

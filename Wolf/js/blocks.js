@@ -239,7 +239,7 @@ var Blur = function (mc) {
 	this.name = "Blur";
 	this.desc = "Blurs an Image";
 	this.type = "draw";
-	this.outputFrame = 1;
+	this.outputFrame = 2;
 	this.frame_color = 2;
 	this.myColor = "#E38D00";
 	this.params = [
@@ -368,27 +368,34 @@ Classify.prototype.constructor = Classify;
 funcMap.set("Classify", Classify);
 
 
-var ReturnFaces = function (mc) {
+var ImageCollage = function (mc) {
 	Block.apply(this,arguments);
-	this.name = "ReturnFaces";
-	this.desc = "Return a set of faces to there original position";
+	this.name = "ImageCollage";
+	this.desc = "Returns a collage of Images";
 	this.type = "draw";
 	this.outputFrame = 2;
 	this.frame_color = 2;
-	//this.myColor = "#E38D00";
+	this.myColor = "#E38D00";
 	this.params = [
-		["Images(s)", true, "Blur"]
+		["Images", true, "Blur/FetchFaces/Image"],
+		["Filling", true, "string"],
+		["Method", true, "string"]
 	];
 	
-	this.codeBegin = "ReturnFaces[";
-	this.codeEnd = "]";
+	this.codeBegin = "ImageCollage[";
+	this.codeEnd = ",\"Fill\", Method->\"Rows\"]";
 	this.numParams(this.params.length);
 	function compile(){
-		return iterative_compile(this.vars,this.params);
+		//return iterative_compile(this.vars,this.params);
+		if(this.vars[0]){
+			return exportRoot.compile(this.vars[0]);
+		}else{
+			return ;
+		}
 	}
 	this.compile = compile;
 }
-ReturnFaces.prototype = Block.prototype;       
-ReturnFaces.prototype.constructor = ReturnFaces;  
-funcMap.set("ReturnFaces", ReturnFaces);
+ImageCollage.prototype = Block.prototype;       
+ImageCollage.prototype.constructor = ImageCollage;  
+funcMap.set("ImageCollage", ImageCollage);
 
