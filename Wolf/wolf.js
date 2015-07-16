@@ -1084,7 +1084,7 @@ p.frameBounds = [rect];
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink();
+			focusMC.shrink(true);
 			if(evt.stageX<960){
 				stage.removeChild(focusMC);
 				stage.children[0].addChild(focusMC);
@@ -1329,7 +1329,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink();
+			focusMC.shrink(true);
 			//console.log(evt.stageX);
 			if(evt.stageX<960){
 				stage.removeChild(focusMC);
@@ -1613,7 +1613,7 @@ p.frameBounds = [rect, rect];
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink();
+			focusMC.shrink(true);
 			if(evt.stageX<960){
 				stage.removeChild(focusMC);
 				stage.children[0].addChild(focusMC);
@@ -1756,7 +1756,7 @@ p.frameBounds = [rect];
 			me.parent.play();
 			stage.removeEventListener("stagemousemove", dragged);
 			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink();
+			focusMC.shrink(true);
 			//console.log(evt.stageX);
 			if(evt.stageX<960){
 				stage.removeChild(focusMC);
@@ -1917,15 +1917,27 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.stop();
 		this.hyper.visible = false;
 	}
+	this.frame_2 = function() {
+		this.stop();
+		this.hyper.visible = false;
+	}
+	this.frame_3 = function() {
+		this.stop();
+		this.hyper.visible = false;
+	}
+	this.frame_4 = function() {
+		this.stop();
+		this.hyper.visible = false;
+	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(1).call(this.frame_3).wait(1).call(this.frame_4).wait(1));
 
 	// Layer 3
 	this.hyper = new lib.rotHype();
 	this.hyper.setTransform(-0.5,0.2,1,1,0,0,0,25.8,24.2);
 
-	this.timeline.addTween(cjs.Tween.get(this.hyper).wait(2));
+	this.timeline.addTween(cjs.Tween.get(this.hyper).wait(5));
 
 	// Layer 1
 	this.shape = new cjs.Shape();
@@ -1933,14 +1945,30 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	this.shape.setTransform(0,-1);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#009933").ss(10,1,1).p("AiGiGIENAAIAAENIkNAAg");
-	this.shape_1.setTransform(-0.5,-0.5);
+	this.shape_1.graphics.f().s("#000066").ss(10,1,1).p("ACWAAQAAA+gsAsQgsAsg+AAQg9AAgsgsQgsgsAAg+QAAg9AsgsQAsgsA9AAQA+AAAsAsQAsAsAAA9g");
+	this.shape_1.setTransform(0,-1);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},1).wait(1));
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f().s("#FF0000").ss(10,1,1).p("ABGCVQg5gDgmgoQgsgsAAg+QAAg9AsgsQAmgoA5gD");
+	this.shape_2.setTransform(-8,-1);
+
+	this.shape_3 = new cjs.Shape();
+	this.shape_3.graphics.f().s("#000066").ss(10,1,1).p("AhPiUQAFgBAFAAQA/AAAqAsQAsAsAAA9QAAA+gsAsQgqAsg/AAQgFAAgFgB");
+	this.shape_3.setTransform(7,-1);
+
+	this.shape_4 = new cjs.Shape();
+	this.shape_4.graphics.f().s("#0D8500").ss(10,1,1).p("ACMiCIgJEOIkOgJIAJkOg");
+	this.shape_4.setTransform(-0.4,-0.5);
+
+	this.shape_5 = new cjs.Shape();
+	this.shape_5.graphics.f().s("#DBA000").ss(10,1,1).p("AgCi/IDCC9Ii9DCIjCi9g");
+	this.shape_5.setTransform(-0.5,-0.5);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},1).to({state:[{t:this.shape_3},{t:this.shape_2}]},1).to({state:[{t:this.shape_4}]},1).to({state:[{t:this.shape_5}]},1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-26.3,-24,51.5,48.5);
-p.frameBounds = [rect, rect];
+p.frameBounds = [rect, rect, rect, rect, new cjs.Rectangle(-26.3,-24.7,51.5,49.2)];
 
 
 (lib.varLib = function(mode,startPosition,loop) {
@@ -2053,7 +2081,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				}
 			}
 		}
-		function shrink() {
+		function shrink(init) {
 			//console.log("<"+me.x+","+(me.x+400)+">");
 			if (me.x < -360 || (me.x + 400) > 1000) {
 				exportRoot.deleteFunc(me.func);
@@ -2066,12 +2094,14 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				//console.log(focusedBlock);
 		
 				setTimeout(function () {
-					me.depBlocks.push([-1, focusedBlock]);
-					//console.log(me.func);
-					focusedBlock.mc.depBlocks.push([1, me.func]);
-					me.func.vars[focusedBlockIndex] = focusedBlock;
-					focusedBlock.occupied = true;
-					exportRoot.turnOnInput(focusedBlockInputIndex, focusedBlock);
+					if(init){
+						me.depBlocks.push([-1, focusedBlock]);
+						//console.log(me.func);
+						focusedBlock.mc.depBlocks.push([1, me.func]);
+						me.func.vars[focusedBlockIndex] = focusedBlock;
+						focusedBlock.occupied = true;
+						exportRoot.turnOnInput(focusedBlockInputIndex, focusedBlock);
+					}
 				}, 500);
 			}
 			//me.func.inputs[focusedBlockIndex].alpha = 1;
@@ -2168,7 +2198,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				*/
 				for(var i=0; i<func.params.length; i++){
 					
-					if(func.params[i][2] === "Image"){
+					if(func.params[i][2].indexOf("Image")>-1 || func.params[i][0] === "Object"){
 						//input
 						var input = new createjs.Shape();
 						input.graphics.beginFill(func.myColor).drawRect(0, -30, 20, 30);
@@ -2186,10 +2216,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						createjs.Tween.get(inputMC).to({
 							y: -40
 						}, 300);
-						
-						
-						
-						
+						if(func.params[i][0] === "Object"){
+							inputMC.gotoAndStop(1);
+						}else if(func.params[i][0] === "Image(s)"){
+							inputMC.gotoAndStop(2);
+						}
 					}
 				}
 				//output
@@ -2222,7 +2253,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				for (var j = 0; j < func.params.length; j++) {
 					var param = func.params[j][2];
 					//console.log("compare: "+param+" -> "+others[i].name);
-					if (param === others[i].name && !others[i].occupied) {
+					if (param.indexOf(others[i].name)>-1 && !others[i].occupied) {
 						var otherMC = others[i].mc.bottom;
 						//console.log(otherMC);
 						//console.log("{x1:"+otherMC.x+", y1:"+otherMC.y+"}   {x2:"+top.x+", y2:"+top.y+"}");
@@ -2814,7 +2845,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var openHandler = null;
 		var lastLib = "none";
 		function openLib(event) {
-			if((!openHandler || openHandler.currentFrame > 19) && lastLib !== getButtonName(event.currentTarget)){
+			if((!openHandler || openHandler.currentFrame > 19) /*&& lastLib !== getButtonName(event.currentTarget)*/){
 				
 				
 				clearInputs();
@@ -2936,7 +2967,21 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				myMC.extraVal.visible = false;
 			}
 		
+			if(block.params[index][3]){
+				var _form = document.body.appendChild(document.createElement('form')),
+				_datalist = _form.appendChild(document.createElement('datalist'));
 		
+				_datalist.id = 'exampleList';
+				btn.setAttribute('list','exampleList');
+		
+				var _option = "";
+				for (var i = 0; i < block.params[index][3].length; i++) {
+					_option += "<option value='" + block.params[index][3][i] + "' />";
+				};
+		
+				_datalist.innerHTML = _option;
+			}
+			
 			if (browse) {
 				if (block.vars[index]) {
 					var btn = document.createElement("DIV");
@@ -3001,7 +3046,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					me.block.mc.removeBlock(me.block, me.index,false);
 					me.block.vars[me.index] = null;
 				}
-		
+				console.log("slider changed, updating code");
 				updateCode();
 			}
 			function updateVal(e) {
@@ -3059,6 +3104,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			funcs[i].inputs[j].button.alpha = 1;
 			funcs[i].blockObject[j] = true;
 			funcs[i].vars[j] = childBlock;
+			console.log("turnOnInput, updating code..");
 			updateCode();
 		}
 		this.turnOnInput = turnOnInput;
@@ -3104,6 +3150,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 			tempBlocks = new Array();
 			//window.addEventListener("keyup", handleNonOptionalChecks);
+			console.log("generated inputs, update code");
 			updateCode();
 			//console.log("inputs were created");
 			block.mc.block.highlight.visible = true;
@@ -3146,7 +3193,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					input.btn.style.background = "white";
 				}
 			}
-		
+			console.log("input handler, update code..");
 			updateCode();
 		}
 		
@@ -3164,6 +3211,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			func_title.text = block.name;
 			//console.log(block);
 			mc.func = block;
+			console.log("Updated function, update code..");
 			updateCode();
 		}
 		this.addFunc = addFunc;
@@ -3230,8 +3278,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.callInputs = callInputs;
 		
 		function updateCode() {
+			console.log(funcBlocks);
+			varStack = new Array();
+			varID = 0;
 			if (outputCompile) {
-				console.log("compiling..");
+				console.log("COMPILLING STARTED..");
 			}
 			var output = "";
 			for (var i = 0; i < funcBlocks.length; i++) {
@@ -3245,18 +3296,20 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				}
 			}
 			
-			console.log(output.charAt(output.length-3));
-		
 			
 			if(output.charAt(output.length-3) === ','){
-				console.log("removed comma");
 				output = output.substring(0,output.length-3);
 				output+="]";
 			}
+			var variabs = "";
+			for(var i=0; i<varStack.length; i++){
+				variabs+=varStack[i]+"\n";
+			}
 			
-			//output = output.substring(0, output.length - 2);
-			//output+="]";
-			btn.value = output;
+			btn.value = variabs+output;
+			if(outputCompile){
+				console.log("COMPILLING ENDED");
+			}
 		}
 		
 		////////////////////////////COMPILATION
@@ -3273,7 +3326,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.getHashedState = getHashedState;
 		
 		function compile(func) {
+			varID++;
 			if (outputCompile) {
+				//console.log(func);
 				console.log("compiling " + func.name + "...");
 			}
 			var output = func.codeBegin;
@@ -3341,9 +3396,17 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var graphicsLibs;
 		var mathLibs;
 		setTimeout(function () {
-			searchLibs = new Array(new WolframAlpha(), new SocialMediaData(), new Image(), new ImageIdentify());
+			searchLibs = new Array(
+				new WolframAlpha(),
+				new SocialMediaData(), 
+				new Image(),
+				new ImageIdentify(), 
+				new FetchFaces(),
+				new Classify()
+			);
 			graphicsLibs = new Array(new Blur());
 			mathLibs = new Array();
+			console.log(searchLibs);
 		}, 300);
 		function getSearchLib() {
 			return searchLibs;
@@ -3494,7 +3557,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		function executeSelect(m){
 			if(h_blocks.length === 1){
-				 h_blocks[0][0].mc.shrink();
+				 h_blocks[0][0].mc.shrink(false);
 			}
 			if(selecter){
 				stage.removeChild(selecter);
@@ -3535,7 +3598,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		window.addEventListener("keydown", pressed);
 		function pressed(k){
 			if(k.keyCode === 13){
-				console.log("updateing code..");
+				console.log("Enter pressed, updateing code..");
 				updateCode();
 				updateWolfDiv(btn.value);
 			}

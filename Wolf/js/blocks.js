@@ -1,3 +1,5 @@
+var varStack = new Array();
+var varID = 0;
 function iterative_compile(vars,params){
 	var trim = false;
 	var output = "";
@@ -10,24 +12,35 @@ function iterative_compile(vars,params){
 				if(exportRoot.outputCompile){
 					console.log("   unfolding "+vars[i].name);
 				}
-				output += exportRoot.compile(vars[i])+",";
-			
+				var name = "$var"+varID;
+				varStack.push(name+"="+exportRoot.compile(vars[i]));
+				output += name+",";
+				varID++;
 			}else{
 				if(exportRoot.outputCompile){
 					console.log("   writting "+vars[i]);
 				}
 				trim = true;
 				if(params[i][2] === "string"){
-					output += "\"" + vars[i] + "\",";
+					var name = "$var"+varID;
+					varStack.push(name+"=\""+vars[i]+"\"");
+					output += name+",";
+					varID++;
+					//output += "\"" + vars[i] + "\",";
 				}else{
-					output += "" + vars[i] + ",";
+					var name = "$var"+varID;
+					varStack.push(name+"="+vars[i]);
+					output += name+",";
+					varID++;
+					//output += "" + vars[i] + ",";
 				}
 			}
+		
 		}
 	}
 
 	if(output.charAt(output.length-1) === ','){
-		console.log("removed comma");
+		//console.log("removed comma");
 		output = output.substring(0,output.length-1);
 	}
 
@@ -51,6 +64,7 @@ var Block = function(mc){
 	this.inputFrame = 0;
 	this.outputFrame = 0;
 	this.myColor = "#003973";
+	this.returnsArray = false;
 	function compile(){
 		return iterative_compile(this.vars,this.params);
 	}
@@ -229,14 +243,29 @@ var Blur = function (mc) {
 	this.frame_color = 2;
 	this.myColor = "#E38D00";
 	this.params = [
-		["Image", false, "Image"],
+		["Image(s)", false, "Image/FetchFaces"],
 		["Strength", true, "integer"]
 	];
 	
 	this.codeBegin = "Blur[";
 	this.codeEnd = "]";
 	this.numParams(this.params.length);
+	if(true){
+			this.codeBegin = "";
+			this.codeEnd = "";
+	}
 	function compile(){
+		if(true){
+			//REMOVE THE CURLY BRACES
+			if(this.vars[1] && this.vars[0]){
+				console.log(this.vars);
+				return "Map[Blur[#,"+this.vars[1]+"]&,"+exportRoot.compile(this.vars[0])+"]";
+			}else if(this.vars[0]){
+				return "Map[Blur[#,"+"0"+"]&,"+exportRoot.compile(this.vars[0])+"]";
+			}else{
+				return "Blur[]";
+			}
+		}
 		return iterative_compile(this.vars,this.params);
 	}
 	this.compile = compile;
@@ -274,4 +303,92 @@ ImageIdentify.prototype.constructor = ImageIdentify;
 funcMap.set("ImageIdentify", ImageIdentify);
 
 
-//MATH FUNCTIONS
+//DEMO FUNCTIONS
+var FetchFaces = function (mc) {
+	Block.apply(this,arguments);
+	this.name = "FetchFaces";
+	this.desc = "Grabs all the faces in the image";
+	this.type = "search";
+	this.outputFrame = 1;
+	this.frame_color = 2;
+	//this.myColor = "#E38D00";
+	this.params = [
+		["Image", false, "Image"]
+	];
+	
+	this.codeBegin = "Map[";
+	this.codeEnd = "]";
+	this.numParams(this.params.length);
+	this.returnsArray = true;
+	function compile(){
+		//return iterative_compile(this.vars,this.params);
+		//console.log("locally compiled");
+		if(this.vars[0]){
+			var name = "$var"+varID;
+			varStack.push(name+"="+exportRoot.compile(this.vars[0]));
+			//output += name+",";
+			varID++;
+			//var img = exportRoot.compile(this.vars[0]);
+			return "ImageTrim["+name+",#]&,FindFaces["+name+"]";
+		}else{
+			return "ImageTrim["+",#]&,FindFaces["+"]";
+		}
+	}
+	this.compile = compile;
+}
+FetchFaces.prototype = Block.prototype;       
+FetchFaces.prototype.constructor = FetchFaces;  
+funcMap.set("FetchFaces", FetchFaces);
+
+var Classify = function (mc) {
+	Block.apply(this,arguments);
+	this.name = "Classify";
+	this.desc = "Classify something to something";
+	this.type = "search";
+	this.outputFrame = 2;
+	this.frame_color = 2;
+	//this.myColor = "#E38D00";
+	this.params = [
+		["Classifier", true, "string",["NotablePerson","Animal"]],
+		["Object", false, "FetchFaces"]
+		
+
+	];
+	
+	this.codeBegin = "Classify[";
+	this.codeEnd = "]";
+	this.numParams(this.params.length);
+	function compile(){
+		return iterative_compile(this.vars,this.params);
+	}
+	this.compile = compile;
+}
+Classify.prototype = Block.prototype;       
+Classify.prototype.constructor = Classify;  
+funcMap.set("Classify", Classify);
+
+
+var ReturnFaces = function (mc) {
+	Block.apply(this,arguments);
+	this.name = "ReturnFaces";
+	this.desc = "Return a set of faces to there original position";
+	this.type = "draw";
+	this.outputFrame = 2;
+	this.frame_color = 2;
+	//this.myColor = "#E38D00";
+	this.params = [
+		["Images(s)", true, "Blur"]
+	];
+	
+	this.codeBegin = "ReturnFaces[";
+	this.codeEnd = "]";
+	this.numParams(this.params.length);
+	function compile(){
+		return iterative_compile(this.vars,this.params);
+	}
+	this.compile = compile;
+}
+ReturnFaces.prototype = Block.prototype;       
+ReturnFaces.prototype.constructor = ReturnFaces;  
+funcMap.set("ReturnFaces", ReturnFaces);
+

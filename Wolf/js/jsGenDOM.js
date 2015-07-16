@@ -5,7 +5,7 @@ btn.style.top = "" + 880 + "px";
 btn.style.left = "" + 5 + "px";
 btn.style.fontSize = "" + 35 + "px";
 btn.style.width = "" + 1600 + "px";
-btn.style.height = "" + 100 + "px";
+btn.style.height = "" + 210 + "px";
 document.body.appendChild(btn);
 
 
@@ -14,7 +14,7 @@ wolfDiv.style.position = "absolute";
 wolfDiv.style.top = "" + 7 + "px";
 wolfDiv.style.right = "" + (15) + "px";
 wolfDiv.style.width = "" + (900) + "px";
-wolfDiv.style.height = "" + 980 + "px";
+wolfDiv.style.height = "" + 1090 + "px";
 wolfDiv.style.background = "rgb(39, 37, 37)";
 wolfDiv.innerHTML = "<img src = 'non_gen_images/wolfIcon.png' style='position:absolute;top:250px;left:250px'>";
 document.body.appendChild(wolfDiv);
@@ -46,7 +46,10 @@ function loadedUp(){
 }
 
 function updateWolfDiv(string){
-	wolfDiv.innerHTML = "<img onload='loadedUp()' id='output' src='https://www.wolframcloud.com/objects/user-59b3837e-6a61-4346-96aa-80da1718a00d/expression?input=" + string + "'>";
+	string = string.replace(/(\n)/g,";");
+	string = string.substring(0, string.lastIndexOf(";"))
+	console.log(string + " is the code.");
+	wolfDiv.innerHTML = "<img onload='loadedUp()' id='output' src='https://www.wolframcloud.com/objects/user-59b3837e-6a61-4346-96aa-80da1718a00d/expression?input=" + encodeURIComponent(string) + "'>";
 	//coverDiv.style.display = "default";
 
 }
