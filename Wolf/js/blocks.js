@@ -81,8 +81,6 @@ var Block = function(mc){
 		this.blockObject = Array.apply(false, Array(integer));
 	}
 	this.numParams = numParams;
-
-
 }
 
 var Sentence = function (mc) {
@@ -398,4 +396,28 @@ var ImageCollage = function (mc) {
 ImageCollage.prototype = Block.prototype;       
 ImageCollage.prototype.constructor = ImageCollage;  
 funcMap.set("ImageCollage", ImageCollage);
+
+function genSearchLibs(){
+	return new Array(
+		new WolframAlpha(),
+		new SocialMediaData(), 
+		new Image(),
+		new ImageIdentify(), 
+		new FetchFaces(),
+		new Classify()
+	);
+}
+
+function genGraphicsLibs(){
+	return new Array(
+		new Blur(),
+		new ImageCollage()
+	);
+}
+
+function genMathLibs(){
+	return new Array(
+
+	);
+}
 
