@@ -2861,7 +2861,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			funcs[i].inputs[j].button.alpha = 1;
 			funcs[i].blockObject[j] = true;
 			funcs[i].vars[j] = childBlock;
-			console.log("turnOnInput, updating code..");
+			if(checkUpdate){console.log("turnOnInput, updating code..");}
 			updateCode();
 		}
 		this.turnOnInput = turnOnInput;
@@ -2906,10 +2906,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 			}
 			tempBlocks = new Array();
-			//window.addEventListener("keyup", handleNonOptionalChecks);
-			console.log("generated inputs, update code");
+			if(checkUpdate){console.log("generated inputs, update code");}
 			updateCode();
-			//console.log("inputs were created");
 			block.mc.block.highlight.visible = true;
 		}
 		this.generateInput = generateInput;
@@ -2923,7 +2921,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			func_desc.text = block.desc;
 			func_title.text = block.name;
 			mc.func = block;
-			console.log("Updated function, update code..");
+			if(checkUpdate){console.log("Updated function, update code..");}
 			updateCode();
 		}
 		this.addFunc = addFunc;
@@ -2986,10 +2984,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.callInputs = callInputs;
 		
 		function updateCode() {
-			console.log(funcBlocks);
+			
 			varStack = new Array();
 			varID = 0;
 			if (outputCompile) {
+				console.log(funcBlocks);
 				console.log("COMPILLING STARTED..");
 			}
 			var output = "";
@@ -3293,7 +3292,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		window.addEventListener("keydown", pressed);
 		function pressed(k){
 			if(k.keyCode === 13){
-				console.log("Enter pressed, updateing code..");
+				if(checkUpdate){console.log("Enter pressed, updateing code..");}
 				updateCode();
 				updateWolfDiv(btn.value);
 			}

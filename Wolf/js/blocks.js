@@ -9,7 +9,7 @@ function iterative_compile(vars,params){
 		if (vars[i]) {
 
 			if (typeof vars[i] === "object") {
-				if(exportRoot.outputCompile){
+				if(outputCompile){
 					console.log("   unfolding "+vars[i].name);
 				}
 				var name = "$var"+varID;
@@ -17,7 +17,7 @@ function iterative_compile(vars,params){
 				output += name+",";
 				varID++;
 			}else{
-				if(exportRoot.outputCompile){
+				if(outputCompile){
 					console.log("   writting "+vars[i]);
 				}
 				trim = true;
@@ -63,6 +63,7 @@ var Block = function(mc){
 	this.occupied = false;
 	this.inputFrame = 0;
 	this.outputFrame = 0;
+	this.list = false;
 	this.myColor = "#003973";
 	this.returnsArray = false;
 	function compile(){
@@ -248,15 +249,17 @@ var Blur = function (mc) {
 	this.codeBegin = "Blur[";
 	this.codeEnd = "]";
 	this.numParams(this.params.length);
-	if(true){
+
+	function compile(){
+		if(this.vars[0] && !this.vars[0].list){
+			this.codeBegin = "Blur[";
+			this.codeEnd = "]";
+			return iterative_compile(this.vars,this.params);
+		}else{
 			this.codeBegin = "";
 			this.codeEnd = "";
-	}
-	function compile(){
-		if(true){
 			//REMOVE THE CURLY BRACES
 			if(this.vars[1] && this.vars[0]){
-				console.log(this.vars);
 				return "Map[Blur[#,"+this.vars[1]+"]&,"+exportRoot.compile(this.vars[0])+"]";
 			}else if(this.vars[0]){
 				return "Map[Blur[#,"+"0"+"]&,"+exportRoot.compile(this.vars[0])+"]";
@@ -264,7 +267,7 @@ var Blur = function (mc) {
 				return "Blur[]";
 			}
 		}
-		return iterative_compile(this.vars,this.params);
+		
 	}
 	this.compile = compile;
 }
@@ -309,6 +312,7 @@ var FetchFaces = function (mc) {
 	this.type = "search";
 	this.outputFrame = 1;
 	this.frame_color = 2;
+	this.list = true;
 	//this.myColor = "#E38D00";
 	this.params = [
 		["Image", false, "Image"]
