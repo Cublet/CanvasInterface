@@ -2082,7 +2082,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 		}
 		function shrink(init) {
-			//console.log("<"+me.x+","+(me.x+400)+">");
 			if (me.x < -360 || (me.x + 400) > 1000) {
 				exportRoot.deleteFunc(me.func);
 			}
@@ -2091,12 +2090,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			arrow.visible = false;
 			if (focusedBlock && dist < 260) {
 				focusedBlock.root = false;
-				//console.log(focusedBlock);
-		
 				setTimeout(function () {
 					if(init){
 						me.depBlocks.push([-1, focusedBlock]);
-						//console.log(me.func);
 						focusedBlock.mc.depBlocks.push([1, me.func]);
 						me.func.vars[focusedBlockIndex] = focusedBlock;
 						focusedBlock.occupied = true;
@@ -2113,7 +2109,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 							x: destX,
 							y: destY
 						}, 150);
-					 //console.log(myOutputs);
 					  myInputs[0][1].hyper.visible = true;
 				} else {
 					if (focusedBlock) {
@@ -2122,7 +2117,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						me.func.vars[focusedBlockInputIndex] = null;
 						focusedBlock.root = true;
 						focusedBlock.occupied = false;
-						//console.log("not root anymore:"+me.func.vars[focusedBlockInputIndex]);
 					}
 				}
 			}
@@ -2176,7 +2170,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		function checkCollision(x1, y1, x2, y2) {
 			var width = 230;
 			var height = 180;
-			//console.log("{x1:"+x1+", y1:"+y1+"}   {x2:"+x2+", y2:"+y2+"}");
 			return x1 < x2 + width && x1 + width > x2 && y1 < y2 + height && y1 + height > y2;
 		}
 		
@@ -2185,11 +2178,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			if (!shapeLoad) {
 				shapeLoad = true;
 				/*
-				//console.log(func);
-				//console.log(func.inputShape);
 				inputShape.gotoAndStop(func.inputFrame);
 				outputShape.gotoAndStop(func.outputFrame);
-				//console.log(outputShape);
 				for (var i = 0; i < outputShape.children.length; i++) {
 					if (outputShape.children[i].gotoAndStop) {
 						outputShape.children[i].gotoAndStop((func.frame_color + 1));
@@ -2242,23 +2232,18 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				createjs.Tween.get(outputMC).to({
 					y: 100
 				}, 300);
-				//console.log(func);
 				outputMC.gotoAndStop(func.outputFrame);
 				myOutputs =[output,outputMC];
 			}
 			for (var i = 0; i < others.length; i++) {
-				//console.log(func);
 				if (!func) {
 					console.log("no Func");
 					return;
 				}
 				for (var j = 0; j < func.params.length; j++) {
 					var param = func.params[j][2];
-					//console.log("compare: "+param+" -> "+others[i].name);
 					if (param.indexOf(others[i].name)>-1 && !others[i].occupied) {
 						var otherMC = others[i].mc.bottom;
-						//console.log(otherMC);
-						//console.log("{x1:"+otherMC.x+", y1:"+otherMC.y+"}   {x2:"+top.x+", y2:"+top.y+"}");
 						var x1 = otherMC.x + others[i].mc.x;
 						var y1 = otherMC.y + others[i].mc.y;
 						var x2 = top.x + me.x;
@@ -2266,16 +2251,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						focusedBlock = others[i];
 						focusedBlockIndex = Number(i);
 						focusedBlockInputIndex = Number(j);
-						//console.log("fB:"+focusedBlockIndex);
 						if (checkCollision(x1, y1, x2, y2)) {
-							//console.log("collided");
 							if (!hideHitBoxes) {
 								otherMC.alpha = .5;
 								top.alpha = .5;
 							}
 							arrow.visible = true
 							var yDist = (y2 + 96) - y1;
-							//console.log(yDist);
 							var xDist = x2 - x1;
 		
 							arrow.scaleY = (yDist / 76) * 2;
@@ -2293,8 +2275,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 								top.alpha = .1;
 							}
 						}
-						//console.log("other: "+otherMC.getBounds());
-						//console.log("me: "+top.getBounds());
 					}
 				}
 			}
@@ -2307,7 +2287,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			for (var i = 0; i < dep.length; i++) {
 				var shift = mag * h * dep[i][0] / 2;
 				var depMC = dep[i][1].mc;
-				//console.log(depMC);
 				createjs.Tween.get(depMC).to({
 					y: depMC.y + shift
 				}, 150);
@@ -2315,13 +2294,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 			
 			//inputSymb
-			console.log(myInputs);
 			var shift = mag * h / 2;
 			for(var i=0; i<myInputs.length;i++){
-				console.log("shifting deps");
 				var input = myInputs[i][0];
 				var inputMC = myInputs[i][1];
-				console.log(input);
 				createjs.Tween.get(input).to({
 					y: input.y - shift
 				}, 150);
@@ -2329,7 +2305,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					y: inputMC.y - shift
 				}, 150);
 			}
-			console.log(myOutputs);
 			createjs.Tween.get(myOutputs[0]).to({
 					y: myOutputs[0].y + shift
 			}, 150);
@@ -2441,7 +2416,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				}
 				updateSubPos();
 				shiftDependents(-1.4);
-				//console.log("yScale = "+yScale);
 			}
 		
 		
@@ -2465,9 +2439,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		this.addEventListener("mousedown", focusOnMe);
 		function focusOnMe(event) {
-			//console.log("focus on me babe");
 			if (!me.type) {
-				//console.log("highlighting..");
 				event.currentTarget.block.highlight.visible = true;
 			}
 			var func = exportRoot.getFuncFromMC(event.currentTarget);
@@ -2539,10 +2511,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		function killSymbols(){
 			var shift = -60 ;
 			for(var i=0; i<myInputs.length;i++){
-				console.log("shifting deps");
 				var input = myInputs[i][0];
 				var inputMC = myInputs[i][1];
-				console.log(input);
 				createjs.Tween.get(input).to({
 					y: input.y - shift
 				}, 150);
@@ -2550,7 +2520,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					y: inputMC.y - shift
 				}, 150);
 			}
-			console.log(myOutputs);
 			createjs.Tween.get(myOutputs[0]).to({
 					y: myOutputs[0].y + shift
 			}, 150);
@@ -2560,7 +2529,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		
 		function removeInputs(){
-			//console.log("im so happy");
 			for(var i=0; i<myInputs.length; i++){
 				myInputs[i].visible = false;
 			}
@@ -2569,14 +2537,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.removeInputs = removeInputs;
 		function killSelf() {
-			//console.log("killing self");
 			yScale = 1;
 			for (var i = 0; i < me.blockStack.length; i++) {
-				//console.log("removing block");
 				removeBlock(me.func, i, true);
 			}
 			if (imageHolder) {
-				//console.log("removing image");
 				removeImage();
 			}
 			
@@ -2854,7 +2819,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.getButtonName = getButtonName;
 		
-		
 		function turnOnInput(j, childBlock) {
 			var funcs = getAllBlocks();
 			var i = funcs.length - 1;
@@ -2865,8 +2829,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			updateCode();
 		}
 		this.turnOnInput = turnOnInput;
-		
-		
 		
 		function generateInput(block, origin) {
 		
@@ -2984,7 +2946,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.callInputs = callInputs;
 		
 		function updateCode() {
-			
 			varStack = new Array();
 			varID = 0;
 			if (outputCompile) {
@@ -3002,8 +2963,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					output += "\n";
 				}
 			}
-			
-			
 			if(output.charAt(output.length-3) === ','){
 				output = output.substring(0,output.length-3);
 				output+="]";
