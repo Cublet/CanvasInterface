@@ -7,7 +7,6 @@ var Block = function(mc){
 	this.root = true;						//Is this block the root of the connections			
 	this.focus = true;						//Is this block the one the user is focused on
 	this.mc = mc;							//MovieClip that corresponds to this function block
-	this.occupied = false;					//Is this blocks output vacant
 	this.myColor = "#003973";				//Color of the block
 	this.inputsType = new Array();			//Array of input types
 	this.outputType = "Null";				//Output type

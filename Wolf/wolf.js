@@ -2050,6 +2050,15 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				}
 			}
 		}
+		
+		function clearParentChildBlock(){
+			for(var i=0; i<me.depBlocks.length; i++){
+				if(me.depBlocks[i][0] === -1){
+					me.depBlocks[i][1].childBlock = null;
+				}
+			}
+		}
+		
 		function shrink(init) {
 			if (me.x < -360 || (me.x + 400) > 1000) {
 				exportRoot.deleteFunc(me.func);
@@ -2065,7 +2074,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						focusedBlock.mc.depBlocks.push([1, me.func]);
 						focusedBlock.mc.childBlock = me.func;
 						me.func.vars[focusedBlockIndex] = focusedBlock;
-						focusedBlock.occupied = true;
 						exportRoot.turnOnInput(focusedBlockInputIndex, focusedBlock);
 					}
 				}, 500);
@@ -2086,7 +2094,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						myInputs[0][1].hyper.visible = false;
 						me.func.vars[focusedBlockInputIndex] = null;
 						focusedBlock.root = true;
-						focusedBlock.occupied = false;
+						clearParentChildBlock();
 					}
 				}
 			}
@@ -2199,7 +2207,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				for (var j = 0; j < func.inputsType.length; j++) {
 					var wantedType = func.inputsType[j];
 					
-					if (wantedType===others[i].outputType && !others[i].occupied) {
+					if (wantedType===others[i].outputType && !others[i].childBlock) {
 						console.log(i+","+j+"->  "+wantedType+"==="+others[i].outputType);
 						var otherMC = others[i].mc.bottom;
 						var x1 = otherMC.x + others[i].mc.x;
