@@ -2026,6 +2026,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var yScale = 1;
 		var hideHitBoxes = true;
 		this.depBlocks = new Array();
+		this.childBlock = null;
 		var destX;
 		var destY;
 		var possibleLowerBlock;
@@ -2062,6 +2063,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					if(init){
 						me.depBlocks.push([-1, focusedBlock]);
 						focusedBlock.mc.depBlocks.push([1, me.func]);
+						focusedBlock.mc.childBlock = me.func;
 						me.func.vars[focusedBlockIndex] = focusedBlock;
 						focusedBlock.occupied = true;
 						exportRoot.turnOnInput(focusedBlockInputIndex, focusedBlock);
@@ -3146,15 +3148,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						 }
 						 if(h_blocks.length === 1){
 							 //shiftChildren
-							 var depBlocks = h_blocks[0][0].mc.depBlocks;
-							 //this should be optimized as there can only be one output
-							 for(var i=0; i<depBlocks.length; i++){
-								 if(depBlocks[i][0] === 1){
-									 //console.log("yep");
-									 depBlocks[i][1].mc.x+=difX/2;
-									 depBlocks[i][1].mc.y+=difY/2;
-								 }
-							 }
+							 var childBlock = h_blocks[0][0].mc.childBlock;
+							 shiftChildrenBlocks(childBlock, difX, difY);
 							 alertLib.visible = false;
 							 lastLib = null;
 							 try{
@@ -3164,6 +3159,17 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					}
 				}
 			}
+		}
+		
+		
+		function shiftChildrenBlocks(childBlock, difX, difY){
+			//this should be optimized as there can only be one output
+			 if(childBlock){
+				 childBlock.mc.x+=difX;
+				 childBlock.mc.y+=difY;
+				 shiftChildrenBlocks(childBlock.mc.childBlock,difX,difY);
+			 }
+			
 		}
 		
 		function executeSelect(m){

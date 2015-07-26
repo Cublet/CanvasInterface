@@ -38,7 +38,6 @@ var Blur = function (mc) {
 	];
 	this.inputsType = new Array("Image");		//Array of non-primitive parameter types; could be removed
 	this.outputType = "Image";					//The output type of the block
-	
 	this.codeBegin = "Blur[";					//How the generated code should start
 	this.codeEnd = "]";							//How the generated code should end
 	this.numParams(this.params.length);
@@ -49,7 +48,7 @@ funcMap.set("Blur", Blur);
 
 //To add block to library scroll to the bottom and add it to one of the gen functions
 
-//USE THIS FOR BLURARRAY
+//TODO: USE THIS FOR BLURARRAY
 /*
 		if(this.vars[0] && !this.vars[0].list){
 			this.codeBegin = "Blur[";
