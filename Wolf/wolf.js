@@ -1919,23 +1919,23 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 
 	// Layer 3
 	this.hyper = new lib.rotHype();
-	this.hyper.setTransform(-0.5,0.2,1,1,0,0,0,25.8,24.2);
+	this.hyper.setTransform(-0.7,0.2,1.416,1,0,0,0,25.8,24.2);
 
 	this.timeline.addTween(cjs.Tween.get(this.hyper).wait(5));
 
 	// Layer 4
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#FF0000").ss(3.5,1,1).p("AouikIRdAAIAAFJIxdAAg");
-	this.shape.setTransform(0,-0.5);
+	this.shape.graphics.f().s("#FF0000").ss(3.5,1,1).p("AsXikIYvAAIAAFJI4vAAg");
+	this.shape.setTransform(0.1,-0.5);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#EFEFEF").s().p("AouClIAAlJIRdAAIAAFJg");
-	this.shape_1.setTransform(0,-0.5);
+	this.shape_1.graphics.f("#EFEFEF").s().p("AsXClIAAlJIYvAAIAAFJg");
+	this.shape_1.setTransform(0.1,-0.5);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(5));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(-64.8,-26.7,129.5,51.8);
+p.nominalBounds = rect = new cjs.Rectangle(-91.7,-26.7,183.4,51.8);
 p.frameBounds = [rect, rect, rect, rect, rect];
 
 

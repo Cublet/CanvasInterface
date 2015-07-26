@@ -57,16 +57,9 @@ var Block = function(mc){
 	this.vars = [null,null];
 	this.focus = true;
 	this.mc = mc;
-	this.frame_color = 0;
 	this.numChildBlocks = 0;
-	this.varName = null;
 	this.occupied = false;
-	this.inputFrame = 0;
-	this.outputFrame = 0;
-	this.list = false;
 	this.myColor = "#003973";
-	this.returnsArray = false;
-	
 	this.inputsType = new Array();
 	this.outputType = "Null";
 
@@ -172,7 +165,6 @@ var ImageImport = function (mc) {
 	this.name = "ImageImport";
 	this.desc = "A picture.";
 	this.type = "search";
-	this.inputFrame = 0;
 	this.params = [
 		["Browse", true, "browse"],
 		["URL", true, "string"],
@@ -180,11 +172,8 @@ var ImageImport = function (mc) {
 	];
 	this.inputsType = new Array();
 	this.outputType = "Image";
-
-	
 	this.codeBegin = "Import[";
 	this.codeEnd = "]";
-	
 	this.numParams(this.params.length);
 	function compile(){
 		//console.log("Hashed: "+getHashedState(this.vars));
@@ -246,8 +235,6 @@ var Blur = function (mc) {
 	this.name = "Blur";
 	this.desc = "Blurs an Image";
 	this.type = "draw";
-	this.outputFrame = 2;
-	this.frame_color = 2;
 	this.myColor = "#E38D00";
 	this.params = [
 		["Image", false, "Image"],
@@ -264,6 +251,8 @@ var Blur = function (mc) {
 	this.numParams(this.params.length);
 
 	function compile(){
+		return iterative_compile(this.vars,this.params);
+		/*
 		if(this.vars[0] && !this.vars[0].list){
 			this.codeBegin = "Blur[";
 			this.codeEnd = "]";
@@ -280,7 +269,7 @@ var Blur = function (mc) {
 				return "Blur[]";
 			}
 		}
-		
+		*/
 	}
 	this.compile = compile;
 }
@@ -295,10 +284,6 @@ var ImageIdentify = function (mc) {
 	this.name = "ImageIdentify";
 	this.desc = "Identifies an image";
 	this.type = "search";
-	this.outputFrame = 1;
-	this.frame_color = 2;
-	//this.myColor = "#E38D00";
-	
 
 	this.params = [
 		["Image", false, "Image"],
@@ -327,10 +312,6 @@ var FetchFaces = function (mc) {
 	this.name = "FetchFaces";
 	this.desc = "Grabs all the faces in the image";
 	this.type = "search";
-	this.outputFrame = 1;
-	this.frame_color = 2;
-	this.list = true;
-	//this.myColor = "#E38D00";
 	this.params = [
 		["Image", false, "Image"]
 	];
@@ -339,11 +320,7 @@ var FetchFaces = function (mc) {
 
 	this.codeBegin = "Map[";
 	this.codeEnd = "]";
-
-	
-
 	this.numParams(this.params.length);
-	this.returnsArray = true;
 	function compile(){
 		//return iterative_compile(this.vars,this.params);
 		//console.log("locally compiled");
@@ -369,9 +346,7 @@ var Classify = function (mc) {
 	this.name = "Classify";
 	this.desc = "Classify something to something";
 	this.type = "search";
-	this.outputFrame = 2;
-	this.frame_color = 2;
-	//this.myColor = "#E38D00";
+
 	this.params = [
 		["Classifier", true, "string",["NotablePerson","Animal"]],
 		["Object", false, "FetchFaces"]
@@ -397,9 +372,8 @@ var ImageCollage = function (mc) {
 	this.name = "ImageCollage";
 	this.desc = "Returns a collage of Images";
 	this.type = "draw";
-	this.outputFrame = 2;
-	this.frame_color = 2;
 	this.myColor = "#E38D00";
+
 	this.params = [
 		["Images", true, "ImageArray"],
 		["Filling", true, "string"],
