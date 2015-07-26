@@ -1002,83 +1002,7 @@ p.frameBounds = [rect];
 	// timeline functions:
 	this.frame_0 = function() {
 		var funcLib = exportRoot.getVariables();
-		var others = exportRoot.getAllBlocks();
-		for(var i=0; i<funcLib.length; i++){
-			var btn = new lib.libFunc();
-			btn.gotoAndStop(funcLib[i].frame_color);
-			btn.addEventListener("mouseover", highlight_on);
-			btn.addEventListener("rollout", highlight_off);
-			btn.addEventListener("mousedown", pressed);
-			btn.x = 28;
-			btn.y = 290+i*70;
-			btn.desc = funcLib[i].vars[1];
-			btn.func = funcLib[i];
-			btn.title.text = funcLib[i].vars[0];
-			this.addChild(btn);
-		}
-		
-		
-		var focusMC = null;
-		var offX = 0;
-		var offY = 0;
-		var me = this;
-		
-		
-		var desc = this.desc;
-		function highlight_on(event){
-			event.currentTarget.block2.gotoAndStop(1);
-			desc.text = event.currentTarget.desc;
-			
-		}
-		
-		function highlight_off(event){
-			event.currentTarget.block2.gotoAndStop(0);
-		}
-		
-		
-		function pressed(evt){
-			var button = evt.currentTarget;
-		
-			var myMC = new lib.libBlock();
-			myMC.block.gotoAndStop(0);
-			myMC.x=746;
-			myMC.y=234;
-			myMC.title.text = button.func.vars[0];
-			myMC.func = button.func;
-			myMC.type.visible = false;
-		
-			
-			stage.addChild(myMC);
-			focusMC = myMC;
-			focusMC.x = evt.stageX-evt.localX;
-		    focusMC.y = evt.stageY-evt.localY;
-			offX = Number(evt.localX);
-			offY = Number(evt.localY);
-			myMC.block.isVar.visible = true;
-			stage.addEventListener("stagemousemove", dragged);
-			stage.addEventListener("stagemouseup", released);
-			
-		}
-		
-		function dragged(evt){
-		    focusMC.x = evt.stageX-offX;
-		    focusMC.y = evt.stageY-offY;
-			try{
-				focusMC.checkForSnap(others);
-			}catch(e){}
-		}
-		
-		function released (evt){
-			me.parent.play();
-			stage.removeEventListener("stagemousemove", dragged);
-			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink(true);
-			if(evt.stageX<960){
-				stage.removeChild(focusMC);
-				stage.children[0].addChild(focusMC);
-				exportRoot.putLibsTopLayer(focusMC);
-			}
-		}
+		initializeLibrary(funcLib, this, 1);
 	}
 
 	// actions tween:
@@ -1250,82 +1174,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	// timeline functions:
 	this.frame_0 = function() {
 		var funcLib = exportRoot.getSearchLib();
-		var others = exportRoot.getAllBlocks();
-		for(var i=0; i<funcLib.length; i++){
-			var btn = new lib.libFunc();
-			btn.addEventListener("mouseover", highlight_on);
-			btn.addEventListener("rollout", highlight_off);
-			btn.addEventListener("mousedown", pressed);
-			btn.x = 28;
-			btn.y = 320+i*70;
-			btn.desc = funcLib[i].desc;
-			btn.func = funcLib[i];
-			btn.title.text = funcLib[i].name;
-			this.addChild(btn);
-		}
-		
-		
-		var focusMC = null;
-		var focusFunc = null;
-		var offX = 0;
-		var offY = 0;
-		var me = this;
-		
-		
-		var desc = this.description;
-		
-		function highlight_on(event){
-			event.currentTarget.block.gotoAndStop(1);
-			desc.text = event.currentTarget.desc;
-			
-		}
-		
-		function highlight_off(event){
-			event.currentTarget.block.gotoAndStop(0);
-		}
-		
-		
-		function pressed(evt){
-			var button = evt.currentTarget;
-			var myMC = new lib.libBlock();
-			myMC.x=746;
-			myMC.y=234;
-			myMC.type.visible = false;
-			myMC.title.text = button.func.name;
-			//myMC.func = button.func;
-			stage.addChild(myMC);
-			focusMC = myMC;
-			focusMC.x = evt.stageX-evt.localX;
-		    focusMC.y = evt.stageY-evt.localY;
-			offX = Number(evt.localX);
-			offY = Number(evt.localY);
-			stage.addEventListener("stagemousemove", dragged);
-			stage.addEventListener("stagemouseup", released);
-			focusFunc = button.func;
-			exportRoot.addFunc(focusFunc.name, focusMC);
-		}
-		
-		function dragged(evt){
-		    focusMC.x = evt.stageX-offX;
-		    focusMC.y = evt.stageY-offY;
-			try{
-				focusMC.checkForSnap(others);
-			}catch(e){}
-		}
-		
-		function released (evt){
-			me.parent.play();
-			stage.removeEventListener("stagemousemove", dragged);
-			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink(true);
-			//console.log(evt.stageX);
-			if(evt.stageX<960){
-				stage.removeChild(focusMC);
-				stage.children[0].addChild(focusMC);
-				exportRoot.putLibsTopLayer(focusMC);
-			}
-			
-		}
+		initializeLibrary(funcLib, this, 0);
 	}
 
 	// actions tween:
@@ -1520,80 +1369,7 @@ p.frameBounds = [rect, rect];
 	// timeline functions:
 	this.frame_0 = function() {
 		var funcLib = exportRoot.getGraphicsLib();
-		var others = exportRoot.getAllBlocks();
-		for(var i=0; i<funcLib.length; i++){
-			var btn = new lib.libFunc();
-			btn.addEventListener("mouseover", highlight_on);
-			btn.addEventListener("rollout", highlight_off);
-			btn.addEventListener("mousedown", pressed);
-			btn.x = 28;
-			btn.y = 320+i*70;
-			btn.desc = funcLib[i].desc;
-			btn.func = funcLib[i];
-			btn.title.text = funcLib[i].name;
-			btn.gotoAndStop(2);
-			this.addChild(btn);
-		}
-		
-		var focusMC = null;
-		var focusFunc = null;
-		var offX = 0;
-		var offY = 0;
-		var me = this;
-		var desc = this.description;
-		
-		function highlight_on(event){
-			event.currentTarget.block.gotoAndStop(1);
-			desc.text = event.currentTarget.desc;
-			
-		}
-		
-		function highlight_off(event){
-			event.currentTarget.block.gotoAndStop(0);
-		}
-		
-		
-		function pressed(evt){
-			var button = evt.currentTarget;
-			var myMC = new lib.libBlock();
-			myMC.x=746;
-			myMC.y=234;
-			myMC.type.visible = false;
-			myMC.title.text = button.func.name;
-			//myMC.func = button.func;
-			myMC.block.gotoAndStop(2);
-			stage.addChild(myMC);
-			focusMC = myMC;
-			focusMC.x = evt.stageX-evt.localX;
-		    focusMC.y = evt.stageY-evt.localY;
-			offX = Number(evt.localX);
-			offY = Number(evt.localY);
-			stage.addEventListener("stagemousemove", dragged);
-			stage.addEventListener("stagemouseup", released);
-			focusFunc = button.func;
-			exportRoot.addFunc(focusFunc.name, focusMC);
-		}
-		
-		function dragged(evt){
-			focusMC.block.gotoAndStop(2);
-		    focusMC.x = evt.stageX-offX;
-		    focusMC.y = evt.stageY-offY;
-			try{
-				focusMC.checkForSnap(others);
-			}catch(e){}
-		}
-		
-		function released (evt){
-			me.parent.play();
-			stage.removeEventListener("stagemousemove", dragged);
-			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink(true);
-			if(evt.stageX<960){
-				stage.removeChild(focusMC);
-				stage.children[0].addChild(focusMC);
-				exportRoot.putLibsTopLayer(focusMC);
-			}
-		}
+		initializeLibrary(funcLib, this, 2);
 	}
 
 	// actions tween:
@@ -1663,82 +1439,7 @@ p.frameBounds = [rect];
 	// timeline functions:
 	this.frame_0 = function() {
 		var funcLib = exportRoot.getMathLib();
-		var others = exportRoot.getAllBlocks();
-		for(var i=0; i<funcLib.length; i++){
-			var btn = new lib.libFunc();
-			btn.addEventListener("mouseover", highlight_on);
-			btn.addEventListener("rollout", highlight_off);
-			btn.addEventListener("mousedown", pressed);
-			btn.x = 28;
-			btn.y = 320+i*70;
-			btn.desc = funcLib[i].desc;
-			btn.func = funcLib[i];
-			btn.title.text = funcLib[i].name;
-			this.addChild(btn);
-		}
-		
-		
-		var focusMC = null;
-		var focusFunc = null;
-		var offX = 0;
-		var offY = 0;
-		var me = this;
-		
-		
-		var desc = this.description;
-		
-		function highlight_on(event){
-			event.currentTarget.block.gotoAndStop(1);
-			desc.text = event.currentTarget.desc;
-			
-		}
-		
-		function highlight_off(event){
-			event.currentTarget.block.gotoAndStop(0);
-		}
-		
-		
-		function pressed(evt){
-			var button = evt.currentTarget;
-			var myMC = new lib.libBlock();
-			myMC.x=746;
-			myMC.y=234;
-			myMC.type.visible = false;
-			myMC.title.text = button.func.name;
-			//myMC.func = button.func;
-			stage.addChild(myMC);
-			focusMC = myMC;
-			focusMC.x = evt.stageX-evt.localX;
-		    focusMC.y = evt.stageY-evt.localY;
-			offX = Number(evt.localX);
-			offY = Number(evt.localY);
-			stage.addEventListener("stagemousemove", dragged);
-			stage.addEventListener("stagemouseup", released);
-			focusFunc = button.func;
-			exportRoot.addFunc(focusFunc.name, focusMC);
-		}
-		
-		function dragged(evt){
-		    focusMC.x = evt.stageX-offX;
-		    focusMC.y = evt.stageY-offY;
-			try{
-				focusMC.checkForSnap(others);
-			}catch(e){}
-		}
-		
-		function released (evt){
-			me.parent.play();
-			stage.removeEventListener("stagemousemove", dragged);
-			stage.removeEventListener("stagemouseup", released);
-			focusMC.shrink(true);
-			//console.log(evt.stageX);
-			if(evt.stageX<960){
-				stage.removeChild(focusMC);
-				stage.children[0].addChild(focusMC);
-				exportRoot.putLibsTopLayer(focusMC);
-			}
-			
-		}
+		initializeLibrary(funcLib, this, 0);
 	}
 
 	// actions tween:
@@ -2059,7 +1760,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 		}
 		
-		function shrink(init) {
+		function shrink() {
 			if (me.x < -360 || (me.x + 400) > 1000) {
 				exportRoot.deleteFunc(me.func);
 			}
@@ -2069,13 +1770,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			if (focusedBlock && dist < 260) {
 				focusedBlock.root = false;
 				setTimeout(function () {
-					if(init){
+					
 						me.depBlocks.push([-1, focusedBlock]);
 						focusedBlock.mc.depBlocks.push([1, me.func]);
 						focusedBlock.mc.childBlock = me.func;
 						me.func.vars[focusedBlockIndex] = focusedBlock;
 						exportRoot.turnOnInput(focusedBlockInputIndex, focusedBlock);
-					}
+					
 				}, 500);
 			}
 			//me.func.inputs[focusedBlockIndex].alpha = 1;
@@ -2151,7 +1852,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return x1 < x2 + width && x1 + width > x2 && y1 < y2 + height && y1 + height > y2;
 		}
 		
-		function checkForSnap(others) {
+		function checkForSnap() {
+			var others = exportRoot.getAllBlocks();
 			var func = me.func;
 		
 			if (!shapeLoad) {
@@ -2208,7 +1910,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					var wantedType = func.inputsType[j];
 					
 					if (wantedType===others[i].outputType && !others[i].childBlock) {
-						console.log(i+","+j+"->  "+wantedType+"==="+others[i].outputType);
 						var otherMC = others[i].mc.bottom;
 						var x1 = otherMC.x + others[i].mc.x;
 						var y1 = otherMC.y + others[i].mc.y;
@@ -2745,10 +2446,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			js.src = jsFilePath;
 			document.head.appendChild(js);
 		}
+		this.includeJs = includeJs;
 		includeJs("js/GlobalVars.js");
 		includeJs("js/BlockInput.js");
 		includeJs("js/Input.js");
-		
+		includeJs("js/Library.js");
 		
 		var me = this;
 		var alertLib = this.alertLib;
@@ -3161,7 +2863,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 							 alertLib.visible = false;
 							 lastLib = null;
 							 try{
-								h_blocks[0][0].mc.checkForSnap(exportRoot.getAllBlocks());
+								h_blocks[0][0].mc.checkForSnap();
 							}catch(e){}
 						}
 					}
@@ -3182,7 +2884,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		function executeSelect(m){
 			if(h_blocks.length === 1){
-				 h_blocks[0][0].mc.shrink(false);
+				 h_blocks[0][0].mc.shrink();
 			}
 			if(selecter){
 				stage.removeChild(selecter);
