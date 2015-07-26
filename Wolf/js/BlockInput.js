@@ -9,7 +9,7 @@ var BlockInput = function (defaultValue, optional, type, yShift, block, index) {
 	var button = new lib.libFunc();
 	button.x = 1100;
 	button.y = 306 + yShift;
-	if (block.blockObject[index]) {
+	if (block.childMCs[index]) {
 		button.alpha = 1;
 	} else {
 		button.alpha = .5;

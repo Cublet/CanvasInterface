@@ -100,8 +100,7 @@ var Input = function (defaultValue, optional, x, y, size, width, index, browse, 
 	}
 	function sliderBlockHandler(e) {
 
-		if (btn.value != 0) {
-			
+		if (!me.block.vars[me.index] && btn.value != 0) {
 			console.log("adding purps");
 			var altered = me.defaultValue;
 			me.block.mc.addBlock("string", altered + ":", block, me.index);

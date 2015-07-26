@@ -2781,7 +2781,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			var funcs = getAllBlocks();
 			var i = funcs.length - 1;
 			funcs[i].inputs[j].button.alpha = 1;
-			funcs[i].blockObject[j] = true;
 			funcs[i].vars[j] = childBlock;
 			if(checkUpdate){console.log("turnOnInput, updating code..");}
 			updateCode();
@@ -3007,6 +3006,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		
 		//Library Information
+		includeJs("js/compilers.js");
 		includeJs("js/blocks.js");
 		includeJs("js/jsGenDOM.js");
 		

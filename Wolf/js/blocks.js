@@ -1,92 +1,79 @@
-var varStack = new Array();
-var varID = 0;
-function iterative_compile(vars,params){
-	var trim = false;
-	var output = "";
-	for (var i = 0; i < vars.length; i++) {
-		//console.log(vars[i]);
 
-		if (vars[i]) {
+//List of function blocks
 
-			if (typeof vars[i] === "object") {
-				if(outputCompile){
-					console.log("   unfolding "+vars[i].name);
-				}
-				var name = "$var"+varID;
-				varStack.push(name+"="+exportRoot.compile(vars[i]));
-				output += name+",";
-				varID++;
-			}else{
-				if(outputCompile){
-					console.log("   writting "+vars[i]);
-				}
-				trim = true;
-				if(params[i][2] === "string"){
-					var name = "$var"+varID;
-					varStack.push(name+"=\""+vars[i]+"\"");
-					output += name+",";
-					varID++;
-					//output += "\"" + vars[i] + "\",";
-				}else{
-					var name = "$var"+varID;
-					varStack.push(name+"="+vars[i]);
-					output += name+",";
-					varID++;
-					//output += "" + vars[i] + ",";
-				}
-			}
-		
-		}
-	}
 
-	if(output.charAt(output.length-1) === ','){
-		//console.log("removed comma");
-		output = output.substring(0,output.length-1);
-	}
-
-	//if (trim) {
-	//	output = output.substring(0, output.length - 1);
-	//}
-	return output;
-}
-
-//////////////////////////CODE BLOCKS
 var funcMap = new Map();
 var Block = function(mc){
-	this.root = true;
-	this.vars = [null,null];
-	this.focus = true;
-	this.mc = mc;
-	this.numChildBlocks = 0;
-	this.occupied = false;
-	this.myColor = "#003973";
-	this.inputsType = new Array();
-	this.outputType = "Null";
+	this.root = true;						//Is this block the root of the connections			
+	this.focus = true;						//Is this block the one the user is focused on
+	this.mc = mc;							//MovieClip that corresponds to this function block
+	this.occupied = false;					//Is this blocks output vacant
+	this.myColor = "#003973";				//Color of the block
+	this.inputsType = new Array();			//Array of input types
+	this.outputType = "Null";				//Output type
 
-	function compile(){
-		return iterative_compile(this.vars,this.params);
+	function compile(){	
+		return iterative_compile(this.vars,this.params);	//Default compiler option
 	}
 	this.compile = compile;
-	this.vars = [null, null];
-	this.inputs = [null,null];
-	this.childMCs = [null,null];
-	this.blockObject = [false,false];
 	
-	function numParams(integer){
-		this.vars = Array.apply(null, Array(integer));
-		this.inputs = Array.apply(null, Array(integer));
-		this.childMCs = Array.apply(null, Array(integer));
-		this.blockObject = Array.apply(false, Array(integer));
+	function numParams(integer){							//Initializes arrays
+		this.vars = Array.apply(null, Array(integer));		//The values of the inputs
+		this.inputs = Array.apply(null, Array(integer));	//The DOM elements corresponding to the values
+		this.childMCs = Array.apply(null, Array(integer));	//The child blocks MovieClips
 	}
 	this.numParams = numParams;
 }
+
+//Example on how to create a new block
+var Blur = function (mc) {
+	Block.apply(this,arguments);				//Extends Block
+	this.name = "Blur";							//Name of Block
+	this.desc = "Blurs an Image";				//Description of Blocks functionality
+	this.type = "draw";							//Block category {primitive/search/draw/math}
+	this.myColor = "#E38D00";					//Color of block
+	this.params = [								//Block Parameters [Name, Optional,Type]
+		["Image", false, "Image"],
+		["Strength", true, "integer"]
+	];
+	this.inputsType = new Array("Image");		//Array of non-primitive parameter types; could be removed
+	this.outputType = "Image";					//The output type of the block
+	
+	this.codeBegin = "Blur[";					//How the generated code should start
+	this.codeEnd = "]";							//How the generated code should end
+	this.numParams(this.params.length);
+}
+Blur.prototype = Block.prototype;       
+Blur.prototype.constructor = Blur;  
+funcMap.set("Blur", Blur);
+
+//To add block to library scroll to the bottom and add it to one of the gen functions
+
+//USE THIS FOR BLURARRAY
+/*
+		if(this.vars[0] && !this.vars[0].list){
+			this.codeBegin = "Blur[";
+			this.codeEnd = "]";
+			return iterative_compile(this.vars,this.params);
+		}else{
+			this.codeBegin = "";
+			this.codeEnd = "";
+			//REMOVE THE CURLY BRACES
+			if(this.vars[1] && this.vars[0]){
+				return "Map[Blur[#,"+this.vars[1]+"]&,"+exportRoot.compile(this.vars[0])+"]";
+			}else if(this.vars[0]){
+				return "Map[Blur[#,"+"0"+"]&,"+exportRoot.compile(this.vars[0])+"]";
+			}else{
+				return "Blur[]";
+			}
+		}
+*/
 
 var Sentence = function (mc) {
 	Block.apply(this,arguments);
 	this.name = "Sentence";
 	this.desc = "A list of characters";
 	this.type = "primative";
-	this.frame_color = 1;
 	this.params = [
 		["name", true, "string"],
 		["value", true, "string"]
@@ -228,55 +215,6 @@ WikipediaData.prototype.constructor = WikipediaData;
 funcMap.set("WikipediaData", WikipediaData);
 */
 var getHashedState = exportRoot.getHashedState;
-
-//GRAPHICS LIBS
-var Blur = function (mc) {
-	Block.apply(this,arguments);
-	this.name = "Blur";
-	this.desc = "Blurs an Image";
-	this.type = "draw";
-	this.myColor = "#E38D00";
-	this.params = [
-		["Image", false, "Image"],
-		["Strength", true, "integer"]
-	];
-	this.inputsType = new Array("Image");
-	this.outputType = "Image";
-	
-	this.codeBegin = "Blur[";
-	this.codeEnd = "]";
-
-
-
-	this.numParams(this.params.length);
-
-	function compile(){
-		return iterative_compile(this.vars,this.params);
-		/*
-		if(this.vars[0] && !this.vars[0].list){
-			this.codeBegin = "Blur[";
-			this.codeEnd = "]";
-			return iterative_compile(this.vars,this.params);
-		}else{
-			this.codeBegin = "";
-			this.codeEnd = "";
-			//REMOVE THE CURLY BRACES
-			if(this.vars[1] && this.vars[0]){
-				return "Map[Blur[#,"+this.vars[1]+"]&,"+exportRoot.compile(this.vars[0])+"]";
-			}else if(this.vars[0]){
-				return "Map[Blur[#,"+"0"+"]&,"+exportRoot.compile(this.vars[0])+"]";
-			}else{
-				return "Blur[]";
-			}
-		}
-		*/
-	}
-	this.compile = compile;
-}
-Blur.prototype = Block.prototype;       
-Blur.prototype.constructor = Blur;  
-funcMap.set("Blur", Blur);
-
 
 
 var ImageIdentify = function (mc) {
