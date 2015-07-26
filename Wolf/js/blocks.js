@@ -66,6 +66,10 @@ var Block = function(mc){
 	this.list = false;
 	this.myColor = "#003973";
 	this.returnsArray = false;
+	
+	this.inputsType = new Array();
+	this.outputType = "Null";
+
 	function compile(){
 		return iterative_compile(this.vars,this.params);
 	}
@@ -163,9 +167,9 @@ funcMap.set("SocialMediaData", SocialMediaData);
 
 
 
-var Image = function (mc) {
+var ImageImport = function (mc) {
 	Block.apply(this,arguments);
-	this.name = "Image";
+	this.name = "ImageImport";
 	this.desc = "A picture.";
 	this.type = "search";
 	this.inputFrame = 0;
@@ -174,9 +178,13 @@ var Image = function (mc) {
 		["URL", true, "string"],
 	    ["Camera", true, "string"]
 	];
+	this.inputsType = new Array();
+	this.outputType = "Image";
+
 	
 	this.codeBegin = "Import[";
 	this.codeEnd = "]";
+	
 	this.numParams(this.params.length);
 	function compile(){
 		//console.log("Hashed: "+getHashedState(this.vars));
@@ -191,9 +199,9 @@ var Image = function (mc) {
 	}
 	this.compile = compile;
 }
-Image.prototype = Block.prototype;       
-Image.prototype.constructor = Image;  
-funcMap.set("Image", Image);
+ImageImport.prototype = Block.prototype;       
+ImageImport.prototype.constructor = ImageImport;  
+funcMap.set("ImageImport", ImageImport);
 /*
 var WikipediaData = function (mc) {
 	Block.apply(this,arguments);
@@ -242,12 +250,17 @@ var Blur = function (mc) {
 	this.frame_color = 2;
 	this.myColor = "#E38D00";
 	this.params = [
-		["Image(s)", false, "Image/FetchFaces"],
+		["Image", false, "Image"],
 		["Strength", true, "integer"]
 	];
+	this.inputsType = new Array("Image");
+	this.outputType = "Image";
 	
 	this.codeBegin = "Blur[";
 	this.codeEnd = "]";
+
+
+
 	this.numParams(this.params.length);
 
 	function compile(){
@@ -285,11 +298,15 @@ var ImageIdentify = function (mc) {
 	this.outputFrame = 1;
 	this.frame_color = 2;
 	//this.myColor = "#E38D00";
+	
+
 	this.params = [
 		["Image", false, "Image"],
 		["Category", true, "string"],
 		["n", false, "integer"]
 	];
+	this.inputsType = new Array("Image");
+	this.outputType = "Entity";
 	
 	this.codeBegin = "ImageIdentify[";
 	this.codeEnd = "]";
@@ -317,9 +334,14 @@ var FetchFaces = function (mc) {
 	this.params = [
 		["Image", false, "Image"]
 	];
-	
+	this.inputsType = new Array("Image");
+	this.outputType = "ImageArray";
+
 	this.codeBegin = "Map[";
 	this.codeEnd = "]";
+
+	
+
 	this.numParams(this.params.length);
 	this.returnsArray = true;
 	function compile(){
@@ -353,9 +375,9 @@ var Classify = function (mc) {
 	this.params = [
 		["Classifier", true, "string",["NotablePerson","Animal"]],
 		["Object", false, "FetchFaces"]
-		
-
 	];
+	this.inputsType = new Array("Image");
+	this.outputType = "Entity";
 	
 	this.codeBegin = "Classify[";
 	this.codeEnd = "]";
@@ -379,11 +401,13 @@ var ImageCollage = function (mc) {
 	this.frame_color = 2;
 	this.myColor = "#E38D00";
 	this.params = [
-		["Images", true, "Blur/FetchFaces/Image"],
+		["Images", true, "ImageArray"],
 		["Filling", true, "string"],
 		["Method", true, "string"]
 	];
-	
+	this.inputsType = new Array("ImageArray");
+	this.outputType = "Image";
+
 	this.codeBegin = "ImageCollage[";
 	this.codeEnd = ",\"Fill\", Method->\"Rows\"]";
 	this.numParams(this.params.length);
@@ -405,7 +429,7 @@ function genSearchLibs(){
 	return new Array(
 		new WolframAlpha(),
 		new SocialMediaData(), 
-		new Image(),
+		new ImageImport(),
 		new ImageIdentify(), 
 		new FetchFaces(),
 		new Classify()

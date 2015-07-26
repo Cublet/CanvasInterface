@@ -247,6 +247,25 @@ p.nominalBounds = rect = new cjs.Rectangle(28,0,151.1,61);
 p.frameBounds = [rect, rect];
 
 
+(lib.rotHype = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#FF0000").s().p("AGtD2QgCgFAAgJQAAggAygfQAyggAAAtQAAAIgfAiQghAigLAAQgQAAgHgMgAFPDsQgDgFAAgJQAAgiA3gaQA3gbAAAqQAAAKhSA9QgUAAgFgMgADXDsQgDgFAAgJQAAggBBgYQBBgZAAApQAAAIhnA6QgSAAgGgMgAoWDsQgCgFAAgJQAAgGASgTQATgTAUgOQA6goAAAwQAAAIgnAiQgmAigLAAQgSAAgHgMgAgfDkIAAgQQAAgYA3gdQA6geAAArQAAAIgoAgQgoAfgIAAQgUAAgFgPgAmjDlIgCgPQAAgcA8gfQA8ggAAAsQAAAGgtAjQgtAjgFAAQgRAAgGgOgABaDiQgDgFAAgJQAAgIAVgSQAVgRAagNQBDgiAAAtQAAALg0AfQgyAdgIAAQgRAAgFgMgAjLDiQgDgFAAgJQAAgHAUgSQATgSAYgNQA+giAAAtQAAAMgqAeQgpAdgOAAQgUAAgFgMgAkvDiQgDgFAAgJQAAgcA6gXQA5gYAAAoQAAACgqAeQgqAdgDAAQgUAAgFgMgAIeDQIAAgZQAAgZAJgMQAJgLAMAFQAeALAAA4QAAAJgFAHQgHAKgPAAQgbAAgGgZgAp+DJQgDgFAAgJQAAggBEgKQBDgLAAAhQAAAPhuAfQgRAAgFgMgAI6B0QgSggAAADQAAgpAtAaQAtAbAAAYQAAALgIAHQgHAHgPAAQgTAAgXgggAp3BHQAAgzA3AkQAUAMASATQARARAAAHQAAAKgFAHQgHAKgNAAQglAAgwhDgAI/AaIgXgrQAAg7AvAzQAwAwAAAWQAAAKgHAJQgHAJgLAAQgVAAgagvgApWAVQgLgSgHgRQAAgwArAiQAqAhAAAYQAAAJgFAIQgHAMgNAAQgTAAgXglgApihKQgkgkAAAEQAAguA8AjQAWANATASQATASAAAHQAAAaghAAQgLAAgogngAI8hVIgUgoQAAgVAGgHIguASQgVAAgGgMQgDgFAAgJQAAghBGgNQBGgNAAAiQAAAGg4AXQAWACA2BUQAAAOgMAHQgIAFgHAAQgTAAgYgogApFihQgEgagBgXQAAgaAJgGQAJgFAMANQAXAZAGAoQAFgHAMgMQAWgUAYgPQBEgpAAAyQAAAHgwAmQgwAngOAAQgOAAgGgIQgDAcgWAAQgVAAgJgzgACEibIAAgQQAAgJARgSQARgTAVgNQA3gkAAAvQAAAUhQA7QgYAAgGgPgAkviaIgDgPQAAgcAygpQAygqAAAyQAAAIgeAoQggAqgNAAQgQAAgGgOgAmdiYQgDgFAAgJQAAgHATgSQAVgTAWgOQA/gnAAAvQAAAGgvAkQgtAigDAAQgVAAgGgMgADridQgDgEAAgKIBGguQBGgkAAAvQAAAMgdAWQgjAbgkAAQgdAAgIgMgAjdigIAAgQQAAgXAygkQAyglAAAwQAAAJgjAjQgiAjgGAAQgUAAgFgPgAGPiiQgCgFAAgJQAAgeAtgcQAtgcAAArQAAAKgbAeQgbAdgIAAQgTAAgHgMgAAEiiQgCgFAAgJQAAgXA3gaQA3gZAAAnQAAASgZAVQgcAWgdAAQgTAAgHgMgAhtiiQgCgFAAgJQAAgjAygZQAygYAAAnQAAAHgeAgQgeAggNAAQgSAAgHgMg");
+	this.shape.setTransform(26.3,23.1);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#FF0000").s().p("AHnDxIAAgTQAAgeAmgmQAlglAAA3QAAAMgRAjQgTAogOAAQgUAAgFgSgAiUD3QgDgFAAgJQAAgFATgSQAWgTAVgNQA/glAAAvQAAAIgnAfQgpAggSAAQgSAAgGgMgAENDvIgCgPQAAgGARgUQAQgUAUgOIAOgKIAiAAQAEAHAAAOQAAALgeAhQgfAjgTAAQgQAAgHgPgACKDsIgBgTQAAgjAygSQAygTAAAmQAAAJhLA+QgUAAgEgSgAF3DtQgDgFAAgJQAAgJATgUQATgUAWgPIAIgFIAyAAQACAFAAAJQAAAOhcBDQgUAAgFgMgAAPDoQgDgFAAgJQAAgHATgRQATgRAWgMQAPgIALgDIAYAAQAKAFAAATQAAAKgoAcQgnAcgLAAQgVAAgGgMgAkDDlIgCgPQAbgdAagSQANgKALgDIAUAAQAIAFAAATQAAAUgWAWQgZAYghAAQgRAAgGgPgAnoDjQgDgFAAgJQAAgXA6gbQANgHAKgCQAOgEAIAEQAMAFAAATQAAAHglAbQgmAbgKAAQgVAAgGgMgAplDZQgDgFAAgJQAAgJAYgQIARgJQgigCgcgUQgYgSAAgKQAAgqA8AZQAVAJAVAOQANAJAEAFIAAAOIgBACIADgBIBMAAQADAFAAAJQAAAIg1AaQg2AbgUAAQgUAAgFgMgAldDUQgCgFAAgJQAAgbApgRIBCAAQADAFAAAJQAAAGgmAZQglAZgIAAQgSAAgHgMgAJDCmQgqguAAADQAAgYASgCQAQgBAXAQIASAMQgLgPgTgeQgjg6AAACQAAgbARABQANABAXAUQA0A1AAAqQAAAJgFAHQgHAJgMABQAYAYAAAaQAAAKgHAHQgJAIgOAAIgrgwgApyA2QgKgMAAgKQAAgiA0ASIALAFIAAA5QgkgCgRgWgAJBgdQgegjAAgHQAAg3A5AwQAUAQAUAXQASAVAAADQAAAJgFAGQgHAJgPAAQgYAAgigmgApegkQgMgSgIgQQAAgzAwAqIAFAGIAABHQgPgIgSgagApkh/QgMgQgHgNQAAgpAvAbIASALIAAgGQAYgjAXgXQAwguAAA2QAAANgTAcQgOAVgQAJIg1AAIAAAwQgUgGgTgZgAIPiRQAAgeBBAFQBBAEAAAhQAAAKgHAJQgIAKgKAAQhpAAAAgpgADSifIgDgPQAAgjAygbQAygbAAArQAAAChLBKQgRAAgFgPgAlnicQgBgEgBgGQgfAWgaAAQgUAAgFgMQgDgFAAgJQAAgGATgRQAUgSAVgNQA7glABAvIAUgUQA3gxAAA1QAAAHgjAnQgkAogJAAQgVAAgHgMgAg2ihQgCgGAAgIQAAgjA1gaQAygaAAAqQAAAFgmAhQgjAhgFAAQgQAAgHgMgAj5ihQgCgGAAgIQAAgYA0ggQA1ghAAAuQAAAMgbAbQgdAegWAAQgSAAgHgMgAG9imQgDgFAAgJQAAgaAygcQAygcAAAqQAAAKggAcQggAcgJAAQgTAAgFgMgABVimIgDgOIA3g3QA3grAAA1QAAALgUAbQgZAhgZAAQgeAAgHgMgAFZirQgDgFAAgJIAtguQAtgjAAAuQAAALgSAXQgUAbgTAAQgYAAgGgMgAijirQgDgFAAgJQBphiAABEQAAALgUAUQgZAZgcAAQgWAAgHgMg");
+	this.shape_1.setTransform(26.8,23.1);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},8).wait(8));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-38.5,-2.7,129.5,51.8);
+p.frameBounds = [rect, rect, rect, rect, rect, rect, rect, rect, rect=new cjs.Rectangle(-39.5,-2.8,132.5,51.8), rect, rect, rect, rect, rect, rect, rect];
+
+
 (lib.red_bg = function() {
 	this.initialize();
 
@@ -859,37 +878,6 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,506.1,319.6);
 p.frameBounds = [rect];
 
 
-(lib.connectionHype = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Layer 1
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#FF0000").s().p("AgTDiIgCgQQAAhUAagIQAKgDAIANQAJAOAAAYQAABMgeAAQgQAAgFgQgAijCdQgDgHAAgHQAAgkApgNQApgNAAAjQABAFgcAYQgbAYgDAAQgPAAgHgMgAB6CJIgSgcQABgpAoAYQAoAYAAAVQgBAIgDAHQgHAMgPAAQgRAAgUgbgAj8AgIgEgNQAAgbA5gDQA6gCAAAbQAAAOgMAGQgSAKg5AAQgRAAgHgMgACtACIgEgLQAAgaAsgDQAsgDAAAdQAAAMgJAFQgNAJgiAAQgUAAgIgMgABihtIgDgMQAAgVAtgYQAsgYABApQAAAGgbAXQgaAYgLAAQgQAAgHgNgAiyh2QgLgOAAgIQAAgmApAQQAoAPgBAXQAAAIgEAHQgIAKgRAAQgZAAgPgTgAgQiqIAAgYQAAgwAXABQAZACAAAtIAAAZQgFAUgUAAQgTAAgEgVg");
-	this.shape.setTransform(28.8,36.8);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#FF0000").s().p("AgWD7IAAgbQAAg4AYACQAaABAABBQAAASgCAGQgFAQgTAAQgUAAgEgZgACMCeIgTgjQAAguAqAgQArAgAAAbQAAAIgFAHQgHAKgNAAQgSAAgXgjgAjbCwIgDgNQAAgTA0gbQA1gaAAAqQAAAKgeAWQgfAXgTAAQgPAAgHgMgAkWAjQgHgFAAgMQAAgbA3ACQA3ADAAAYQAAALgFAFQgLAKgiAAQgoAAgNgLgADAAIQgGgFAAgKQAAgeAyADQAyACAAAbQAAAXgiAAQguAAgOgKgAjjiqQAAgqAyAZQAyAZAAAgQAAAIgFAHQgHAKgPAAQgOAAg7hBgACOiJQgEgHAAgHQAAgZArgNQAqgNAAAiQAAALgVAQQgWAQgRAAQgPAAgGgMgAgRjVIgDgfQAAgjAZAFQAaAFAAAuQAAAQgCAIQgGARgRAAQgRAAgGgfg");
-	this.shape_1.setTransform(28.9,36.1);
-
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#FF0000").s().p("AgjEyIgDgNQAAgPADgKIgBgHQAAgeAdgDQAbgDgBAhQAAAJgEAKIAAAAQgBAMgFALQgHASgQAAQgOAAgHgMgAkLDNIgCgSQAAgkAogEQAogFABAeQAAAEgaAYQgbAXgCAAQgUAAgEgSgAC3DCQgLgRAAgIQAAgrAnAZQAnAYAAASQgBAJgGAHQgIAJgOAAQgVAAgRgYgAlCAjQgHgJAAgJQAAgdAqADQApACAAAYQAAAMgMAJQgNAKgXAAQgSAAgKgNgADzAPQgGgGAAgJQAAgiAvAEQAuAEAAAaQAAAKgHAHQgIAIgSAAQgpAAgNgKgACtigIgDgNQAAgdAsgEQArgFAAAeQAAAMgMAJQgQAMgiAAQgPAAgHgMgAkKiuQgIgIAAgMQAAgjAqALQApALAAAVQAAAJgFAHQgIAKgRAAQggAAgNgOgAgdkKQgEgJgBgIQABgZAfgHQAdgIAAAhQAAAKgJAOQgKAQgMAAQgRAAgIgQg");
-	this.shape_2.setTransform(29.3,36.2);
-
-	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f("#FF0000").s().p("AglFIIgEgMQAAgaAZAAQAXAAAAAZQAAAIgFAIQgFAKgNAAQgPAAgGgNgAknDfIgDgMQgBgaAZAAQAZAAAAAZQAAAIgEAIQgIAKgNAAQgNAAgIgNgADcDYIgDgNQAAgaAZACQAZACAAAWQAAAIgFAHQgHAKgNAAQgOAAgIgMgAllAfIgEgNQAAgXAZAAQAZAAAAAXQAAAIgFAHQgHAKgNAAQgOAAgHgMgAE7AQIgDgNQAAgYAZACQAZACAAAUQAAAIgFAHQgHAKgNAAQgOAAgIgMgADzi+IgDgMQgBgaAZAAQAZAAAAAZQAAAIgEAIQgIAKgNAAQgOAAgHgNgAknjDIgDgMQgBgaAZAAQAZAAAAAZQAAAIgEAIQgIAKgNAAQgNAAgIgNgAgNkuIgDgNQAAgaAXACQAZACAAAWQAAAIgFAHQgHAKgNAAQgMAAgIgMg");
-	this.shape_3.setTransform(28.3,36.6);
-
-	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f("#FF0000").s().p("AgeFUIgBgGQAAgMANAAQAMAAAAAMQAAAEgCAEQgEAFgGAAQgJAAgDgHgAkuDuIgCgGQAAgNANAAQANAAAAANQgBAEgCAEQgEAFgGAAQgIAAgDgHgAECDXIgBgGQAAgMANAAQAMAAAAAMQAAAEgCAEQgEAFgGAAQgJAAgDgHgAlvAhIgBgGQAAgNAMAAQANAAAAANQAAAEgDAEQgDAFgHAAQgHAAgEgHgAFZANIgBgGQAAgLANAAQAMAAABALQgBAEgCAEQgDAFgHAAQgIAAgEgHgAEUjLIgCgHQAAgNANAAQAMgBAAAOQABAEgDAFQgDAFgHAAQgIAAgDgHgAksjNIgBgGQAAgNANAAQAMAAAAANQAAAEgCAEQgEAFgGAAQgIAAgEgHgAgDlIIgBgGQAAgMALAAQAMAAAAAMQABAFgDADQgDAFgHAAQgHAAgDgHg");
-	this.shape_4.setTransform(28.3,36.5);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},4).to({state:[{t:this.shape_2}]},4).to({state:[{t:this.shape_3}]},4).to({state:[{t:this.shape_4}]},4).to({state:[]},4).wait(11));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(3,12.6,51.5,48.5);
-p.frameBounds = [rect, rect, rect, rect, rect=new cjs.Rectangle(0.3,8.5,57.3,55.3), rect, rect, rect, rect=new cjs.Rectangle(-3.7,4.4,66,63.7), rect, rect, rect, rect=new cjs.Rectangle(-8,2.6,72.5,68.2), rect, rect, rect, rect=new cjs.Rectangle(-8.7,1.7,74,69.6), rect, rect, rect, rect=null, rect, rect, rect, rect, rect, rect, rect, rect, rect, rect];
-
-
 (lib.click_on_lib_alert = function() {
 	this.initialize();
 
@@ -1399,20 +1387,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-1.9,0,511.2,768.7);
 p.frameBounds = [rect];
-
-
-(lib.rotHype = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// Layer 1
-	this.instance = new lib.connectionHype();
-	this.instance.setTransform(31.4,22.5,1,1,0,0,0,34.4,35);
-
-	this.timeline.addTween(cjs.Tween.get(this.instance).wait(4).to({rotation:6.5},0).wait(4).to({rotation:15.9,x:31.5},0).wait(8).to({rotation:27.9,x:31.2,y:23.5},0).wait(4).to({rotation:44.8},0).wait(4).to({rotation:61.3},0).wait(4).to({rotation:70.7,x:29.7,y:25.3},0).wait(4).to({regX:34.3,rotation:86.4,y:25.2},0).wait(4).to({rotation:97.6,x:26.4,y:26.4},0).wait(4).to({rotation:113.4},0).wait(4).to({rotation:131.6,x:23.9,y:26.6},0).wait(4).to({rotation:144.8,x:22.9},0).wait(4).to({rotation:161.7,x:22.2,y:25.9},0).wait(4).to({rotation:181},0).wait(4).to({rotation:199.7,x:21.7,y:22.6},0).wait(4).to({regY:34.9,rotation:215.6,x:21.4,y:21.7},0).wait(4).to({rotation:242.4,x:22.2,y:20.1},0).wait(4).to({rotation:257.9,x:23.7,y:18.4},0).wait(4).to({rotation:269.8,x:25,y:17.4},0).wait(4));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(0,0,51.5,48.5);
-p.frameBounds = [rect, rect, rect, rect, rect=new cjs.Rectangle(-2.7,-3.4,56.6,54), rect, rect, rect, rect=new cjs.Rectangle(-5.9,-7.8,62.8,60.8), rect, rect, rect, rect, rect, rect, rect, rect=new cjs.Rectangle(-8.7,-11,68.2,66.9), rect, rect, rect, rect=new cjs.Rectangle(-9.4,-14.6,70.7,70.7), rect, rect, rect, rect=new cjs.Rectangle(-6.7,-14.8,67.3,68.4), rect, rect, rect, rect=new cjs.Rectangle(-5.2,-11.7,62.8,64.6), rect, rect, rect, rect=new cjs.Rectangle(1.8,-7.4,51.6,54.4), rect, rect, rect, rect=new cjs.Rectangle(-2,-8.1,54.9,57.5), rect, rect, rect, rect=new cjs.Rectangle(-5.4,-12.6,64.9,66.5), rect, rect, rect, rect=new cjs.Rectangle(-8.9,-14,70.4,70.7), rect, rect, rect, rect=new cjs.Rectangle(-8.6,-12.6,70,69.3), rect, rect, rect, rect=new cjs.Rectangle(-5.2,-8.6,64.1,62.2), rect, rect, rect, rect=new cjs.Rectangle(1.6,-0.5,52.4,49.4), rect, rect, rect, rect=new cjs.Rectangle(-4.9,-8.7,64.8,63), rect, rect, rect, rect=new cjs.Rectangle(-8,-11.3,70.1,69.4), rect, rect, rect, rect=new cjs.Rectangle(-7,-9.9,66.9,68.2), rect, rect, rect, rect=new cjs.Rectangle(-2.4,-6.9,58.2,60.6), rect, rect, rect, rect=new cjs.Rectangle(2.5,-2.9,48.7,51.7), rect, rect, rect];
 
 
 (lib.nav_options = function() {
@@ -1933,42 +1907,36 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1).call(this.frame_2).wait(1).call(this.frame_3).wait(1).call(this.frame_4).wait(1));
 
+	// Layer 5
+	this.name = new cjs.Text("Image", "25px 'Trebuchet MS'");
+	this.name.name = "name";
+	this.name.textAlign = "center";
+	this.name.lineHeight = 27;
+	this.name.lineWidth = 100;
+	this.name.setTransform(-1,-15.7);
+
+	this.timeline.addTween(cjs.Tween.get(this.name).wait(5));
+
 	// Layer 3
 	this.hyper = new lib.rotHype();
 	this.hyper.setTransform(-0.5,0.2,1,1,0,0,0,25.8,24.2);
 
 	this.timeline.addTween(cjs.Tween.get(this.hyper).wait(5));
 
-	// Layer 1
+	// Layer 4
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#FF0000").ss(10,1,1).p("ACWAAQAAA+gsAsQgsAsg+AAQg9AAgsgsQgsgsAAg+QAAg9AsgsQAsgsA9AAQA+AAAsAsQAsAsAAA9g");
-	this.shape.setTransform(0,-1);
+	this.shape.graphics.f().s("#FF0000").ss(3.5,1,1).p("AouikIRdAAIAAFJIxdAAg");
+	this.shape.setTransform(0,-0.5);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f().s("#000066").ss(10,1,1).p("ACWAAQAAA+gsAsQgsAsg+AAQg9AAgsgsQgsgsAAg+QAAg9AsgsQAsgsA9AAQA+AAAsAsQAsAsAAA9g");
-	this.shape_1.setTransform(0,-1);
+	this.shape_1.graphics.f("#EFEFEF").s().p("AouClIAAlJIRdAAIAAFJg");
+	this.shape_1.setTransform(0,-0.5);
 
-	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f().s("#FF0000").ss(10,1,1).p("ABGCVQg5gDgmgoQgsgsAAg+QAAg9AsgsQAmgoA5gD");
-	this.shape_2.setTransform(-8,-1);
-
-	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f().s("#000066").ss(10,1,1).p("AhPiUQAFgBAFAAQA/AAAqAsQAsAsAAA9QAAA+gsAsQgqAsg/AAQgFAAgFgB");
-	this.shape_3.setTransform(7,-1);
-
-	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f().s("#0D8500").ss(10,1,1).p("ACMiCIgJEOIkOgJIAJkOg");
-	this.shape_4.setTransform(-0.4,-0.5);
-
-	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f().s("#DBA000").ss(10,1,1).p("AgCi/IDCC9Ii9DCIjCi9g");
-	this.shape_5.setTransform(-0.5,-0.5);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},1).to({state:[{t:this.shape_3},{t:this.shape_2}]},1).to({state:[{t:this.shape_4}]},1).to({state:[{t:this.shape_5}]},1).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).wait(5));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(-26.3,-24,51.5,48.5);
-p.frameBounds = [rect, rect, rect, rect, new cjs.Rectangle(-26.3,-24.7,51.5,49.2)];
+p.nominalBounds = rect = new cjs.Rectangle(-64.8,-26.7,129.5,51.8);
+p.frameBounds = [rect, rect, rect, rect, rect];
 
 
 (lib.varLib = function(mode,startPosition,loop) {
@@ -2175,20 +2143,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		function checkForSnap(others) {
 			var func = me.func;
+		
 			if (!shapeLoad) {
 				shapeLoad = true;
-				/*
-				inputShape.gotoAndStop(func.inputFrame);
-				outputShape.gotoAndStop(func.outputFrame);
-				for (var i = 0; i < outputShape.children.length; i++) {
-					if (outputShape.children[i].gotoAndStop) {
-						outputShape.children[i].gotoAndStop((func.frame_color + 1));
-					}
-				}
-				*/
-				for(var i=0; i<func.params.length; i++){
-					
-					if(func.params[i][2].indexOf("Image")>-1 || func.params[i][0] === "Object"){
+				for(var i=0; i<func.inputsType.length; i++){
+						//console.log("input: "+func.inputsType[i]);
 						//input
 						var input = new createjs.Shape();
 						input.graphics.beginFill(func.myColor).drawRect(0, -30, 20, 30);
@@ -2206,14 +2165,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						createjs.Tween.get(inputMC).to({
 							y: -40
 						}, 300);
-						if(func.params[i][0] === "Object"){
-							inputMC.gotoAndStop(1);
-						}else if(func.params[i][0] === "Image(s)"){
-							inputMC.gotoAndStop(2);
-						}else if(func.params[i][0] === "Images"){
-							inputMC.gotoAndStop(1);
-						}
-					}
+						inputMC.name.text=func.inputsType[i];
+					
 				}
 				//output
 				var output = new createjs.Shape();
@@ -2232,17 +2185,20 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				createjs.Tween.get(outputMC).to({
 					y: 100
 				}, 300);
-				outputMC.gotoAndStop(func.outputFrame);
+				outputMC.name.text= func.outputType;
 				myOutputs =[output,outputMC];
 			}
+			bigLoop:
 			for (var i = 0; i < others.length; i++) {
 				if (!func) {
 					console.log("no Func");
 					return;
 				}
-				for (var j = 0; j < func.params.length; j++) {
-					var param = func.params[j][2];
-					if (param.indexOf(others[i].name)>-1 && !others[i].occupied) {
+				for (var j = 0; j < func.inputsType.length; j++) {
+					var wantedType = func.inputsType[j];
+					
+					if (wantedType===others[i].outputType && !others[i].occupied) {
+						console.log(i+","+j+"->  "+wantedType+"==="+others[i].outputType);
 						var otherMC = others[i].mc.bottom;
 						var x1 = otherMC.x + others[i].mc.x;
 						var y1 = otherMC.y + others[i].mc.y;
@@ -2256,7 +2212,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 								otherMC.alpha = .5;
 								top.alpha = .5;
 							}
-							arrow.visible = true
+							arrow.visible = true;
 							var yDist = (y2 + 96) - y1;
 							var xDist = x2 - x1;
 		
@@ -2273,8 +2229,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 							if (!hideHitBoxes) {
 								otherMC.alpha = .1;
 								top.alpha = .1;
+								
 							}
 						}
+						break bigLoop;
 					}
 				}
 			}
