@@ -462,6 +462,27 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,95.7,89);
 p.frameBounds = [rect];
 
 
+(lib.NothingSelected = function() {
+	this.initialize();
+
+	// Layer 1
+	this.alertInfo = new cjs.Text("Nothing is selected", "35px 'Verdana'", "#444444");
+	this.alertInfo.name = "alertInfo";
+	this.alertInfo.textAlign = "center";
+	this.alertInfo.lineHeight = 37;
+	this.alertInfo.lineWidth = 484;
+	this.alertInfo.setTransform(276.1,258);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#949494").s().p("EgqLA+qMAAAh9UMBUXAAAMAAAB9Ug");
+	this.shape.setTransform(270.1,401.1);
+
+	this.addChild(this.shape,this.alertInfo);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(0,0,540.2,802.2);
+p.frameBounds = [rect];
+
+
 (lib.newBtn = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -878,25 +899,37 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,506.1,319.6);
 p.frameBounds = [rect];
 
 
-(lib.click_on_lib_alert = function() {
-	this.initialize();
+(lib.DeployBtn = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
 
 	// Layer 1
-	this.alertInfo = new cjs.Text("Nothing is selected", "35px 'Verdana'", "#444444");
-	this.alertInfo.name = "alertInfo";
-	this.alertInfo.textAlign = "center";
-	this.alertInfo.lineHeight = 37;
-	this.alertInfo.lineWidth = 484;
-	this.alertInfo.setTransform(276.1,258);
+	this.text = new cjs.Text("Deploy", "bold 40px 'Verdana'", "#CCCCCC");
+	this.text.textAlign = "center";
+	this.text.lineHeight = 42;
+	this.text.lineWidth = 265;
+	this.text.setTransform(134.4,17.2);
 
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#949494").s().p("EgqLA+qMAAAh9UMBUXAAAMAAAB9Ug");
-	this.shape.setTransform(270.1,401.1);
+	this.shape.graphics.f("#100266").s().p("A1KGlIAAtJMAqUAAAIAANJg");
+	this.shape.setTransform(135.5,42.1);
 
-	this.addChild(this.shape,this.alertInfo);
-}).prototype = p = new cjs.Container();
-p.nominalBounds = rect = new cjs.Rectangle(0,0,540.2,802.2);
-p.frameBounds = [rect];
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#3F3772").s().p("A1KGlIAAtJMAqUAAAIAANJg");
+	this.shape_1.setTransform(135.5,42.1);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text}]}).to({state:[{t:this.shape_1},{t:this.text}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(0,0,271,84.2);
+p.frameBounds = [rect, rect];
 
 
 (lib.blue_slider = function(mode,startPosition,loop) {
@@ -979,6 +1012,39 @@ p.frameBounds = [rect, rect];
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
+p.frameBounds = [rect, rect];
+
+
+(lib.BlockinateBtn = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
+
+	// Layer 1
+	this.text = new cjs.Text("Blockinate", "bold 40px 'Verdana'", "#CCCCCC");
+	this.text.textAlign = "center";
+	this.text.lineHeight = 42;
+	this.text.lineWidth = 252;
+	this.text.setTransform(127,17.2);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f("#006600").s().p("A0HGlIAAtJMAoPAAAIAANJg");
+	this.shape.setTransform(128.9,42.1);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#56A356").s().p("A0HGlIAAtJMAoPAAAIAANJg");
+	this.shape_1.setTransform(128.9,42.1);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text}]}).to({state:[{t:this.shape_1},{t:this.text}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(0,0,257.7,84.2);
 p.frameBounds = [rect, rect];
 
 
@@ -1640,6 +1706,101 @@ p.nominalBounds = rect = new cjs.Rectangle(-91.7,-26.7,183.4,51.8);
 p.frameBounds = [rect, rect, rect, rect, rect];
 
 
+(lib.blockinate = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+		var me = this;
+		setTimeout(function(){
+		initializeBlockinater(me);
+		},400);
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
+
+	// Layer 1
+	this.nothing = new lib.NothingSelected();
+	this.nothing.setTransform(270.1,401.1,1,1,0,0,0,270.1,401.1);
+
+	this.timeline.addTween(cjs.Tween.get(this.nothing).wait(1));
+
+	// Layer 6
+	this.blockit = new lib.BlockinateBtn();
+	this.blockit.setTransform(410.8,760,1,1,0,0,0,134.6,42.1);
+
+	this.deploy = new lib.DeployBtn();
+	this.deploy.setTransform(140.7,760,1,1,0,0,0,135.5,42.1);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.deploy},{t:this.blockit}]}).wait(1));
+
+	// Layer 3
+	this.instance = new lib.gray_slider();
+	this.instance.setTransform(524.1,585.8,1,0.497,0,0,0,9.3,266.4);
+
+	this.text = new cjs.Text("Inputs:", "25px 'Verdana'", "#333333");
+	this.text.textAlign = "center";
+	this.text.lineHeight = 27;
+	this.text.lineWidth = 100;
+	this.text.setTransform(58.5,420.8);
+
+	this.title = new cjs.Text("WolframAlpha", "bold 25px 'Verdana'", "#FFFFFF");
+	this.title.name = "title";
+	this.title.textAlign = "center";
+	this.title.lineHeight = 27;
+	this.title.lineWidth = 428;
+	this.title.setTransform(277.4,94.8,0.933,0.933);
+
+	this.blockLayers = new cjs.Text("Relations", "25px 'Verdana'", "#333333");
+	this.blockLayers.name = "blockLayers";
+	this.blockLayers.textAlign = "center";
+	this.blockLayers.lineHeight = 27;
+	this.blockLayers.lineWidth = 484;
+	this.blockLayers.setTransform(270.8,223.9);
+
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f().s("#333333").ss(1,1,1).p("EgpRAUrMAAAgpUEgo3gUpMBSJAAA");
+	this.shape.setTransform(269.5,585.6);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#8C8C8C").s().p("EgpyAUqMAAAgpUIAaAAMBSKAAAIBBAAMAAAApUg");
+	this.shape_1.setTransform(272.7,585.6);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#9A1F3C").s().p("EggVAEhIAApBMBArAAAIAAJBg");
+	this.shape_2.setTransform(281.1,109.2);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.blockLayers},{t:this.title},{t:this.text},{t:this.instance}]}).wait(1));
+
+	// Layer 5
+	this.shape_3 = new cjs.Shape();
+	this.shape_3.graphics.f().s("#666666").ss(1,1,1).p("EAo7AJAIAAO8MhR1AAAIAAu8MAAAgg7MBR1AAAgEgo6AJAMBR1AAA");
+	this.shape_3.setTransform(270.4,158.7);
+
+	this.shape_4 = new cjs.Shape();
+	this.shape_4.graphics.f("#787878").s().p("Ego6AHeIAAu7MBR1AAAIAAO7g");
+	this.shape_4.setTransform(270.4,264.1);
+
+	this.shape_5 = new cjs.Shape();
+	this.shape_5.graphics.f("#A7A7A7").s().p("Ego6AQeMAAAgg7MBR1AAAMAAAAg7g");
+	this.shape_5.setTransform(270.4,110.9);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_5},{t:this.shape_4},{t:this.shape_3}]}).wait(1));
+
+	// Layer 4
+	this.shape_6 = new cjs.Shape();
+	this.shape_6.graphics.f("#949494").s().p("EgqLA+qMAAAh9UMBUXAAAMAAAB9Ug");
+	this.shape_6.setTransform(270.1,401.1);
+
+	this.timeline.addTween(cjs.Tween.get(this.shape_6).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(0,0,540.3,802.2);
+p.frameBounds = [rect];
+
+
 (lib.varLib = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -1761,9 +1922,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		
 		function shrink() {
-			if (me.x < -360 || (me.x + 400) > 1000) {
-				exportRoot.deleteFunc(me.func);
-			}
+			
 		
 			var dist = Math.sqrt(Math.pow((me.x - destX), 2) + Math.pow((me.y - destY), 2));
 			arrow.visible = false;
@@ -1806,6 +1965,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 			//destX = null;
 			//destY = null;
+			if (me.x < -360 || me.x > 600) {
+				exportRoot.deleteFunc(me.func);
+			}
 		}
 		this.shrink = shrink;
 		this.blockStack = new Array();
@@ -2213,8 +2375,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			if (imageHolder) {
 				removeImage();
 			}
-			
-			killSymbols();
+			if(shapeLoad){
+				killSymbols();
+			}
 			var explosion = new lib.explosion();
 			explosion.x = 430/2+10;
 			me.addChild(explosion);
@@ -2451,6 +2614,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		includeJs("js/BlockInput.js");
 		includeJs("js/Input.js");
 		includeJs("js/Library.js");
+		includeJs("js/blockinater.js");
 		
 		var me = this;
 		var alertLib = this.alertLib;
@@ -2785,6 +2949,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var startY;
 		var clickedInEditPane = false;
 		var pressing = false;
+		var relX;
+		var relY;
 		function hitTest(x,y,block){
 			var x1=block.mc.x;
 			var y1=block.mc.y;
@@ -2794,8 +2960,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		function startSelect(m){
 			pressing = true;
-			var relX = m.x;
-			var relY = m.y;
+			relX = m.x;
+			relY = m.y;
 			//console.log(relX+":"+relY);
 			if(m.ctrlKey){
 				//console.log("mkRect");
@@ -2822,6 +2988,15 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			}
 		}
 		
+		function highlightAllBlocks(){
+			var funcBlocks = getAllBlocks();
+			for(var i=0; i<funcBlocks.length; i++){
+				funcBlocks[i].mc.block.highlight.visible = true;
+			}
+			clearInputs();
+			alertLib.visible = true;
+			createBlockination(funcBlocks);
+		}
 		function getHighlightedBlocks(x,y){
 			var h_blocks = new Array();
 			for(var i=0; i<funcBlocks.length; i++){
@@ -2842,7 +3017,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 					selecter.graphics.clear();
 					var width = relX - selecter.x;
 					var height = relY - selecter.y;
-					console.log("w:"+width);
 					selecter.graphics.beginFill("#0099FF").drawRect(0, 0, width, height);
 					selecter.alpha = .4;
 					highlightSelected(relX,relY);
@@ -2883,8 +3057,13 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		
 		function executeSelect(m){
+			h_blocks = getHighlightedBlocks(relX,relY);
 			if(h_blocks.length === 1){
 				 h_blocks[0][0].mc.shrink();
+			}else if(h_blocks.length>1){
+				clearInputs();
+			    alertLib.visible = true;
+			    createBlockination(h_blocks);
 			}
 			if(selecter){
 				stage.removeChild(selecter);
@@ -2924,6 +3103,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		
 		window.addEventListener("keydown", pressed);
 		function pressed(k){
+			if(k.keyCode === 192){
+				highlightAllBlocks();
+			}
 			if(k.keyCode === 13){
 				if(checkUpdate){console.log("Enter pressed, updateing code..");}
 				updateCode();
@@ -2950,12 +3132,10 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		
 		function deleteFunc(func){
-			for(var i=0; i<funcBlocks.length; i++){
-				if(funcBlocks[i] === func){
-					clearInputs();
-					func.mc.killSelf();
-					alertLib.visible = true;
-				}
+			if(funcBlocks.indexOf(func)>-1){
+				clearInputs();
+				func.mc.killSelf();
+				alertLib.visible = true;
 			}
 		}
 		this.deleteFunc = deleteFunc;
@@ -2970,7 +3150,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1));
 
 	// Layer 7
-	this.alertLib = new lib.click_on_lib_alert();
+	this.alertLib = new lib.blockinate();
 	this.alertLib.setTransform(1330.4,461.2,1,1,0,0,0,270.1,401.1);
 
 	this.timeline.addTween(cjs.Tween.get(this.alertLib).wait(1));
