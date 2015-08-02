@@ -201,6 +201,6 @@ function inputHandler(k, input) {
 			input.btn.style.background = "white";
 		}
 	}
-	console.log("input handler, update code..");
+	//console.log("input handler, update code..");
 	exportRoot.updateCode();
 }

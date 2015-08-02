@@ -25,37 +25,30 @@ lib.properties = {
 
 
 
-(lib.JASON = function() {
+(lib.Magnifier_64 = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
 	this.gotoAndStop(1);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.Magnifier_64 = function() {
+(lib.Pencil_edit_button_64 = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
 	this.gotoAndStop(2);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.Pencil_edit_button_64 = function() {
+(lib.Square_root_of_x_math_formula_64 = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
 	this.gotoAndStop(3);
 }).prototype = p = new cjs.Sprite();
 
 
 
-(lib.Square_root_of_x_math_formula_64 = function() {
-	this.spriteSheet = ss["wolf_atlas_"];
-	this.gotoAndStop(4);
-}).prototype = p = new cjs.Sprite();
-
-
-
 (lib.Two_books_64 = function() {
 	this.spriteSheet = ss["wolf_atlas_"];
-	this.gotoAndStop(5);
+	this.gotoAndStop(4);
 }).prototype = p = new cjs.Sprite();
 
 
@@ -128,6 +121,20 @@ p.frameBounds = [rect, rect];
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(0,0,82.1,84.9);
 p.frameBounds = [rect, rect];
+
+
+(lib.strikeOut = function() {
+	this.initialize();
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f().s("#FFFFFF").ss(4,1,1).p("A5SAAMAylAAA");
+	this.shape.setTransform(162,0);
+
+	this.addChild(this.shape);
+}).prototype = p = new cjs.Container();
+p.nominalBounds = rect = new cjs.Rectangle(-2,-2,328,4);
+p.frameBounds = [rect];
 
 
 (lib.slider = function(mode,startPosition,loop) {
@@ -1062,6 +1069,54 @@ p.nominalBounds = rect = new cjs.Rectangle(-26,-40.3,52,42.1);
 p.frameBounds = [rect];
 
 
+(lib.varBlock = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
+
+	// Layer 3
+	this.title = new cjs.Text("Title", "bold 25px 'Verdana'", "#FFFFFF");
+	this.title.name = "title";
+	this.title.textAlign = "center";
+	this.title.lineHeight = 27;
+	this.title.lineWidth = 428;
+	this.title.setTransform(216.1,14.9);
+
+	this.timeline.addTween(cjs.Tween.get(this.title).wait(2));
+
+	// Layer 4
+	this.strikeOut = new lib.strikeOut();
+	this.strikeOut.setTransform(222,34,1,1,0,0,0,162,0);
+	this.strikeOut._off = true;
+
+	this.timeline.addTween(cjs.Tween.get(this.strikeOut).wait(1).to({_off:false},0).wait(1));
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f().s("#340234").ss(1,1,1).p("EgiNgE1MBEbAAAIAAJrMhEbAAAg");
+	this.shape.setTransform(219.1,31);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#730472").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_1.setTransform(219.1,31);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#A30004").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_2.setTransform(219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
+p.frameBounds = [rect, rect];
+
+
 (lib.ContentVar = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -1728,25 +1783,31 @@ p.frameBounds = [rect, rect, rect, rect, rect];
 	this.timeline.addTween(cjs.Tween.get(this.nothing).wait(1));
 
 	// Layer 6
+	this.instance = new lib.gray_slider();
+	this.instance.setTransform(514.8,421.5,1,0.556);
+
 	this.blockit = new lib.BlockinateBtn();
 	this.blockit.setTransform(410.8,760,1,1,0,0,0,134.6,42.1);
 
 	this.deploy = new lib.DeployBtn();
 	this.deploy.setTransform(140.7,760,1,1,0,0,0,135.5,42.1);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.deploy},{t:this.blockit}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.deploy},{t:this.blockit},{t:this.instance}]}).wait(1));
 
 	// Layer 3
-	this.instance = new lib.gray_slider();
-	this.instance.setTransform(524.1,585.8,1,0.497,0,0,0,9.3,266.4);
-
-	this.text = new cjs.Text("Inputs:", "25px 'Verdana'", "#333333");
+	this.text = new cjs.Text("Block Name:", "30px 'Verdana'", "#333333");
 	this.text.textAlign = "center";
-	this.text.lineHeight = 27;
-	this.text.lineWidth = 100;
-	this.text.setTransform(58.5,420.8);
+	this.text.lineHeight = 32;
+	this.text.lineWidth = 203;
+	this.text.setTransform(110.4,335);
 
-	this.title = new cjs.Text("WolframAlpha", "bold 25px 'Verdana'", "#FFFFFF");
+	this.text_1 = new cjs.Text("Inputs:", "25px 'Verdana'", "#333333");
+	this.text_1.textAlign = "center";
+	this.text_1.lineHeight = 27;
+	this.text_1.lineWidth = 100;
+	this.text_1.setTransform(58.5,384.8);
+
+	this.title = new cjs.Text("NewBlock001", "bold 25px 'Verdana'", "#FFFFFF");
 	this.title.name = "title";
 	this.title.textAlign = "center";
 	this.title.lineHeight = 27;
@@ -1761,18 +1822,18 @@ p.frameBounds = [rect, rect, rect, rect, rect];
 	this.blockLayers.setTransform(270.8,223.9);
 
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#333333").ss(1,1,1).p("EgpRAUrMAAAgpUEgo3gUpMBSJAAA");
-	this.shape.setTransform(269.5,585.6);
+	this.shape.graphics.f().s("#333333").ss(1,1,1).p("EgpRAXLMAAAguUEgo3gXJMBSJAAA");
+	this.shape.setTransform(269.5,569.6);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#8C8C8C").s().p("EgpyAUqMAAAgpUIAaAAMBSKAAAIBBAAMAAAApUg");
-	this.shape_1.setTransform(272.7,585.6);
+	this.shape_1.graphics.f("#8C8C8C").s().p("EgpyAXKMAAAguTIAaAAMBSKAAAIBBAAMAAAAuTg");
+	this.shape_1.setTransform(272.7,569.6);
 
 	this.shape_2 = new cjs.Shape();
 	this.shape_2.graphics.f("#9A1F3C").s().p("EggVAEhIAApBMBArAAAIAAJBg");
 	this.shape_2.setTransform(281.1,109.2);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.blockLayers},{t:this.title},{t:this.text},{t:this.instance}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.blockLayers},{t:this.title},{t:this.text_1},{t:this.text}]}).wait(1));
 
 	// Layer 5
 	this.shape_3 = new cjs.Shape();
@@ -1791,7 +1852,7 @@ p.frameBounds = [rect, rect, rect, rect, rect];
 
 	// Layer 4
 	this.shape_6 = new cjs.Shape();
-	this.shape_6.graphics.f("#949494").s().p("EgqLA+qMAAAh9UMBUXAAAMAAAB9Ug");
+	this.shape_6.graphics.f("#949494").s().p("EgqLA+qMAAAgo9MBUXAAAMhUXAAAIAAtwMBUXAAAMhUXAAAMAAAhGnMBUXAAAMAAABGnIAANwMAAAAo9g");
 	this.shape_6.setTransform(270.1,401.1);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape_6).wait(1));
@@ -2614,7 +2675,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		includeJs("js/BlockInput.js");
 		includeJs("js/Input.js");
 		includeJs("js/Library.js");
-		includeJs("js/blockinater.js");
+		includeJs("js/Blockinater.js");
 		
 		var me = this;
 		var alertLib = this.alertLib;
@@ -2623,9 +2684,8 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var func_desc = this.func_desc;
 		var func_title = this.func_title;
 		var canvasClean = new Array();
-		var inputClean = new Array();
+		this.inputClean = new Array();
 		var variables = new Array();
-		
 		
 		includeJs("js/Button.js");
 		includeJs("js/LibButton.js");
@@ -2721,56 +2781,6 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		}
 		this.addFunc = addFunc;
 		
-		
-		function primitivePrompt(type, defaultVal, mc) {
-			clearInputs();
-			if (focusLib) {
-				focusLib.play();
-				focusLib = null;
-			}
-			if (type === "sentence") {
-				func_title.text = "Sentence";
-				func_desc.text = "A list of letters.";
-				//defaultValue, optional, x, y, size, width, index
-				var varName = new Input("Variable Name", true, 1140, 306, 38, 390, 0, false, null);
-				var varValue = new Input("Value", true, 1140, 371, 38, 390, 0, false, null);
-				varValue.btn.value = defaultVal;
-				var text = new createjs.Text("Create a variable by naming it.", "25px Verdana", "#000000");
-				text.x = 1140;
-				text.y = 500;
-				text.textBaseline = "alphabetic";
-				stage.addChild(text);
-				canvasClean.push(text);
-				inputClean.push(varName);
-				inputClean.push(varValue);
-				//TODO: block.inputs[j] = txtBox;
-			}
-			focusMC = mc;
-		}
-		this.primitivePrompt = primitivePrompt;
-		
-		function savePrimitive() {
-			if (inputClean[0]) {
-				if (inputClean[0].btn.value !== "") {
-					var block = new Sentence(focusMC);
-					block.inputs[0] = inputClean[0];
-					block.inputs[1] = inputClean[1];
-					funcBlocks.push(block);
-					block.vars[0] = inputClean[0].btn.value;
-					block.vars[1] = inputClean[1].btn.value;
-					variables.push(block);
-					focusBlock = block;
-					block.mc.title.text = "\"" + block.vars[0] + "\"";
-					focusMC.block.isVar.visible = true;
-				} else {
-					for (var i = 0; i < inputClean.length; i++) {
-						inputClean[i].removeListener();
-						document.body.removeChild(inputClean[i].btn);
-					}
-				}
-			}
-		}
-		
 		function callInputs(origin) {
 			if (focusBlock) {
 				me.generateInput(focusBlock, origin);
@@ -2836,8 +2846,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return output;
 		}
 		this.compile = compile;
-		function clearInputs() {
-			savePrimitive();
+		function clearInputs(keepHighlighted) {
+			for(var i=0; i<me.inputClean.length; i++){
+				document.body.removeChild(me.inputClean[i]);
+			}
+			me.inputClean = new Array();
 			for (var i = 0; i < canvasClean.length; i++) {
 				stage.removeChild(canvasClean[i]);
 			}
@@ -2852,7 +2865,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 						focusBlock.inputs[i].removeListener();
 					}
 				}
-				focusBlock.mc.block.highlight.visible = false;
+				if(!keepHighlighted){
+					focusBlock.mc.block.highlight.visible = false;
+				}
 				focusBlock.inputs = [null, null];
 				focusBlock.focus = false;
 				focusBlock = null;
@@ -2993,7 +3008,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			for(var i=0; i<funcBlocks.length; i++){
 				funcBlocks[i].mc.block.highlight.visible = true;
 			}
-			clearInputs();
+			clearInputs(true);
 			alertLib.visible = true;
 			createBlockination(funcBlocks);
 		}
@@ -3061,9 +3076,9 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			if(h_blocks.length === 1){
 				 h_blocks[0][0].mc.shrink();
 			}else if(h_blocks.length>1){
-				clearInputs();
-			    alertLib.visible = true;
-			    createBlockination(h_blocks);
+				//clearInputs();
+			    //alertLib.visible = true;
+			    //createBlockination(h_blocks);
 			}
 			if(selecter){
 				stage.removeChild(selecter);

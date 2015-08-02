@@ -48,7 +48,7 @@ function loadedUp(){
 function updateWolfDiv(string){
 	string = string.replace(/(\n)/g,";");
 	string = string.substring(0, string.lastIndexOf(";"))
-	console.log(string + " is the code.");
+	//console.log(string + " is the code.");
 	wolfDiv.innerHTML = "<img onload='loadedUp()' id='output' src='https://www.wolframcloud.com/objects/user-59b3837e-6a61-4346-96aa-80da1718a00d/expression?input=" + encodeURIComponent(string) + "'>";
 	//coverDiv.style.display = "default";
 
