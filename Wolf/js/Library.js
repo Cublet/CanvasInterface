@@ -16,7 +16,7 @@ function highlight_off(event){
 	event.currentTarget.block.gotoAndStop(0);
 }
 
-function initializeLibrary(funcLib, container, frame){
+function initializeLibrary(funcLib, container, frame, fallback){
 	lib_frame = frame;
 	lib_me = container;
 	lib_desc = container.description;
@@ -26,7 +26,12 @@ function initializeLibrary(funcLib, container, frame){
 		btn.addEventListener("rollout", highlight_off);
 		btn.addEventListener("mousedown", pressed);
 		btn.x = 28;
-		btn.y = 320+i*70;
+		if(fallback){
+			btn.y = 270+i*70;
+		}else{
+			btn.y = 320+i*70;
+		}
+		
 		btn.gotoAndStop(lib_frame);
 		btn.desc = funcLib[i].desc;
 		btn.func = funcLib[i];

@@ -285,7 +285,7 @@ var Classify = function (mc) {
 
 	this.params = [
 		["Classifier", true, "string",["NotablePerson","Animal"]],
-		["Object", false, "FetchFaces"]
+		["Image", false, "Image"]
 	];
 	this.inputsType = new Array("Image");
 	this.outputType = "Entity";
@@ -335,6 +335,9 @@ ImageCollage.prototype = Block.prototype;
 ImageCollage.prototype.constructor = ImageCollage;  
 funcMap.set("ImageCollage", ImageCollage);
 
+
+
+
 function genSearchLibs(){
 	return new Array(
 		new WolframAlpha(),
@@ -355,7 +358,11 @@ function genGraphicsLibs(){
 
 function genMathLibs(){
 	return new Array(
-
 	);
 }
 
+function genCustomLibs(){
+	return new Array(
+		new Blur()
+	);
+}

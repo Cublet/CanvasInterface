@@ -5,10 +5,17 @@ var name_input;
 var b_myInputs = new Array();
 var b_myOutputs;
 var varBlocks = new Array();
+var root_block;
+
+function blockination(){
+	//new block and such
+}
+
 function initializeBlockinater(container){
 	b_me = container;
-	deploy_btn = new Button("deploy",container.deploy);
+	//deploy_btn = new Button("deploy",container.deploy);
 	blockit_btn = new Button("blockit",container.blockit);
+	blockit_btn.mc.addEventListener("click", blockination);
 }
 
 function updateName(evt){	
@@ -129,6 +136,7 @@ function createBlockination(h_blocks){
 	for(var i=0; i<h_blocks.length; i++){
 		output+=h_blocks[i].name+",";
 		if(h_blocks[i].root){
+			root_block = h_blocks[i];
 			outputType = h_blocks[i].outputType;
 			inputTypes = getInputType(h_blocks[i]);
 			generateVarBlocks(h_blocks[i]);

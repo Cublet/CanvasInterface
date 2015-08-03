@@ -525,6 +525,40 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,139,59);
 p.frameBounds = [rect, rect];
 
 
+(lib.maroon_btn = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// timeline functions:
+	this.frame_0 = function() {
+		this.stop();
+	}
+	this.frame_1 = function() {
+		this.stop();
+	}
+
+	// actions tween:
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(1).call(this.frame_1).wait(1));
+
+	// Layer 1
+	this.shape = new cjs.Shape();
+	this.shape.graphics.f().s("#70021C").ss(1,1,1).p("EgiNgE1MBEbAAAIAAJrMhEbAAAg");
+	this.shape.setTransform(219.1,31);
+
+	this.shape_1 = new cjs.Shape();
+	this.shape_1.graphics.f("#9A1F3C").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_1.setTransform(219.1,31);
+
+	this.shape_2 = new cjs.Shape();
+	this.shape_2.graphics.f("#A4445B").s().p("EgiNAE2IAAprMBEbAAAIAAJrg");
+	this.shape_2.setTransform(219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_1},{t:this.shape}]}).to({state:[{t:this.shape_2},{t:this.shape}]},1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = rect = new cjs.Rectangle(-1,-1,440.2,64);
+p.frameBounds = [rect, rect];
+
+
 (lib.load_btn = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -906,39 +940,6 @@ p.nominalBounds = rect = new cjs.Rectangle(0,0,506.1,319.6);
 p.frameBounds = [rect];
 
 
-(lib.DeployBtn = function(mode,startPosition,loop) {
-	this.initialize(mode,startPosition,loop,{});
-
-	// timeline functions:
-	this.frame_0 = function() {
-		this.stop();
-	}
-
-	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
-
-	// Layer 1
-	this.text = new cjs.Text("Deploy", "bold 40px 'Verdana'", "#CCCCCC");
-	this.text.textAlign = "center";
-	this.text.lineHeight = 42;
-	this.text.lineWidth = 265;
-	this.text.setTransform(134.4,17.2);
-
-	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#100266").s().p("A1KGlIAAtJMAqUAAAIAANJg");
-	this.shape.setTransform(135.5,42.1);
-
-	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#3F3772").s().p("A1KGlIAAtJMAqUAAAIAANJg");
-	this.shape_1.setTransform(135.5,42.1);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text}]}).to({state:[{t:this.shape_1},{t:this.text}]},1).wait(1));
-
-}).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(0,0,271,84.2);
-p.frameBounds = [rect, rect];
-
-
 (lib.blue_slider = function(mode,startPosition,loop) {
 	this.initialize(mode,startPosition,loop,{});
 
@@ -1033,25 +1034,28 @@ p.frameBounds = [rect, rect];
 	// actions tween:
 	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(2));
 
-	// Layer 1
+	// Layer 3
 	this.text = new cjs.Text("Blockinate", "bold 40px 'Verdana'", "#CCCCCC");
 	this.text.textAlign = "center";
 	this.text.lineHeight = 42;
 	this.text.lineWidth = 252;
-	this.text.setTransform(127,17.2);
+	this.text.setTransform(265.7,15.8);
 
+	this.timeline.addTween(cjs.Tween.get(this.text).wait(2));
+
+	// Layer 1
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f("#006600").s().p("A0HGlIAAtJMAoPAAAIAANJg");
-	this.shape.setTransform(128.9,42.1);
+	this.shape.graphics.f("#006600").s().p("EgptAGlIAAtJMBTaAAAIAANJg");
+	this.shape.setTransform(267,42.1);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#56A356").s().p("A0HGlIAAtJMAoPAAAIAANJg");
-	this.shape_1.setTransform(128.9,42.1);
+	this.shape_1.graphics.f("#56A356").s().p("EgptAGlIAAtJMBTaAAAIAANJg");
+	this.shape_1.setTransform(267,42.1);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape},{t:this.text}]}).to({state:[{t:this.shape_1},{t:this.text}]},1).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape}]}).to({state:[{t:this.shape_1}]},1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
-p.nominalBounds = rect = new cjs.Rectangle(0,0,257.7,84.2);
+p.nominalBounds = rect = new cjs.Rectangle(0,0,534,84.2);
 p.frameBounds = [rect, rect];
 
 
@@ -1123,7 +1127,7 @@ p.frameBounds = [rect, rect];
 	// timeline functions:
 	this.frame_0 = function() {
 		var funcLib = exportRoot.getVariables();
-		initializeLibrary(funcLib, this, 1);
+		initializeLibrary(funcLib, this, 3, true);
 	}
 
 	// actions tween:
@@ -1429,7 +1433,7 @@ p.frameBounds = [rect];
 	}
 
 	// actions tween:
-	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(3));
+	this.timeline.addTween(cjs.Tween.get(this).call(this.frame_0).wait(4));
 
 	// Layer 3
 	this.title = new cjs.Text("Title", "bold 25px 'Verdana'", "#FFFFFF");
@@ -1439,7 +1443,7 @@ p.frameBounds = [rect];
 	this.title.lineWidth = 428;
 	this.title.setTransform(216.1,14.9);
 
-	this.timeline.addTween(cjs.Tween.get(this.title).wait(3));
+	this.timeline.addTween(cjs.Tween.get(this.title).wait(4));
 
 	// Layer 1
 	this.block = new lib.blue_btn();
@@ -1451,11 +1455,14 @@ p.frameBounds = [rect];
 	this.block3 = new lib.yellow_btn();
 	this.block3.setTransform(219.1,31,1,1,0,0,0,219.1,31);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.block}]}).to({state:[{t:this.block2}]},1).to({state:[{t:this.block3}]},1).wait(1));
+	this.block3_1 = new lib.maroon_btn();
+	this.block3_1.setTransform(219.1,31,1,1,0,0,0,219.1,31);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.block}]}).to({state:[{t:this.block2}]},1).to({state:[{t:this.block3}]},1).to({state:[{t:this.block3_1}]},1).wait(1));
 
 }).prototype = p = new cjs.MovieClip();
 p.nominalBounds = rect = new cjs.Rectangle(-0.5,-0.5,439.2,63);
-p.frameBounds = [rect, rect, rect];
+p.frameBounds = [rect, rect, rect, rect];
 
 
 (lib.inputShape = function(mode,startPosition,loop) {
@@ -1787,12 +1794,9 @@ p.frameBounds = [rect, rect, rect, rect, rect];
 	this.instance.setTransform(514.8,421.5,1,0.556);
 
 	this.blockit = new lib.BlockinateBtn();
-	this.blockit.setTransform(410.8,760,1,1,0,0,0,134.6,42.1);
+	this.blockit.setTransform(139.8,760,1,1,0,0,0,134.6,42.1);
 
-	this.deploy = new lib.DeployBtn();
-	this.deploy.setTransform(140.7,760,1,1,0,0,0,135.5,42.1);
-
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.deploy},{t:this.blockit},{t:this.instance}]}).wait(1));
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.blockit},{t:this.instance}]}).wait(1));
 
 	// Layer 3
 	this.text = new cjs.Text("Block Name:", "30px 'Verdana'", "#333333");
@@ -1852,7 +1856,7 @@ p.frameBounds = [rect, rect, rect, rect, rect];
 
 	// Layer 4
 	this.shape_6 = new cjs.Shape();
-	this.shape_6.graphics.f("#949494").s().p("EgqLA+qMAAAgo9MBUXAAAMhUXAAAIAAtwMBUXAAAMhUXAAAMAAAhGnMBUXAAAMAAABGnIAANwMAAAAo9g");
+	this.shape_6.graphics.f("#949494").s().p("EgqLA+qMAAAh9UMBUXAAAMAAAB9Ug");
 	this.shape_6.setTransform(270.1,401.1);
 
 	this.timeline.addTween(cjs.Tween.get(this.shape_6).wait(1));
@@ -2905,10 +2909,12 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		var searchLibs;
 		var graphicsLibs;
 		var mathLibs;
+		var customLibs;
 		setTimeout(function () {
 			searchLibs = genSearchLibs();
 			graphicsLibs = genGraphicsLibs();
 			mathLibs = genMathLibs();
+			customLibs = genCustomLibs();
 		}, 300);
 		
 		function getSearchLib() {
@@ -2917,7 +2923,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 		this.getSearchLib = getSearchLib;
 		
 		function getVariables() {
-			return variables;
+			return customLibs;
 		}
 		this.getVariables = getVariables;
 		
