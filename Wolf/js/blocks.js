@@ -10,16 +10,22 @@ var Block = function(mc){
 	this.myColor = "#003973";				//Color of the block
 	this.inputsType = new Array();			//Array of input types
 	this.outputType = "Null";				//Output type
-
+						
 	function compile(){	
-		return iterative_compile(this.vars,this.params);	//Default compiler option
+		return iterative_compile(this.vars,this.params,this.paramIDs);	//Default compiler option
 	}
 	this.compile = compile;
 	
-	function numParams(integer){							//Initializes arrays
-		this.vars = Array.apply(null, Array(integer));		//The values of the inputs
-		this.inputs = Array.apply(null, Array(integer));	//The DOM elements corresponding to the values
-		this.childMCs = Array.apply(null, Array(integer));	//The child blocks MovieClips
+	function numParams(size){							//Initializes arrays
+		this.vars = Array.apply(null, Array(size));		//The values of the inputs
+		this.inputs = Array.apply(null, Array(size));	//The DOM elements corresponding to the values
+		this.childMCs = Array.apply(null, Array(size));	//The child blocks MovieClips
+ 
+		this.paramIDs = new Array();			
+		for(var i=0; i<size; i++){
+			this.paramIDs.push(Math.round(Math.random()*9999));	//Ascribes pramater IDs to each parameter
+		}
+		
 	}
 	this.numParams = numParams;
 }
@@ -126,16 +132,16 @@ var SocialMediaData = function (mc) {
 			//ignoreID
 			var vars = this.vars;
 			vars[2] = null;
-			return iterative_compile(this.vars,this.params);
+			return iterative_compile(this.vars,this.params,this.paramIDs);
 		}
 		if(getHashedState(this.vars)===30){
 			var vars = this.vars.slice(0); 
 			var params = [[false,false,"list"],[false,false,"string"]];
 			vars[0] = "{\""+vars[0]+"\","+vars[2]+"}";
 			vars[2] = null;
-			return iterative_compile(vars,params);
+			return iterative_compile(vars,params,this.paramIDs);
 		}
-		return iterative_compile(this.vars,this.params);
+		return iterative_compile(this.vars,this.params,this.paramIDs);
 	}
 	this.compile = compile;
 }
@@ -169,7 +175,7 @@ var ImageImport = function (mc) {
 
 		}
 		
-		return iterative_compile(this.vars,this.params);
+		return iterative_compile(this.vars,this.params,this.paramIDs);
 	}
 	this.compile = compile;
 }
@@ -233,7 +239,7 @@ var ImageIdentify = function (mc) {
 	this.codeEnd = "]";
 	this.numParams(this.params.length);
 	function compile(){
-		return iterative_compile(this.vars,this.params);
+		return iterative_compile(this.vars,this.params,this.paramIDs);
 	}
 	this.compile = compile;
 }
@@ -261,7 +267,7 @@ var FetchFaces = function (mc) {
 		//return iterative_compile(this.vars,this.params);
 		//console.log("locally compiled");
 		if(this.vars[0]){
-			var name = "$var"+varID;
+			var name = "$"+this.params[0][0]+this.paramIDs[0];
 			varStack.push(name+"="+exportRoot.compile(this.vars[0]));
 			//output += name+",";
 			varID++;
@@ -294,7 +300,7 @@ var Classify = function (mc) {
 	this.codeEnd = "]";
 	this.numParams(this.params.length);
 	function compile(){
-		return iterative_compile(this.vars,this.params);
+		return iterative_compile(this.vars,this.params,this.paramIDs);
 	}
 	this.compile = compile;
 }

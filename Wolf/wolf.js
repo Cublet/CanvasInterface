@@ -1790,67 +1790,67 @@ p.frameBounds = [rect, rect, rect, rect, rect];
 	this.timeline.addTween(cjs.Tween.get(this.nothing).wait(1));
 
 	// Layer 6
-	this.instance = new lib.gray_slider();
-	this.instance.setTransform(514.8,421.5,1,0.556);
-
 	this.blockit = new lib.BlockinateBtn();
 	this.blockit.setTransform(139.8,760,1,1,0,0,0,134.6,42.1);
 
-	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.blockit},{t:this.instance}]}).wait(1));
+	this.instance = new lib.gray_slider();
+	this.instance.setTransform(521.3,17.6,1,1.313);
+
+	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.instance},{t:this.blockit}]}).wait(1));
 
 	// Layer 3
 	this.text = new cjs.Text("Block Name:", "30px 'Verdana'", "#333333");
 	this.text.textAlign = "center";
 	this.text.lineHeight = 32;
 	this.text.lineWidth = 203;
-	this.text.setTransform(110.4,335);
+	this.text.setTransform(112.1,319);
 
 	this.text_1 = new cjs.Text("Inputs:", "25px 'Verdana'", "#333333");
 	this.text_1.textAlign = "center";
 	this.text_1.lineHeight = 27;
 	this.text_1.lineWidth = 100;
-	this.text_1.setTransform(58.5,384.8);
+	this.text_1.setTransform(62.5,448.9);
 
 	this.title = new cjs.Text("NewBlock001", "bold 25px 'Verdana'", "#FFFFFF");
 	this.title.name = "title";
 	this.title.textAlign = "center";
 	this.title.lineHeight = 27;
 	this.title.lineWidth = 428;
-	this.title.setTransform(277.4,94.8,0.933,0.933);
+	this.title.setTransform(271,102.4,0.888,0.888);
 
 	this.blockLayers = new cjs.Text("Relations", "25px 'Verdana'", "#333333");
 	this.blockLayers.name = "blockLayers";
 	this.blockLayers.textAlign = "center";
 	this.blockLayers.lineHeight = 27;
 	this.blockLayers.lineWidth = 484;
-	this.blockLayers.setTransform(270.8,223.9);
+	this.blockLayers.setTransform(264.7,225.2,0.952,0.952);
 
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#333333").ss(1,1,1).p("EgpRAXLMAAAguUEgo3gXJMBSJAAA");
-	this.shape.setTransform(269.5,569.6);
+	this.shape.graphics.f().s("#333333").ss(1,1,1).p("EgmcgYkMBNRAAAIAAcjEgm0AYlMAAAgxJEAm1AEDIAAUi");
+	this.shape.setTransform(263.4,636.7);
 
 	this.shape_1 = new cjs.Shape();
-	this.shape_1.graphics.f("#8C8C8C").s().p("EgpyAXKMAAAguTIAaAAMBSKAAAIBBAAMAAAAuTg");
-	this.shape_1.setTransform(272.7,569.6);
+	this.shape_1.graphics.f("#8C8C8C").s().p("Egm0AYmMAAAgxKIAYAAMBNRAAAIAAciIAAAFIAAUjg");
+	this.shape_1.setTransform(263.4,636.7);
 
 	this.shape_2 = new cjs.Shape();
-	this.shape_2.graphics.f("#9A1F3C").s().p("EggVAEhIAApBMBArAAAIAAJBg");
-	this.shape_2.setTransform(281.1,109.2);
+	this.shape_2.graphics.f("#9A1F3C").s().p("A+yETIAAolMA9lAAAIAAIlg");
+	this.shape_2.setTransform(274.5,116.1);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_2},{t:this.shape_1},{t:this.shape},{t:this.blockLayers},{t:this.title},{t:this.text_1},{t:this.text}]}).wait(1));
 
 	// Layer 5
 	this.shape_3 = new cjs.Shape();
-	this.shape_3.graphics.f().s("#666666").ss(1,1,1).p("EAo7AJAIAAO8MhR1AAAIAAu8MAAAgg7MBR1AAAgEgo6AJAMBR1AAA");
-	this.shape_3.setTransform(270.4,158.7);
+	this.shape_3.graphics.f().s("#666666").ss(1,1,1).p("EAm+AIkIAAOPMhN7AAAIAAuPIAA/WMBN7AAAgEgm9AIkMBN7AAA");
+	this.shape_3.setTransform(264.3,163.2);
 
 	this.shape_4 = new cjs.Shape();
-	this.shape_4.graphics.f("#787878").s().p("Ego6AHeIAAu7MBR1AAAIAAO7g");
-	this.shape_4.setTransform(270.4,264.1);
+	this.shape_4.graphics.f("#787878").s().p("Egm9AHHIAAuNMBN7AAAIAAONg");
+	this.shape_4.setTransform(264.3,263.6);
 
 	this.shape_5 = new cjs.Shape();
-	this.shape_5.graphics.f("#A7A7A7").s().p("Ego6AQeMAAAgg7MBR1AAAMAAAAg7g");
-	this.shape_5.setTransform(270.4,110.9);
+	this.shape_5.graphics.f("#A7A7A7").s().p("Egm9APsIAA/WMBN7AAAIAAfWg");
+	this.shape_5.setTransform(264.3,117.7);
 
 	this.timeline.addTween(cjs.Tween.get({}).to({state:[{t:this.shape_5},{t:this.shape_4},{t:this.shape_3}]}).wait(1));
 
@@ -2941,6 +2941,11 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			return funcBlocks;
 		}
 		this.getAllBlocks = getAllBlocks;
+		
+		function addCustomBlock(block){
+			customLibs.push(block);
+		}
+		this.addCustomBlock = addCustomBlock;
 		
 		//hardDebugger
 		/*

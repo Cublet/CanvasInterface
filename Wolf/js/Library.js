@@ -31,7 +31,6 @@ function initializeLibrary(funcLib, container, frame, fallback){
 		}else{
 			btn.y = 320+i*70;
 		}
-		
 		btn.gotoAndStop(lib_frame);
 		btn.desc = funcLib[i].desc;
 		btn.func = funcLib[i];

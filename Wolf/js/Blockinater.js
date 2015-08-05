@@ -2,13 +2,53 @@ var deploy_btn;
 var blockit_btn;
 var b_me;
 var name_input;
+var desc_input;
 var b_myInputs = new Array();
 var b_myOutputs;
 var varBlocks = new Array();
 var root_block;
 
+
 function blockination(){
-	//new block and such
+	var newBlock = new Block();
+	newBlock.name = b_me.title.text;
+	newBlock.desc = desc_input.value;
+	newBlock.type = "custom";
+	newBlock.myColor = "#9A1F3C";
+	var params = new Array();
+	for(var i=0; i<varBlocks.length; i++){
+		params.push([varBlocks[i].title.text,false,varBlocks[i].varType]);
+	}
+	newBlock.params = params;
+	newBlock.inputsType = b_myInputs;
+	newBlock.outputType = b_myOutputs;
+	var outputLines = btn.value.split("\n");
+
+	for(var i=0; i<varBlocks.length; i++){
+		for(var j=0; j<outputLines.length;){
+			var varID = varBlocks[i].varID;
+			if(outputLines[j].indexOf(varID) === 1){
+				outputLines.splice(j,1);
+			}else{
+				j++;
+			}
+		}
+		
+	}
+
+	outputLines = removeEmptyStrings(outputLines);
+	
+	var output = outputLines[outputLines.length-1];
+	outputLines = outputLines.splice(outputLines-1,1);
+	newBlock.imports = outputLines;
+
+    newBlock.numParams(newBlock.params.length);
+    exportRoot.addCustomBlock(newBlock);
+
+    newBlock.compile = function(){
+		
+    }
+    newBlock.compile();
 }
 
 function initializeBlockinater(container){
@@ -26,19 +66,32 @@ function updateName(evt){
 	}
 }
 
-function createNameDOM(){
+function createDOMs(){
 	setTimeout(function(){
 	var nameInput = document.createElement("input");
 	nameInput.style.position = "absolute";
-	nameInput.style.top = "" + 400 + "px";
+	nameInput.style.top = "" + 388 + "px";
 	nameInput.style.left = "" + 1277 + "px";
-	nameInput.style.fontSize = "" + 35 + "px";
+	nameInput.style.fontSize = "" + 29 + "px";
 	nameInput.placeholder = "NewBlock001";
-	nameInput.style.width = "" + 318 + "px";
+	nameInput.style.width = "" + 300 + "px";
 	name_input = nameInput;
 	document.body.appendChild(nameInput);
 	exportRoot.inputClean.push(nameInput);
 	nameInput.addEventListener("keyup", updateName);
+
+
+	var descInput = document.createElement("textarea");
+	descInput.style.position = "absolute";
+	descInput.style.top = "" + 435 + "px";
+	descInput.style.left = "" + 1085 + "px";
+	descInput.style.fontSize = "" + 29 + "px";
+	descInput.placeholder = "Enter Description Here";
+	descInput.style.width = "" + 488 + "px";
+	desc_input = descInput;
+	document.body.appendChild(descInput);
+	exportRoot.inputClean.push(descInput);
+
 	},200);
 }
 
@@ -112,10 +165,12 @@ function generateVarBlocks(block){
 			if(block.params[i][2] ==="integer" || block.params[i][2] ==="string"){
 				//active primitive type
 				var varMC = new lib.varBlock();
-				varMC.x=40;
-				varMC.y=440+varBlocks.length*70;
+				varMC.x=45;
+				varMC.y=500+varBlocks.length*70;
 				varMC.varEnabled = true;
 				varMC.title.text = block.params[i][0];
+				varMC.varType = block.params[i][2];
+				varMC.varID = block.params[i][0]+block.paramIDs[i];
 				b_me.addChild(varMC);
 				varMC.addEventListener("click",disableVar);
 				console.log(block.params[i][0]);
@@ -145,6 +200,6 @@ function createBlockination(h_blocks){
 	createInputOutputIcons(outputType,inputTypes);
 	output = output.substring(0,output.length-1);
 	b_me.blockLayers.text = output+"]";
-	createNameDOM();
+	createDOMs();
 	
 }
