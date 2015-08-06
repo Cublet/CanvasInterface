@@ -1,3 +1,4 @@
+//TODO: MAKE THIS WORK WITH MULTIPLE INPUTS
 var deploy_btn;
 var blockit_btn;
 var b_me;
@@ -15,6 +16,7 @@ function blockination(){
 	newBlock.desc = desc_input.value;
 	newBlock.type = "custom";
 	newBlock.myColor = "#9A1F3C";
+	//TODO: have a param startID so that we can have block input/outputs
 	var params = new Array();
 	for(var i=0; i<varBlocks.length; i++){
 		params.push([varBlocks[i].title.text,false,varBlocks[i].varType]);
@@ -37,18 +39,41 @@ function blockination(){
 	}
 
 	outputLines = removeEmptyStrings(outputLines);
-	
 	var output = outputLines[outputLines.length-1];
 	outputLines = outputLines.splice(outputLines-1,1);
 	newBlock.imports = outputLines;
 
     newBlock.numParams(newBlock.params.length);
-    exportRoot.addCustomBlock(newBlock);
+    
 
     newBlock.compile = function(){
-		
+    	//TODO use paramStart to include the imports nessessary for block inputs
+    	console.log("Early Imports");
+    	var genInputs = new Array();
+    	for(var i=0; i<varBlocks.length; i++){
+    		genInputs.push("$"+varBlocks[i].varID+"="+newBlock.vars[i]);
+    	}
+    	console.log(genInputs);
+    	console.log("Imports");
+		console.log(newBlock.imports);
+		console.log("Injected Script");
     }
-    newBlock.compile();
+
+    exportRoot.addCustomBlock(newBlock);
+    blockinationAnimation();
+}
+
+function blockinationAnimation(){
+	var blockRect = new createjs.Shape();
+	var rootBounds = root_block.mc.block.getBounds();
+	var deepBounds = deepest_block.mc.block.getBounds();
+	var rootBlockHeight = root_block.mc.block.scaleY*rootBounds.height;
+	var yDist = root_block.mc.y-deepest_block.mc.y;
+	blockRect.graphics.beginFill("#9A1F3C").drawRect(0,  0, 469+115, (yDist)+rootBlockHeight+110);
+	blockRect.x = deepest_block.mc.x;
+	blockRect.y = deepest_block.mc.y-60;
+	blockRect.alpha = .5;
+	stage.addChild(blockRect);
 }
 
 function initializeBlockinater(container){
@@ -156,9 +181,16 @@ function disableVar(m){
 	}else{
 		btn.gotoAndStop(1);
 	}
-	
 }
-function generateVarBlocks(block){
+
+var deepest_depth = 0;
+var deepest_block = null;
+function generateVarBlocks(block, depth){
+	depth++;
+	if(depth>deepest_depth){
+		deepest = depth;
+		deepest_block = block;
+	}
 
 	for(var i=0; i<block.vars.length; i++){
 		if(block.vars[i]){
@@ -177,7 +209,7 @@ function generateVarBlocks(block){
 				varBlocks.push(varMC);
 			}else{
 				//active block
-				generateVarBlocks(block.vars[i]);
+				generateVarBlocks(block.vars[i], depth);
 			}
 		}
 	}
@@ -194,7 +226,7 @@ function createBlockination(h_blocks){
 			root_block = h_blocks[i];
 			outputType = h_blocks[i].outputType;
 			inputTypes = getInputType(h_blocks[i]);
-			generateVarBlocks(h_blocks[i]);
+			generateVarBlocks(h_blocks[i], 0);
 		}
 	}
 	createInputOutputIcons(outputType,inputTypes);
