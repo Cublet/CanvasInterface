@@ -64,16 +64,39 @@ function blockination(){
 }
 
 function blockinationAnimation(){
+	var blockedMC =new createjs.MovieClip(createjs.MovieClip.SINLGE_FRAME);
+	stage.addChild(blockedMC);
 	var blockRect = new createjs.Shape();
 	var rootBounds = root_block.mc.block.getBounds();
 	var deepBounds = deepest_block.mc.block.getBounds();
 	var rootBlockHeight = root_block.mc.block.scaleY*rootBounds.height;
 	var yDist = root_block.mc.y-deepest_block.mc.y;
-	blockRect.graphics.beginFill("#9A1F3C").drawRect(0,  0, 469+115, (yDist)+rootBlockHeight+110);
-	blockRect.x = deepest_block.mc.x;
-	blockRect.y = deepest_block.mc.y-60;
-	blockRect.alpha = .5;
-	stage.addChild(blockRect);
+
+	var boxHeight = (yDist)+rootBlockHeight+110;
+	blockRect.graphics.beginFill("#9A1F3C").drawRect(0,  0, 584, boxHeight);
+	blockedMC.x = deepest_block.mc.x;
+	blockedMC.y = deepest_block.mc.y-60;
+	blockedMC.addChild(blockRect);
+	blockedMC.alpha = 0;
+	var name = "NewBlock001";
+	if(name_input.value !== ""){
+		name = name_input.value;
+	}
+	var text = new createjs.Text(name, "bold 25px Verdana", "#FFFFFF");
+	text.x = 292- text.getBounds().width/2;
+	text.y = boxHeight/2;
+	text.textBaseline = "alphabetic";
+	blockedMC.addChild(text);
+
+	createjs.Tween.get(blockedMC)
+		.to({
+			alpha: .5
+		}, 150)
+		.call(handleComplete);
+
+	function handleComplete() {
+		exportRoot.deleteAllBlocks();
+	}
 }
 
 function initializeBlockinater(container){

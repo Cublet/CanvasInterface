@@ -1826,7 +1826,7 @@ p.frameBounds = [rect, rect, rect, rect, rect];
 	this.blockLayers.setTransform(264.7,225.2,0.952,0.952);
 
 	this.shape = new cjs.Shape();
-	this.shape.graphics.f().s("#333333").ss(1,1,1).p("EgmcgYkMBNRAAAIAAcjEgm0AYlMAAAgxJEAm1AEDIAAUi");
+	this.shape.graphics.f().s("#333333").ss(1,1,1).p("EgmcgYkMBNRAAAIAAcjEAm1AEDIAAUiEgm0AYlMAAAgxJ");
 	this.shape.setTransform(263.4,636.7);
 
 	this.shape_1 = new cjs.Shape();
@@ -3162,6 +3162,7 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 				clearInputs();
 				func.mc.killSelf();
 				alertLib.visible = true;
+				alertLib.nothing.visible = true;
 			}
 		}
 		this.deleteFunc = deleteFunc;
@@ -3170,6 +3171,14 @@ p.frameBounds = [rect, new cjs.Rectangle(0,0,5.1,89), new cjs.Rectangle(0,0,20.9
 			stage.children[0].swapChildren(mc,navOptions);	
 		}
 		this.putLibsTopLayer = putLibsTopLayer;
+		
+		function deleteAllBlocks(){
+			var allBlocks = getAllBlocks();
+			for(var i=0; i<allBlocks.length; i++){
+				deleteFunc(allBlocks[i]);
+			}
+		}
+		this.deleteAllBlocks = deleteAllBlocks;
 	}
 
 	// actions tween:
